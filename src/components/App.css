@@ -1,0 +1,194 @@
+/* Styles go here */
+
+body{
+    background-color: rgba(0,0,0, 0.7);
+    height: 100vh;
+    position: relative;
+    fdont-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Trebuchet MS';
+   
+}
+nav{
+    color: rgba(255, 255, 255);
+    height: 8vh;
+    padding-right: 1rem !important;
+    font-size: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Trebuchet MS';
+    font-size: 20px;
+
+}
+nav small{
+    font-size: 1.4rem;
+}
+nav button{
+    position: absolute;
+    height: 90%;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    
+}
+.swap-form {
+    width: 600px;
+    height: 30rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 15%);
+}
+.swap-btn{
+    background-color: green;
+    color: rgba(255, 255, 255);
+}
+.swap-btn:hover{
+    color: rgba(255, 255, 255);
+}
+
+input:focus{
+    outline: none !important;
+}
+form h3{
+    text-align: center;
+}
+
+/* Modal */
+.modal{
+    background-color: rgba(0,0,0,0.7);
+    width: 40vw;
+    height: 30vh;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modal form input{
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.modal form input::placeholder{
+    font-style: italic;
+}
+.modal form button{
+    background-color: green;
+    color: rgba(255, 255, 255, 0.8);
+}
+button{
+    border:none;
+}
+button:focus{
+    outline: none;
+}
+
+.tx-inferface{
+    position: relative;
+}
+
+.open-add-fund{
+    border: none;
+    text-align: center;
+    font-size: 0.8rem;
+    background-color: green;
+    color: rgba(255, 255, 255);
+    position:absolute;
+    top: -10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.75rem;
+    border-radius: 3px;
+}
+.balances{
+    display: flex;
+    flex-direction: column;
+}
+
+.allowed{
+    position:right;
+    float: right;
+    margin-top:-22px;
+    font-size: 13px;
+    color:green;
+}
+
+.max{
+    position:right;
+    float: left;
+    margin-top:-22px;
+    font-size: 12px;
+    color:green;
+    cursor: pointer;
+
+}
+
+.appfooter{
+
+    backdground:rgb(2, 87, 2);
+    padding:5px;
+    bordder-top:1px solid rgb(212, 212, 212);
+    bordedr-bottom:1px solid rgb(212, 212, 212);
+    position:bottom;
+    float:right;
+    margin-top:5px;
+}
+
+.appfooter h5{
+    font-size: 15px;
+    color:rgb(211, 209, 209);
+    font-family: 'Trebuchet MS';
+
+}
+
+
+.footer{
+    color:rgb(119, 119, 119);
+    font-size: 13px;
+}
+
+.identicon{
+    border-radius: 50%;
+    height:30px;
+    width:30px;
+    border:2px solid green;
+}
+
+#account{
+    color:white;
+    font-size: 17px;
+}
+
+#loader{
+    color:rgb(240, 240, 240);
+    position:absolute;
+    margin-top:50%;
+    margin-left:35%;
+    font-size: 23px;
+}
+
+
+#network{
+    color:rgb(240, 240, 240);
+    position:absolute;
+    margin-top:50%;
+    font-size: 23px;
+}
+
+.card{
+    border-radius:15px!important;
+}
+
+.success{
+    text-align: center;
+    color:green!important;
+    font-weight: 600;
+}
