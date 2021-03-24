@@ -280,8 +280,9 @@ class App extends Component {
     })
 
     .on('confirmation',(confirmationNumber, receipt)=>{
+      if(confirmationNumber === 0){
       this.setState({loading_text:'Swap in progress....Please do not close the browser until you see the successful message.'},()=>console.log())
-
+      }
       if(confirmationNumber === 2){
       //console.log('dsd',confirmationNumber,receipt.events.SwapDeposit.returnValues)
       this.setState({prev_hash:1},()=>this.api(receipt.events.SwapDeposit))
