@@ -34,6 +34,7 @@ class App extends Component {
 
     swapAddress:'',
     swapInstance:[],
+    totalSwapped:0,
     allowed:0,
     eth_allowed:0,
     blockNumber:0,
@@ -201,6 +202,15 @@ class App extends Component {
         swapInstance
       })
 
+      const totalSwapped = await this.state.swapInstance.methods.totalAmountSwapped().call();
+      this.setState({totalSwapped:this.state.web3.utils.fromWei(totalSwapped.toString())})
+  
+      this.state.swapInstance.events.allEvents({toBlock:'latest'})
+          .on('data',async(log)=>{
+            const newTotalSwapped = await this.state.swapInstance.methods.totalAmountSwapped().call();
+            this.setState({totalSwapped:this.state.web3.utils.fromWei(newTotalSwapped.toString())})
+          })
+
     
     this.displayApprovedFund();
 
@@ -241,13 +251,22 @@ class App extends Component {
 
     const swapContract = "0xCDEF517c07eB3DF1F0eD4AFCCaC400215Af88959";
     const swapInstance = new web3.eth.Contract(EthToBscAbi, swapContract);
-
     
       this.setState({
         swapAddress:swapContract,
         swapInstance
       })
 
+    const totalSwapped = await this.state.swapInstance.methods.totalAmountSwapped().call();
+    this.setState({totalSwapped:this.state.web3.utils.fromWei(totalSwapped.toString())})
+
+    this.state.swapInstance.events.allEvents({toBlock:'latest'})
+        .on('data',async(log)=>{
+          const newTotalSwapped = await this.state.swapInstance.methods.totalAmountSwapped().call();
+          this.setState({totalSwapped:this.state.web3.utils.fromWei(newTotalSwapped.toString())})
+        })
+
+   
     this.displayApprovedFund();
 
   }
@@ -355,6 +374,7 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '400px' }}>
               <div className="content mr-auto ml-auto">
+              <div className="head"><p>Total Hydro Swapped: {parseFloat(this.state.totalSwapped).toLocaleString(undefined, {maximumFractionDigits:2})}</p></div>
               {content}
               <ToastContainer
               position="bottom-left"

@@ -192,3 +192,21 @@ button:focus{
     color:green!important;
     font-weight: 600;
 }
+
+.head{
+    width: 600px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 250%);
+    background:white;
+    border-radius:7px;
+    text-align:center;
+    
+}
+
+.head p{
+    font-weight:700;
+    margin-top:3px;
+}
