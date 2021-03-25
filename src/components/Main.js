@@ -30,9 +30,12 @@ class Main extends Component {
   />
     
     return (
+      <div>
+      <div className="head"><p>Total Hydro Swapped: {parseFloat(this.props.totalSwapped).toLocaleString(undefined, {maximumFractionDigits:2})}</p></div>
+
       <div id="content" className="mt-5 swap-form">
 
-        <div className="card mb-4" >
+        <div className="card mb-4">
 
           <div className="card-body main-form">
 
@@ -42,6 +45,7 @@ class Main extends Component {
 
         </div>
         
+      </div>
       </div>
     );
   }

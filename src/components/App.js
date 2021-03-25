@@ -356,6 +356,7 @@ class App extends Component {
       bepBalance = {this.state.bepBalance}
       swapAddress = {this.state.swapAddress}
       swapping = {this.state.swapping}
+      totalSwapped = {this.state.totalSwapped}
 
       approveFunds={this.approveFunds}
       swapHydro={this.swapHydro}
@@ -371,10 +372,9 @@ class App extends Component {
         <Navbar account={this.state.account} networkId={this.state.networkID}/>
         
         <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '400px' }}>
+          <div className="row mt-5">
+            <main role="main" className="col-lg-12 ml-auto mr-auto ">
               <div className="content mr-auto ml-auto">
-              <div className="head"><p>Total Hydro Swapped: {parseFloat(this.state.totalSwapped).toLocaleString(undefined, {maximumFractionDigits:2})}</p></div>
               {content}
               <ToastContainer
               position="bottom-left"
