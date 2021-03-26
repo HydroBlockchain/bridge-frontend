@@ -171,17 +171,23 @@ button:focus{
 #loader{
     color:rgb(240, 240, 240);
     position:absolute;
-    margin-top:50%;
-    margin-left:35%;
     font-size: 23px;
+    width: 50%;
+    position: absolute;
+    margin-top: 15%;
+    left: 50%;
+    transform: translate(-50%, 25%);
 }
 
 
 #network{
     color:rgb(240, 240, 240);
-    position:absolute;
-    margin-top:50%;
     font-size: 23px;
+    width: 50%;
+    position: absolute;
+    margin-top: 15%;
+    left: 50%;
+    transform: translate(-50%, 25%);
 }
 
 .card{

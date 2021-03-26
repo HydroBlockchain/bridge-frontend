@@ -117,7 +117,7 @@ class App extends Component {
     
     let address = values.returnValues.depositor
     let amount = values.returnValues.outputAmount
-    console.log(values)
+    //console.log(values)
     
     const requestOptions = {
       method:'POST',
@@ -168,7 +168,7 @@ class App extends Component {
     const blockNumber = await this.state.web3.eth.getBlockNumber();
     this.setState({
       text:'BEP-20 to ERC-20',
-      API_LINK:'https://hydroswap.herokuapp.com/api/send_eth/',
+      API_LINK:'https://hydro-bridge.org/api/send_eth/',
       tx_Link:'https://rinkeby.etherscan.io/tx/',
       loading: false
     })
@@ -223,7 +223,7 @@ class App extends Component {
     const blockNumber = await this.state.web3.eth.getBlockNumber();
     this.setState({
       text:'ERC-20 to BEP-20',
-      API_LINK:'https://hydroswap.herokuapp.com/api/send_bsc/',
+      API_LINK:'https://hydro-bridge.org/api/send_bsc/',
       tx_Link:'https://testnet.bscscan.com/tx/',
       loading: false
     })
