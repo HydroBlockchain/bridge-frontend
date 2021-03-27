@@ -117,7 +117,8 @@ class App extends Component {
     
     let address = values.returnValues.depositor
     let amount = values.returnValues.outputAmount
-    //console.log(values)
+    let hash = values.transactionHash
+    //console.log(hash)
     
     const requestOptions = {
       method:'POST',
@@ -128,7 +129,8 @@ class App extends Component {
 
       body: JSON.stringify({ 
         address: address, 
-        amount:amount
+        amount:amount,
+        hash:hash
         })
   };
 
@@ -303,7 +305,7 @@ class App extends Component {
       this.setState({loading_text:'Swap in progress....Please do not close the browser until you see the successful message.'},()=>console.log())
       }
       if(confirmationNumber === 2){
-      //console.log('dsd',confirmationNumber,receipt.events.SwapDeposit.returnValues)
+     // console.log('dsd',confirmationNumber,receipt.events.SwapDeposit)
       this.setState({prev_hash:1},()=>this.api(receipt.events.SwapDeposit))
       }
       
@@ -378,7 +380,7 @@ class App extends Component {
               {content}
               <ToastContainer
               position="bottom-left"
-              autoClose={50000}
+              autoClose={25000}
               hideProgressBar={false}
               newestOnTop={false}
               rtl={false}
