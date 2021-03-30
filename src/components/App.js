@@ -128,8 +128,8 @@ class App extends Component {
       },
 
       body: JSON.stringify({ 
-        address: address, 
-        amount:amount,
+       // address: address, 
+        //amount:amount,
         hash:hash
         })
   };
