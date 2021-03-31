@@ -53,8 +53,7 @@ class App extends Component {
 
   componentDidMount = async () => {
     try {
-      //this.api()
-      // Get network provider and web3 instance.
+     
       let ethereum= window.ethereum;
       let web3=window.web3;
     
@@ -72,23 +71,23 @@ class App extends Component {
       }
    
       else{console.log('No Web3 Detected')
-      window.web3 = new Web3(new Web3.providers.WebsocketProvider('wss://rinkeby.infura.io/ws/v3/72e114745bbf4822b987489c119f858b'));  
+      window.web3 = new Web3(new Web3.providers.WebsocketProvider('wss://infura.io/ws/v3/72e114745bbf4822b987489c119f858b'));  
       this.setState({web3})
     }  
       const networkID = await web3.eth.net.getId();
       this.setState({networkID:networkID})
       
-      if(this.state.networkID === 97){
+      if(this.state.networkID === 56){
         this.load_Hydro_Bsc(this.state.web3)
       }
 
-      else if(this.state.networkID === 4){
+      else if(this.state.networkID === 1){
         this.load_Hydro_Eth(this.state.web3)
       }
 
       else{
         const currrentNetwork = await this.state.web3.eth.net.getNetworkType();
-        this.setState({wrongNetwork:'You are on ' + currrentNetwork + ' Network, Please switch to Rinkeby or BSC Network'})
+        this.setState({wrongNetwork:'You are on ' + currrentNetwork + ' Network, Please switch to Ethereum Main Net or BSC Network'})
       }
 
 
@@ -115,10 +114,10 @@ class App extends Component {
 
   api(values){
     
-    let address = values.returnValues.depositor
-    let amount = values.returnValues.outputAmount
+    //let address = values.returnValues.depositor
+    //let amount = values.returnValues.outputAmount
     let hash = values.transactionHash
-    //console.log(hash)
+ 
     
     const requestOptions = {
       method:'POST',
@@ -128,8 +127,6 @@ class App extends Component {
       },
 
       body: JSON.stringify({ 
-       // address: address, 
-        //amount:amount,
         hash:hash
         })
   };
@@ -145,19 +142,11 @@ class App extends Component {
           console.log(response)
           }
          else{
-
-        //this.setState({loading_text:'Success, Your Hydro is on the way.',prev_hash:0})
-        console.log('error', this.state.prev_hash)
+        console.log('error, please wait a couple minutes,or save your transaction hash & contact hydro admins',)
         setTimeout(()=>this.api(values),10000);
 
        }
         })
-        /*.catch((error) => {
-          //console.log('catch',error)
-          //setTimeout(()=>this.api(values),1000);
-          this.setState({loading_text:'Success, Your Hydro is on the way.',prev_hash:0})
-
-        });*/
       
     }
   }
@@ -171,7 +160,7 @@ class App extends Component {
     this.setState({
       text:'BEP-20 to ERC-20',
       API_LINK:'https://hydro-bridge.org/api/send_eth/',
-      tx_Link:'https://rinkeby.etherscan.io/tx/',
+      tx_Link:'https://etherscan.io/tx/',
       loading: false
     })
 
@@ -181,7 +170,7 @@ class App extends Component {
       account
     })
 
-    const hydroAddress = "0x5B387f4886F043f603f7d0cb55DBd727D6649C73" ;
+    const hydroAddress = "0xf3DBB49999B25c9D6641a9423C7ad84168D00071" ;
     this.setState({
       hydroAddress
     })
@@ -196,7 +185,7 @@ class App extends Component {
           this.displayApprovedFund();
         })
 
-    const swapContract = "0x662D7C30F16a30214f20257bbDd8b3997Ec0204d";
+    const swapContract = "0x7f00F1B8825064B109Dcc85aAd1f074652D97AAd";
     const swapInstance = new web3.eth.Contract(BscToEthAbi, swapContract);
 
       this.setState({
@@ -226,7 +215,7 @@ class App extends Component {
     this.setState({
       text:'ERC-20 to BEP-20',
       API_LINK:'https://hydro-bridge.org/api/send_bsc/',
-      tx_Link:'https://testnet.bscscan.com/tx/',
+      tx_Link:'https://bscscan.com/tx/',
       loading: false
     })
 
@@ -236,7 +225,7 @@ class App extends Component {
       account
     })
 
-    const hydroAddress = "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95" ;
+    const hydroAddress = "0x946112efaB61C3636CBD52DE2E1392D7A75A6f01" ;
     this.setState({
       hydroAddress
     })
@@ -251,7 +240,7 @@ class App extends Component {
           this.displayApprovedFund();
         })
 
-    const swapContract = "0xCDEF517c07eB3DF1F0eD4AFCCaC400215Af88959";
+    const swapContract = "0xfa41d158Ea48265443799CF720a120BFE77e41ca";
     const swapInstance = new web3.eth.Contract(EthToBscAbi, swapContract);
     
       this.setState({
@@ -392,8 +381,8 @@ class App extends Component {
           </div>
         </div>
         <div className="appfooter">
-          <h5>BEP-20 Token: 0x5B387f4886F043f603f7d0cb55DBd727D6649C73</h5>
-          <h5>ERC-20 Token: 0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95</h5>
+          <h5>BEP-20 Token: 0xf3DBB49999B25c9D6641a9423C7ad84168D00071</h5>
+          <h5>ERC-20 Token: 0x946112efaB61C3636CBD52DE2E1392D7A75A6f01</h5>
         </div>
       </div>
     );

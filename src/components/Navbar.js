@@ -7,11 +7,11 @@ class Navbar extends Component {
     
     let network = '';
 
-    if(this.props.networkId === 4){
-      network = 'Rinkeby'
+    if(this.props.networkId === 1){
+      network = 'Ethereum Main'
     }
-    else if(this.props.networkId === 97){
-      network = 'BSC'
+    else if(this.props.networkId === 56){
+      network = 'BSC Main'
     }
 
     else if(network !== 0) network = 'Wrong'

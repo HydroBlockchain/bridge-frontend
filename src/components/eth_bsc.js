@@ -11,7 +11,7 @@ class EthToBsc extends Component {
       swapAmount: null
     }
     componentDidMount = async () => {
-        alert('Tip: You can switch between BSC Network and Rinkeby Network through Metamask.')
+        alert('Tip: You can switch between BSC Network and Ethereum Network through Metamask.')
        
     }
 
@@ -127,7 +127,7 @@ class EthToBsc extends Component {
         {this.props.allowed > 0 ? <button type="submit" disabled={disable} className="btn btn-block btn-lg swap-btn">Swap</button>:<button onClick={this.addFund} className="btn btn-block btn-lg swap-btn">Approve Tokens</button>}
 
       </form>
-      <p className="footer">Tip: You can switch between BSC Network and Rinkeby Network through Metamask.</p>
+      <p className="footer">Tip: You can switch between BSC Network and Ethereum Network through Metamask.</p>
     </div>
     );
   }
