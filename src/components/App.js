@@ -137,6 +137,7 @@ class App extends Component {
     const hydroFee = await response.json();
     console.log(response)
     console.log('fee',hydroFee)
+    console.log('fee',JSON.stringify(hydroFee))
     }
    else{
   console.log('error, please wait a couple minutes,or save your transaction hash & contact hydro admins',)
