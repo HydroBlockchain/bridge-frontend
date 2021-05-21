@@ -140,11 +140,11 @@ class App extends Component {
     this.setState({gasFee:JSON.parse(hydroFee)})
     console.log(response)
     console.log('fee',hydroFee)
-    console.log('fee',hydroFee.amount)
+   // console.log('fee',hydroFee.amount)
     console.log('fee',this.state.gasFee)
     console.log('fee',hydroFee.amount)
     console.log('fee',JSON.stringify(hydroFee))
-    console.log('fee',JSON.parse(hydroFee.amount))
+    //console.log('fee',JSON.parse(hydroFee.amount))
     }
    else{
   console.log('error, please wait a couple minutes,or save your transaction hash & contact hydro admins',)
