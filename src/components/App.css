@@ -122,6 +122,13 @@ button:focus{
     color:green;
 }
 
+.gasfee{
+    float: left;
+    margin-top:-22px;
+    font-size: 13px;
+    color:rgb(233, 4, 54);
+}
+
 .max{
     position:right;
     float: left;

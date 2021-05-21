@@ -56,7 +56,13 @@ class EthToBsc extends Component {
   render() {
 
     let disable = this.props.swapping;
+    let calculated_Received = this.state.output - this.props.gasFee;
     let approve_text = 'Approval Required Before Swapping';
+
+    if (this.state.output < this.props.gasFee){
+      disable = true;
+      calculated_Received = 0;
+    }
 
     if (this.props.allowed > 0){  
       approve_text = 'Approved'
@@ -99,10 +105,12 @@ class EthToBsc extends Component {
         </div>
         
         <div>
-       
+        <label className="gasfee">Hydro Fee:{this.props.gasFee}</label>
+
         </div>
 
         <div className="allowed">
+
         <label className="float-right">{approve_text}</label>
         </div>
 
@@ -114,7 +122,7 @@ class EthToBsc extends Component {
             type="text"
             className="form-control form-control-lg"
             placeholder="0"
-            value={this.state.output}
+            value={calculated_Received}
             disabled
           />
           <div className="input-group-append">

@@ -44,6 +44,8 @@ class App extends Component {
     API_LINK:'',
     loading_text:'',
     txHash:'',
+    gasFee:0,
+    //proxyFee:0,
     tx_Link:'',
     prev_hash:0,
     swapping:false,
@@ -79,7 +81,7 @@ class App extends Component {
       
       if(this.state.networkID === 56){
         this.load_Hydro_Bsc(this.state.web3)
-        this.getGasPrice()
+        //this.getGasPrice()
       }
 
       else if(this.state.networkID === 1){
@@ -135,8 +137,10 @@ class App extends Component {
   .then( async response=>{
     if(response.status === 200){
     const hydroFee = await response.json();
+    this.setState({gasFee:JSON.parse(hydroFee.amount)})
     console.log(response)
     console.log('fee',hydroFee)
+    console.log('fee',this.state.gasFee)
     console.log('fee',hydroFee.amount)
     console.log('fee',JSON.stringify(hydroFee))
     }
@@ -146,7 +150,10 @@ class App extends Component {
 
  }
   })
-
+let m = {"amount": 198}
+this.setState({proxyFee:JSON.parse(JSON.stringify(m.amount))})
+console.log(this.state.proxyFee)
+console.log(JSON.parse(JSON.stringify(m.amount)))
   }
 
   api(values){
@@ -297,7 +304,7 @@ class App extends Component {
 
    
     this.displayApprovedFund();
-    this.getGasPrice();
+    //this.getGasPrice();
 
   }
 
@@ -387,6 +394,7 @@ class App extends Component {
       swapAddress = {this.state.swapAddress}
       swapping = {this.state.swapping}
       totalSwapped = {this.state.totalSwapped}
+      gasFee = {this.state.gasFee}
 
       approveFunds={this.approveFunds}
       swapHydro={this.swapHydro}

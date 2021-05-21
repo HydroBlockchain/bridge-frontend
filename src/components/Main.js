@@ -26,6 +26,7 @@ class Main extends Component {
     loading_text={this.props.loading_text}
     text={this.props.text}
     swapping={this.props.swapping}
+    gasFee={this.props.gasFee}
 
   />
     
