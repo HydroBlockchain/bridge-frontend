@@ -139,24 +139,13 @@ class App extends Component {
     let hydroFee = await response.json();
     let gasfee = JSON.parse(hydroFee)
     this.setState({gasFee:gasfee.amount})
-    //console.log(response)
-    //console.log('fee',hydroFee)
-   // console.log('fee',hydroFee.amount)
-   // console.log('fee',this.state.gasFee)
-   // console.log('fee',hydroFee.amount)
-    //console.log('fee',JSON.stringify(hydroFee))
-    //console.log('fee',JSON.parse(hydroFee.amount))
+   
     }
    else{
-  console.log('error, please wait a couple minutes,or save your transaction hash & contact hydro admins',)
- // setTimeout(()=>this.api(values),10000);
-
- }
+      console.log()
+    }
   })
-let m = {"amount": 198}
-this.setState({proxyFee:JSON.parse(JSON.stringify(m.amount))})
-console.log(this.state.proxyFee)
-console.log(JSON.parse(JSON.stringify(m.amount)))
+
   }
 
   api(values){
@@ -307,7 +296,6 @@ console.log(JSON.parse(JSON.stringify(m.amount)))
 
    
     this.displayApprovedFund();
-    //this.getGasPrice();
 
   }
 
@@ -343,7 +331,7 @@ console.log(JSON.parse(JSON.stringify(m.amount)))
       this.setState({loading_text:'Swap in progress....Please do not close the browser until you see the successful message.'},()=>console.log())
       }
       if(confirmationNumber === 2){
-     // console.log('dsd',confirmationNumber,receipt.events.SwapDeposit)
+   
       this.setState({prev_hash:1},()=>this.api(receipt.events.SwapDeposit))
       }
       
