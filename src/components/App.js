@@ -79,6 +79,7 @@ class App extends Component {
       
       if(this.state.networkID === 56){
         this.load_Hydro_Bsc(this.state.web3)
+        this.getGasPrice()
       }
 
       else if(this.state.networkID === 1){
@@ -109,8 +110,41 @@ class App extends Component {
       );
       console.error(error);
     }
+
   
   };
+
+  getGasPrice(){
+    
+    let address  = this.state.account;
+    let gasURL = 'https://hydro-bridge-backend.org/api/get_hydro_price/'
+    console.log(this.state.account)
+    const requestOptions = {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json',
+        'Authorization': process.env.REACT_APP_API_KEY,
+        'Origin':'^'
+      },
+
+      body: JSON.stringify({ 
+        address:address
+        })
+  };
+
+  fetch(gasURL, requestOptions)
+  .then( async response=>{
+    if(response.status === 200){
+   // const tx_hash = await response.json();
+    console.log(response)
+    }
+   else{
+  console.log('error, please wait a couple minutes,or save your transaction hash & contact hydro admins',)
+ // setTimeout(()=>this.api(values),10000);
+
+ }
+  })
+
+  }
 
   api(values){
     
@@ -204,6 +238,7 @@ class App extends Component {
 
     
     this.displayApprovedFund();
+    this.getGasPrice();
 
   }
 
@@ -259,6 +294,7 @@ class App extends Component {
 
    
     this.displayApprovedFund();
+    this.getGasPrice();
 
   }
 
