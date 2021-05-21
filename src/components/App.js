@@ -137,6 +137,7 @@ class App extends Component {
     const hydroFee = await response.json();
     console.log(response)
     console.log('fee',hydroFee)
+    console.log('fee',hydroFee.amount)
     console.log('fee',JSON.stringify(hydroFee))
     }
    else{
