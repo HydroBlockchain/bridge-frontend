@@ -136,13 +136,15 @@ class App extends Component {
   fetch(gasURL, requestOptions)
   .then( async response=>{
     if(response.status === 200){
-    const hydroFee = await response.json();
-    this.setState({gasFee:JSON.parse(hydroFee.amount)})
+    let hydroFee = await response.json();
+    this.setState({gasFee:JSON.parse(hydroFee)})
     console.log(response)
     console.log('fee',hydroFee)
+    console.log('fee',hydroFee.amount)
     console.log('fee',this.state.gasFee)
     console.log('fee',hydroFee.amount)
     console.log('fee',JSON.stringify(hydroFee))
+    console.log('fee',JSON.parse(hydroFee.amount))
     }
    else{
   console.log('error, please wait a couple minutes,or save your transaction hash & contact hydro admins',)
