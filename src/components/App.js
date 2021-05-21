@@ -139,12 +139,12 @@ class App extends Component {
     let hydroFee = await response.json();
     let gasfee = JSON.parse(hydroFee)
     this.setState({gasFee:gasfee.amount})
-    console.log(response)
-    console.log('fee',hydroFee)
+    //console.log(response)
+    //console.log('fee',hydroFee)
    // console.log('fee',hydroFee.amount)
-    console.log('fee',this.state.gasFee)
+   // console.log('fee',this.state.gasFee)
    // console.log('fee',hydroFee.amount)
-    console.log('fee',JSON.stringify(hydroFee))
+    //console.log('fee',JSON.stringify(hydroFee))
     //console.log('fee',JSON.parse(hydroFee.amount))
     }
    else{
@@ -206,7 +206,7 @@ console.log(JSON.parse(JSON.stringify(m.amount)))
     const blockNumber = await this.state.web3.eth.getBlockNumber();
     this.setState({
       text:'BEP-20 to ERC-20',
-      API_LINK:'https://hydro-bridge.org/api/send_eth/',
+      API_LINK:'https://hydro-bridge-backend.org/api/send_eth/',
       tx_Link:'https://etherscan.io/tx/',
       loading: false
     })
@@ -262,7 +262,7 @@ console.log(JSON.parse(JSON.stringify(m.amount)))
     const blockNumber = await this.state.web3.eth.getBlockNumber();
     this.setState({
       text:'ERC-20 to BEP-20',
-      API_LINK:'https://hydro-bridge.org/api/send_bsc/',
+      API_LINK:'https://hydro-bridge-backend.org/api/send_bsc/',
       tx_Link:'https://bscscan.com/tx/',
       loading: false
     })
@@ -397,6 +397,7 @@ console.log(JSON.parse(JSON.stringify(m.amount)))
       swapAddress = {this.state.swapAddress}
       swapping = {this.state.swapping}
       totalSwapped = {this.state.totalSwapped}
+      networkId={this.state.networkID}
       gasFee = {this.state.gasFee}
 
       approveFunds={this.approveFunds}

@@ -68,6 +68,8 @@ class EthToBsc extends Component {
       approve_text = 'Approved'
     }
 
+   
+
 
     return (
     <div className="tx-interface">
@@ -115,7 +117,7 @@ class EthToBsc extends Component {
         </div>
 
         <div className="mt-5">
-          <label className="float-left">You get</label>         
+        <label className="float-left">You get</label>         
         </div>
         <div className="input-group mb-2">
           <input
@@ -131,7 +133,6 @@ class EthToBsc extends Component {
             </div>
           </div>
         </div>
-        
         {this.props.allowed > 0 ? <button type="submit" disabled={disable} className="btn btn-block btn-lg swap-btn">Swap</button>:<button onClick={this.addFund} className="btn btn-block btn-lg swap-btn">Approve Tokens</button>}
 
       </form>

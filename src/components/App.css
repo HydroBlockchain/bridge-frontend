@@ -129,6 +129,13 @@ button:focus{
     color:rgb(233, 4, 54);
 }
 
+.gas_warning{
+    float: right;
+    color:rgb(119, 119, 119);
+    font-size: 13px;
+    text-align: center;
+}
+
 .max{
     position:right;
     float: left;
