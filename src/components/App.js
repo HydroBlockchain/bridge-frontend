@@ -137,12 +137,12 @@ class App extends Component {
   .then( async response=>{
     if(response.status === 200){
     let hydroFee = await response.json();
-    this.setState({gasFee:JSON.parse(hydroFee)})
+    this.setState({gasFee:hydroFee})
     console.log(response)
     console.log('fee',hydroFee)
    // console.log('fee',hydroFee.amount)
     console.log('fee',this.state.gasFee)
-    console.log('fee',hydroFee.amount)
+   // console.log('fee',hydroFee.amount)
     console.log('fee',JSON.stringify(hydroFee))
     //console.log('fee',JSON.parse(hydroFee.amount))
     }
