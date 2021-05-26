@@ -47,6 +47,7 @@ class App extends Component {
     gasFee:0,
     //proxyFee:0,
     tx_Link:'',
+    network_Explorer:'',
     prev_hash:0,
     swapping:false,
     
@@ -197,6 +198,7 @@ class App extends Component {
       text:'BEP-20 to ERC-20',
       API_LINK:'https://hydro-bridge-backend.org/api/send_eth/',
       tx_Link:'https://etherscan.io/tx/',
+      network_Explorer:'https://bscscan.com/tx/',
       loading: false
     })
 
@@ -253,6 +255,7 @@ class App extends Component {
       text:'ERC-20 to BEP-20',
       API_LINK:'https://hydro-bridge-backend.org/api/send_bsc/',
       tx_Link:'https://bscscan.com/tx/',
+      network_Explorer:'https://etherscan.io/tx/',
       loading: false
     })
 
@@ -322,14 +325,22 @@ class App extends Component {
 
   swapHydro = async(amount)=> {
     this.setState({loading_text:'Please do not close the browser until you see the successful message.',swapping:true})
+
     await this.state.swapInstance.methods.swap(this.state.web3.utils.toWei(amount.toString())).send({
       from: this.state.account
     })
-
+   
     .on('confirmation',(confirmationNumber, receipt)=>{
+      console.log('asd',receipt)
+
+      toast(<a href={this.state.network_Explorer + receipt.events.SwapDeposit.transactionHash} target="blank">View transaction.</a>);
+
       if(confirmationNumber === 0){
       this.setState({loading_text:'Swap in progress....Please do not close the browser until you see the successful message.'},()=>console.log())
-      }
+      //let hash = values.transactionHash
+      toast(<a href={this.state.tx_Link + this.state.txHash.transactionHash} target="blank">Swap Success!</a>);
+
+    }
       if(confirmationNumber === 2){
    
       this.setState({prev_hash:1},()=>this.api(receipt.events.SwapDeposit))
@@ -408,7 +419,7 @@ class App extends Component {
               {content}
               <ToastContainer
               position="bottom-left"
-              autoClose={25000}
+              autoClose={false}
               hideProgressBar={false}
               newestOnTop={false}
               rtl={false}
