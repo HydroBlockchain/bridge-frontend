@@ -321,6 +321,12 @@ class App extends Component {
    await this.state.hydroInstance.methods.approve(this.state.swapAddress, this.state.web3.utils.toWei('1000000000')).send({
       from: this.state.account,   
       })
+
+      .on('transactionHash',(hash)=>{
+        if(hash !==null){
+          toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
+        }
+      })
   }
 
   swapHydro = async(amount)=> {
@@ -329,17 +335,22 @@ class App extends Component {
     await this.state.swapInstance.methods.swap(this.state.web3.utils.toWei(amount.toString())).send({
       from: this.state.account
     })
+
+    .on('transactionHash',(hash)=>{
+			if(hash !==null){
+        toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
+			}
+		})
    
     .on('confirmation',(confirmationNumber, receipt)=>{
-      console.log('asd',receipt)
-
-      toast(<a href={this.state.network_Explorer + receipt.events.SwapDeposit.transactionHash} target="blank">View transaction.</a>);
+      
+      //toast(<a href={this.state.network_Explorer + receipt.events.SwapDeposit.transactionHash} target="blank">View transaction.</a>);
 
       if(confirmationNumber === 0){
       this.setState({loading_text:'Swap in progress....Please do not close the browser until you see the successful message.'},()=>console.log())
       //let hash = values.transactionHash
-      toast(<a href={this.state.tx_Link + this.state.txHash.transactionHash} target="blank">Swap Success!</a>);
-
+      //toast(<a href={this.state.tx_Link + this.state.txHash.transactionHash} target="blank">Swap Success!</a>);
+      
     }
       if(confirmationNumber === 2){
    
