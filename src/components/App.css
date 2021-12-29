@@ -267,4 +267,11 @@ button:focus {
 
 .input-group>.form-control, .input-group>.form-control-plaintext {
   color: #fff !important;
+
+  
+}
+
+.Toastify__toast--default {
+  background: rgb(36, 44, 53)!important;
+  color: #fff !important;
 }
