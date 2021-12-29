@@ -17,9 +17,9 @@ class Navbar extends Component {
     else if(network !== 0) network = 'Wrong'
 
     return (
-      <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
         <span className="ml-2">
-          Hydro Cross Chain: {network} Network
+          <b>Hydro Bridge</b>: <h6> {network} Network</h6>
         </span>
         
         <ul className="navbar-nav px-3">

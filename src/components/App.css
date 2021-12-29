@@ -1,256 +1,270 @@
 /* Styles go here */
 
-body{
-    background-color: rgba(0,0,0, 0.7);
-    height: 100vh;
-    width: 100%;
-    position: relative;
-    fdont-family: Georgia, 'Times New Roman', Times, serif;
-    font-family: 'Trebuchet MS';
-   
-}
-nav{
-    color: rgba(255, 255, 255);
-    height: 8vh;
-    padding-right: 1rem !important;
-    font-size: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    font-family: 'Trebuchet MS';
-    font-size: 20px;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 
+body {
+  background-color: #131925;
+  height: 85vh;
+  width: 100%;
+  position: relative;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Montserrat", sans-serif;
 }
-nav small{
-    font-size: 1.4rem;
+nav {
+  color: rgba(255, 255, 255);
+  background-color: #1e222ea1 !important;
+  height: 8vh;
+  padding-right: 1rem !important;
+  font-size: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
 }
-nav button{
-    position: absolute;
-    height: 90%;
-    top: 50%;
-    left: 60%;
-    transform: translate(-50%, -50%);
-    
+nav small {
+  font-size: 1.4rem;
+}
+nav button {
+  position: absolute;
+  height: 90%;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
 }
 .swap-form {
-    width: 50%;
-    height: 30rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 15%);
+  width: 50%;
+  height: 30rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 15%);
 }
-.swap-btn{
-    background-color: green;
-    color: rgba(255, 255, 255);
+.swap-btn {
+  background-color: rgb(65, 91, 124);
+  color: rgba(255, 255, 255);
 }
-.swap-btn:hover{
-    color: rgba(255, 255, 255);
+.swap-btn:hover {
+  background-color: rgb(32, 49, 71);
+  color: rgba(255, 255, 255);
 }
-
-input:focus{
-    outline: none !important;
+input:focus {
+  outline: none !important;
 }
-form h3{
-    text-align: center;
+form h3 {
+  text-align: center;
 }
 
 /* Modal */
-.modal{
-    background-color: rgba(0,0,0,0.7);
-    width: 100%;
-    height: 30vh;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: rgba(255, 255, 255);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.modal {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 30vh;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.modal form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.modal form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.modal form input{
-    margin-bottom: 1rem;
-    text-align: center;
+.modal form input {
+  margin-bottom: 1rem;
+  text-align: center;
 }
-.modal form input::placeholder{
-    font-style: italic;
+.modal form input::placeholder {
+  font-style: italic;
 }
-.modal form button{
-    background-color: green;
-    color: rgba(255, 255, 255, 0.8);
+.modal form button {
+  background-color: green;
+  color: rgba(255, 255, 255, 0.8);
 }
-button{
-    border:none;
+button {
+  border: none;
 }
-button:focus{
-    outline: none;
-}
-
-.tx-inferface{
-    position: relative;
+button:focus {
+  outline: none;
 }
 
-.open-add-fund{
-    border: none;
-    text-align: center;
-    font-size: 0.8rem;
-    background-color: green;
-    color: rgba(255, 255, 255);
-    position:absolute;
-    top: -10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 0.75rem;
-    border-radius: 3px;
-}
-.balances{
-    display: flex;
-    flex-direction: column;
+.tx-inferface {
+  position: relative;
 }
 
-.allowed{
-    position:right;
-    float: right;
-    margin-top:-22px;
-    font-size: 13px;
-    color:green;
+.open-add-fund {
+  border: none;
+  text-align: center;
+  font-size: 0.8rem;
+  background-color: green;
+  color: rgba(255, 255, 255);
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.75rem;
+  border-radius: 3px;
+}
+.balances {
+  display: flex;
+  flex-direction: column;
 }
 
-.gasfee{
-    float: left;
-    margin-top:-22px;
-    font-size: 13px;
-    color:rgb(233, 4, 54);
+.allowed {
+  position: right;
+  float: right;
+  margin-top: -22px;
+  font-size: 13px;
+  color: green;
 }
 
-.gas_warning{
-    float: right;
-    color:rgb(119, 119, 119);
-    font-size: 13px;
-    text-align: center;
+.gasfee {
+  float: left;
+  margin-top: -22px;
+  font-size: 13px;
+  color: rgb(233, 4, 54);
 }
 
-.max{
-    position:right;
-    float: left;
-    margin-top:-22px;
+.gas_warning {
+  float: right;
+  color: rgb(119, 119, 119);
+  font-size: 13px;
+  text-align: center;
+}
+
+.max {
+  position: right;
+  float: left;
+  margin-top: -22px;
+  font-size: 12px;
+  color: green;
+  cursor: pointer;
+}
+
+.appfooter {
+  background-color: #1e222ea1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 75vh;
+  font-family: "Montserrat", sans-serif;
+  padding: 15px;
+}
+
+.appfooter h6 {
+  font-size: 22px;
+  color: #ffffffc7;
+}
+
+.appfooter h5 {
+  font-size: 18px;
+  color: #ffffff50;
+}
+
+.footer {
+  color: rgb(119, 119, 119);
+  font-size: 13px;
+}
+
+.identicon {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  border: 2px solid green;
+}
+
+#account {
+  color: white;
+  font-size: 17px;
+}
+
+#loader {
+  color: rgb(240, 240, 240);
+  position: absolute;
+  font-size: 23px;
+  width: 50%;
+  position: absolute;
+  margin-top: 15%;
+  left: 50%;
+  transform: translate(-50%, 25%);
+}
+
+#network {
+  color: rgb(240, 240, 240);
+  font-size: 23px;
+  width: 50%;
+  position: absolute;
+  margin-top: 15%;
+  left: 50%;
+  transform: translate(-50%, 25%);
+}
+
+.card {
+  border-radius: 15px !important;
+  margin-top: 10px;
+  background-color: #1e222ea1;
+  color: #fff;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+}
+
+.success {
+  text-align: center;
+  color: green !important;
+  font-weight: 600;
+}
+
+.head {
+  width: 50%;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 250%);
+  background: #1e222ea1;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 10px;
+  color: #fff;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+}
+
+@media (max-width: 500px) {
+  .head {
+    margin-top: 30px;
+    width: 90%;
+  }
+
+  .card {
+    margin-top: 30px;
+  }
+
+  .swap-form {
+    width: 90%;
+  }
+
+  .appfooter h5 {
     font-size: 12px;
-    color:green;
-    cursor: pointer;
-
+    color: rgb(211, 209, 209);
+    font-family: "Montserrat", sans-serif;
+  }
 }
 
-.appfooter{
-
-    backdground:rgb(2, 87, 2);
-    padding:5px;
-    bordder-top:1px solid rgb(212, 212, 212);
-    bordedr-bottom:1px solid rgb(212, 212, 212);
-    position:bottom;
-    float:right;
-    margin-top:10px;
+.head p {
+  font-weight: 700;
+  margin-top: 3px;
 }
 
-.appfooter h5{
-    font-size: 15px;
-    color:rgb(211, 209, 209);
-    font-family: 'Trebuchet MS';
-
+.form-control, .form-control:disabled, .input-group-text{
+    background-color: rgb(36, 44, 53);
+    border: rgb(36, 44, 53);
+    color: #fff;
 }
-
-
-.footer{
-    color:rgb(119, 119, 119);
-    font-size: 13px;
-}   
-
-.identicon{
-    border-radius: 50%;
-    height:30px;
-    width:30px;
-    border:2px solid green;
-}
-
-#account{
-    color:white;
-    font-size: 17px;
-}
-
-#loader{
-    color:rgb(240, 240, 240);
-    position:absolute;
-    font-size: 23px;
-    width: 50%;
-    position: absolute;
-    margin-top: 15%;
-    left: 50%;
-    transform: translate(-50%, 25%);
-}
-
-
-#network{
-    color:rgb(240, 240, 240);
-    font-size: 23px;
-    width: 50%;
-    position: absolute;
-    margin-top: 15%;
-    left: 50%;
-    transform: translate(-50%, 25%);
-}
-
-.card{
-    border-radius:15px!important;
-    margin-top: 10px;
-}
-
-.success{
-    text-align: center;
-    color:green!important;
-    font-weight: 600;
-}
-
-.head{
-    width: 50%;
-    height: 30px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 250%);
-    background:white;
-    border-radius:7px;
-    text-align:center;
-    margin-top: 10px;
-}
-
-@media(max-width:500px){
-    .head{
-        margin-top:30px;
-        width:90%;
-    }
-
-    .card{
-        margin-top:30px;
-    }
-
-    .swap-form{
-        width:90%;  
-    }
-    
-    .appfooter h5{
-        font-size: 12px;
-        color:rgb(211, 209, 209);
-        font-family: 'Trebuchet MS';   
-    }
-}
-
-.head p{
-    font-weight:700;
-     margin-top:3px;
-
+.form-control:focus{
+    background-color: rgb(36, 44, 53);
+    border: rgb(36, 44, 53);
+    box-shadow: none !important;
 }

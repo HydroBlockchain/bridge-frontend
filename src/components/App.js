@@ -442,8 +442,8 @@ class App extends Component {
           </div>
         </div>
         <div className="appfooter">
-          <h5>BEP-20 Token: 0xf3DBB49999B25c9D6641a9423C7ad84168D00071</h5>
-          <h5>ERC-20 Token: 0x946112efaB61C3636CBD52DE2E1392D7A75A6f01</h5>
+        <h6>BEP-20:</h6> <h5>0xf3DBB49999B25c9D6641a9423C7ad84168D00071</h5>
+        <h6>ERC-20:</h6> <h5>0x946112efaB61C3636CBD52DE2E1392D7A75A6f01</h5>
         </div>
       </div>
     );
