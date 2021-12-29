@@ -12,11 +12,11 @@ class BscToEth extends Component {
     }
 
 
-    componentDidMount = async () => {
-      alert('kindly ensure you are on bsc test network')
+  //   componentDidMount = async () => {
+  //     alert('kindly ensure you are on bsc test network')
    
     
-  }
+  // }
 
     handleInputAmount = (e)=> {
       this.setState({

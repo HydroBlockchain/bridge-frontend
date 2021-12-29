@@ -10,10 +10,10 @@ class EthToBsc extends Component {
       hydroAddress: "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95",
       swapAmount: null
     }
-    componentDidMount = async () => {
-        alert('Tip: You can switch between BSC Network and Ethereum Network through Metamask.')
+    // componentDidMount = async () => {
+    //     alert('Tip: You can switch between BSC Network and Ethereum Network through Metamask.')
        
-    }
+    // }
 
     handleInputAmount = (e)=> {
       this.setState({

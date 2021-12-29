@@ -11,7 +11,7 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 nav {
-  color: rgba(255, 255, 255);
+  color: #ffffffb7;
   background-color: #1e222ea1 !important;
   height: 8vh;
   padding-right: 1rem !important;
@@ -131,7 +131,7 @@ button:focus {
 
 .gas_warning {
   float: right;
-  color: rgb(119, 119, 119);
+  color: #ffffff50;
   font-size: 13px;
   text-align: center;
 }
@@ -150,23 +150,18 @@ button:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 75vh;
+  margin-top: 84vh;
   font-family: "Montserrat", sans-serif;
   padding: 15px;
 }
 
-.appfooter h6 {
-  font-size: 22px;
-  color: #ffffffc7;
-}
-
 .appfooter h5 {
-  font-size: 18px;
+  font-size: 16px;
   color: #ffffff50;
 }
 
 .footer {
-  color: rgb(119, 119, 119);
+  color: #ffffff50;
   font-size: 13px;
 }
 
@@ -183,7 +178,7 @@ button:focus {
 }
 
 #loader {
-  color: rgb(240, 240, 240);
+  color: #ffffff50;
   position: absolute;
   font-size: 23px;
   width: 50%;
@@ -194,7 +189,7 @@ button:focus {
 }
 
 #network {
-  color: rgb(240, 240, 240);
+  color: #ffffff50;
   font-size: 23px;
   width: 50%;
   position: absolute;
@@ -207,7 +202,7 @@ button:focus {
   border-radius: 15px !important;
   margin-top: 10px;
   background-color: #1e222ea1;
-  color: #fff;
+  color: #ffffffb7;
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
 }
 
@@ -228,7 +223,7 @@ button:focus {
   border-radius: 10px;
   text-align: center;
   margin-top: 10px;
-  color: #fff;
+  color: #ffffff50;
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
 }
 

@@ -1,8 +1,8 @@
 {
-  "name": "eth-swap",
+  "name": "hydro-bridge",
   "version": "0.1.0",
-  "description": "cross-chain-utility",
-  "author": "Jeremiah",
+  "description": "Hydro-Bridge",
+  "author": "hydro-foundation",
   "dependencies": {
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
