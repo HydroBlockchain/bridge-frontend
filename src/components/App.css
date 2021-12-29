@@ -1,6 +1,8 @@
-/* Styles go here */
+/* Imports */
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+
+/* General */
 
 body {
   background-color: #131925;
@@ -10,6 +12,9 @@ body {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-family: "Montserrat", sans-serif;
 }
+
+/* Nav */
+
 nav {
   color: #ffffffb7;
   background-color: #1e222ea1 !important;
@@ -31,6 +36,28 @@ nav button {
   left: 60%;
   transform: translate(-50%, -50%);
 }
+.identicon {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  border: 2px solid green;
+}
+.bridge-logo {
+  padding-left: 10px;
+  width: 150px;
+}
+.network-status {
+  font-size: 14px;
+  font-weight: 900;
+  color: #565c7088 !important;
+}
+#account {
+  color: white;
+  font-size: 14px;
+}
+
+/* Swap */
+
 .swap-form {
   width: 50%;
   height: 30rem;
@@ -54,7 +81,104 @@ form h3 {
   text-align: center;
 }
 
+/* Swap Card */
+
+#loader {
+  color: #ffffff50;
+  position: absolute;
+  font-size: 23px;
+  width: 50%;
+  position: absolute;
+  margin-top: 15%;
+  left: 50%;
+  transform: translate(-50%, 25%);
+}
+.card {
+  border-radius: 15px !important;
+  margin-top: 10px;
+  background-color: #1e222ea1;
+  color: #ffffffb7;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+}
+.balances {
+  display: flex;
+  flex-direction: column;
+}
+.gas_warning {
+  float: right;
+  color: #ffffff50;
+  font-size: 13px;
+  text-align: center;
+}
+.max {
+  position: right;
+  float: left;
+  margin-top: -22px;
+  font-size: 12px;
+  color: green;
+  cursor: pointer;
+}
+.allowed {
+  position: right;
+  float: right;
+  margin-top: -22px;
+  font-size: 13px;
+  color: green;
+}
+.gasfee {
+  float: left;
+  margin-top: -22px;
+  font-size: 13px;
+  color: rgb(233, 4, 54);
+}
+.success {
+  text-align: center;
+  color: green !important;
+  font-weight: 600;
+}
+
+/* Total hydro swapped header */
+
+.head {
+  width: 50%;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 250%);
+  background: #1e222ea1;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 10px;
+  color: #ffffff50;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+}
+.head p {
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+/* Swap Form */
+
+.form-control,
+.form-control:disabled,
+.input-group-text {
+  background-color: rgb(36, 44, 53);
+  border: rgb(36, 44, 53);
+  color: #fff;
+}
+.form-control:focus {
+  background-color: rgb(36, 44, 53);
+  border: rgb(36, 44, 53);
+  box-shadow: none !important;
+}
+.input-group > .form-control,
+.input-group > .form-control-plaintext {
+  color: #fff !important;
+}
+
 /* Modal */
+
 .modal {
   background-color: rgba(0, 0, 0, 0.7);
   width: 100%;
@@ -91,11 +215,9 @@ button {
 button:focus {
   outline: none;
 }
-
 .tx-inferface {
   position: relative;
 }
-
 .open-add-fund {
   border: none;
   text-align: center;
@@ -109,41 +231,21 @@ button:focus {
   padding: 0.75rem;
   border-radius: 3px;
 }
-.balances {
-  display: flex;
-  flex-direction: column;
-}
-
-.allowed {
-  position: right;
-  float: right;
-  margin-top: -22px;
-  font-size: 13px;
-  color: green;
-}
-
-.gasfee {
-  float: left;
-  margin-top: -22px;
-  font-size: 13px;
-  color: rgb(233, 4, 54);
-}
-
-.gas_warning {
-  float: right;
+#network {
   color: #ffffff50;
-  font-size: 13px;
-  text-align: center;
+  font-size: 23px;
+  width: 50%;
+  position: absolute;
+  margin-top: 15%;
+  left: 50%;
+  transform: translate(-50%, 25%);
+}
+.Toastify__toast--default {
+  background: rgb(36, 44, 53) !important;
+  color: #fff !important;
 }
 
-.max {
-  position: right;
-  float: left;
-  margin-top: -22px;
-  font-size: 12px;
-  color: green;
-  cursor: pointer;
-}
+/* Footer */
 
 .appfooter {
   background-color: #1e222ea1;
@@ -155,12 +257,10 @@ button:focus {
   margin-top: 82vh;
   font-family: "Montserrat", sans-serif;
 }
-
 .appfooter h5 {
   font-size: 15px;
   color: #ffffff50;
 }
-
 .appfooter a {
   font-size: 16px;
   color: rgb(107, 37, 104);
@@ -169,112 +269,9 @@ button:focus {
   color: rgb(146, 52, 141);
   text-decoration: none;
 }
-
 .footer {
   color: #ffffff50;
   font-size: 13px;
-}
-
-.identicon {
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  border: 2px solid green;
-}
-
-#account {
-  color: white;
-  font-size: 14px;
-}
-
-#loader {
-  color: #ffffff50;
-  position: absolute;
-  font-size: 23px;
-  width: 50%;
-  position: absolute;
-  margin-top: 15%;
-  left: 50%;
-  transform: translate(-50%, 25%);
-}
-
-#network {
-  color: #ffffff50;
-  font-size: 23px;
-  width: 50%;
-  position: absolute;
-  margin-top: 15%;
-  left: 50%;
-  transform: translate(-50%, 25%);
-}
-
-.card {
-  border-radius: 15px !important;
-  margin-top: 10px;
-  background-color: #1e222ea1;
-  color: #ffffffb7;
-  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
-}
-
-.success {
-  text-align: center;
-  color: green !important;
-  font-weight: 600;
-}
-
-.head {
-  width: 50%;
-  height: 30px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 250%);
-  background: #1e222ea1;
-  border-radius: 10px;
-  text-align: center;
-  margin-top: 10px;
-  color: #ffffff50;
-  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
-}
-
-.head p {
-  font-weight: 700;
-  margin-top: 3px;
-}
-
-.form-control,
-.form-control:disabled,
-.input-group-text {
-  background-color: rgb(36, 44, 53);
-  border: rgb(36, 44, 53);
-  color: #fff;
-}
-
-.form-control:focus {
-  background-color: rgb(36, 44, 53);
-  border: rgb(36, 44, 53);
-  box-shadow: none !important;
-}
-
-.input-group > .form-control,
-.input-group > .form-control-plaintext {
-  color: #fff !important;
-}
-
-.Toastify__toast--default {
-  background: rgb(36, 44, 53) !important;
-  color: #fff !important;
-}
-
-.bridge-logo {
-  padding-left: 10px;
-  width: 150px;
-}
-
-.network-status {
-  font-size: 14px;
-  font-weight: 900;
-  color: #565c7088 !important;
 }
 
 /* Mobile */
@@ -322,5 +319,4 @@ button:focus {
   .appfooter {
     display: none !important;
   }
-
 }
