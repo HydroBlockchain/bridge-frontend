@@ -24,9 +24,9 @@ class Navbar extends Component {
             <small className="text-secondary">
               <small id="account">
                 {this.props.account
-                  .slice(0, 6)
+                  .slice(0, 5)
                   .concat("...")
-                  .concat(this.props.account.slice(12, 18))}
+                  .concat(this.props.account.slice(37, 42))}
               </small>
             </small>
 
