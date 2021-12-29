@@ -258,8 +258,13 @@ button:focus {
     border: rgb(36, 44, 53);
     color: #fff;
 }
+
 .form-control:focus{
     background-color: rgb(36, 44, 53);
     border: rgb(36, 44, 53);
     box-shadow: none !important;
+}
+
+.input-group>.form-control, .input-group>.form-control-plaintext {
+  color: #fff !important;
 }
