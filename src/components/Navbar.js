@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Identicon from "identicon.js";
+import bridgeLogo from '../images/hydrobridge.svg';
 
 class Navbar extends Component {
   render() {
@@ -14,8 +15,9 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
         <span className="ml-2">
-          <b>Hydro Bridge</b>: <h6> {network} Network</h6>
+        <img className='bridge-logo' src={bridgeLogo} alt='bridge' />
         </span>
+        <div className="network-status">{network} Network</div>
 
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">

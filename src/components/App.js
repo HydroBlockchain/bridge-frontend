@@ -442,8 +442,8 @@ class App extends Component {
           </div>
         </div>
         <div className="appfooter">
-        <h5>BEP-20: 0xf3DBB49999B25c9D6641a9423C7ad84168D00071</h5>
-        <h5>ERC-20: 0x946112efaB61C3636CBD52DE2E1392D7A75A6f01</h5>
+        <h5>Hydro BEP-20 <a href='https://bscscan.com/address/0xf3DBB49999B25c9D6641a9423C7ad84168D00071#code' aria-label="Hydro-BSC" target="_blank" rel="noreferrer">0xf3DBB49999B25c9D6641a9423C7ad84168D00071</a></h5>
+        <h5>Hydro ERC-20 <a href='https://etherscan.io/address/0x946112efaB61C3636CBD52DE2E1392D7A75A6f01#code' aria-label="Hydro-BSC" target="_blank" rel="noreferrer">0x946112efaB61C3636CBD52DE2E1392D7A75A6f01</a></h5>
         </div>
       </div>
     );
