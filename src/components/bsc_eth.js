@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import hydroDrop from '../images/hydro-drop.png';
 
 Modal.setAppElement('#root');
 class BscToEth extends Component {
@@ -85,7 +86,7 @@ class BscToEth extends Component {
             required />
           <div className="input-group-append">
             <div className="input-group-text">
-              <img src= "https://raw.githubusercontent.com/HydroBlockchain/projecthydro.org-2021/master/assets/images/hydrologo.png" height='25' alt=""/>
+              <img src= {hydroDrop} height='25' alt="hydro-drop"/>
             </div>
           </div>
          
@@ -109,7 +110,7 @@ class BscToEth extends Component {
           />
           <div className="input-group-append">
             <div className="input-group-text">
-              <img src="https://raw.githubusercontent.com/HydroBlockchain/projecthydro.org-2021/master/assets/images/hydrologo.png" height='25' alt=""/> 
+            <img src= {hydroDrop} height='25' alt="hydro-drop"/> 
             </div>
           </div>
         </div>
