@@ -17,7 +17,7 @@ body {
 
 nav {
   color: #ffffffb7;
-  background-color: #1e222ea1 !important;
+  background-color: #2c3244a1 !important;
   height: 8vh;
   padding-right: 1rem !important;
   font-size: 1.5rem;
@@ -49,7 +49,7 @@ nav button {
 .network-status {
   font-size: 14px;
   font-weight: 900;
-  color: #565c7088 !important;
+  color: #74798a88 !important;
 }
 #account {
   color: white;
@@ -96,7 +96,7 @@ form h3 {
 .card {
   border-radius: 15px !important;
   margin-top: 10px;
-  background-color: #1e222ea1;
+  background-color: #2c3244a1;
   color: #ffffffb7;
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
 }
@@ -122,13 +122,13 @@ form h3 {
   position: right;
   float: right;
   margin-top: -22px;
-  font-size: 13px;
+  font-size: 12px;
   color: green;
 }
 .gasfee {
   float: left;
   margin-top: -22px;
-  font-size: 13px;
+  font-size: 12px;
   color: rgb(233, 4, 54);
 }
 .success {
@@ -146,7 +146,7 @@ form h3 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, 250%);
-  background: #1e222ea1;
+  background: #2c3244a1;
   border-radius: 10px;
   text-align: center;
   margin-top: 10px;
@@ -163,13 +163,13 @@ form h3 {
 .form-control,
 .form-control:disabled,
 .input-group-text {
-  background-color: rgb(36, 44, 53);
-  border: rgb(36, 44, 53);
+  background-color: rgb(52, 61, 71);
+  border: rgb(52, 61, 71);
   color: #fff;
 }
 .form-control:focus {
-  background-color: rgb(36, 44, 53);
-  border: rgb(36, 44, 53);
+  background-color: rgb(52, 61, 71);
+  border: rgb(52, 61, 71);
   box-shadow: none !important;
 }
 .input-group > .form-control,
@@ -241,34 +241,10 @@ button:focus {
   transform: translate(-50%, 25%);
 }
 .Toastify__toast--default {
-  background: rgb(36, 44, 53) !important;
+  background: rgb(52, 61, 71) !important;
   color: #fff !important;
 }
 
-/* Footer */
-
-.appfooter {
-  background-color: #1e222ea1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 110px;
-  margin-top: 82vh;
-  font-family: "Montserrat", sans-serif;
-}
-.appfooter h5 {
-  font-size: 15px;
-  color: #ffffff50;
-}
-.appfooter a {
-  font-size: 16px;
-  color: rgb(107, 37, 104);
-}
-.appfooter a:hover {
-  color: rgb(146, 52, 141);
-  text-decoration: none;
-}
 .footer {
   color: #ffffff50;
   font-size: 13px;
@@ -315,8 +291,5 @@ button:focus {
   }
   .mt-5 {
     margin-top: 3rem !important;
-  }
-  .appfooter {
-    display: none !important;
   }
 }

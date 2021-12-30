@@ -3,6 +3,7 @@ import Identicon from "identicon.js";
 import bridgeLogo from '../images/hydrobridge.svg';
 
 class Navbar extends Component {
+
   render() {
     let network = "";
 
@@ -10,6 +11,12 @@ class Navbar extends Component {
       network = "Ethereum Main";
     } else if (this.props.networkId === 56) {
       network = "BSC Main";
+    } else if (this.props.networkId === 137) {
+      network = "Polygon Main";
+    } else if (this.props.networkId === 1285) {
+      network = "Moonriver Main";
+    } else if (this.props.networkId === 52) {
+      network = "CoinEx Chain Main";
     } else if (network !== 0) network = "Wrong";
 
     return (
