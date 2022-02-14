@@ -1,6 +1,6 @@
 import React, {ChangeEvent, Component, MouseEventHandler} from 'react';
 import Modal from 'react-modal';
-import hydroDrop from '../images/hydro-drop.png';
+import hydroDrop from '../assets/images/hydro-drop.png';
 
 Modal.setAppElement('#root');
 

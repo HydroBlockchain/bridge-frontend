@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Identicon from "identicon.js";
-import bridgeLogo from '../images/hydrobridge.svg';
+import bridgeLogo from '../assets/images/hydrobridge.svg';
 
 class Navbar extends Component<PropsType> {
 

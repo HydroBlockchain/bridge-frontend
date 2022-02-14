@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 //import getWeb3 from '../getWeb3';
-import Navbar from './Navbar';
+import Navbar from '../Navbar';
 import Web3 from 'web3';
-import Main from './Main';
-import HydroAbi from '../abis/hydro.json';
-import EthToBscAbi from '../abis/ethToBsc.json';
-import BscToEthAbi from '../abis/bscToEth.json';
-import BepHydro from '../abis/bephydro.json';
-import './App.css'
+import Main from '../Main';
+import HydroAbi from '../../assets/abis/hydro.json';
+import EthToBscAbi from '../../assets/abis/ethToBsc.json';
+import BscToEthAbi from '../../assets/abis/bscToEth.json';
+import BepHydro from '../../assets/abis/bephydro.json';
+import './App.scss'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Contract} from 'web3-eth-contract';

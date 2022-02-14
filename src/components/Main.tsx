@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import EthToBsc from "./eth_bsc";
-import BscToEth from "./bsc_eth";
+import EthToBsc from "./EthToBsc";
+import BscToEth from "./BscToEth";
 
 class Main extends Component<PropsType> {
     constructor(props: PropsType) {

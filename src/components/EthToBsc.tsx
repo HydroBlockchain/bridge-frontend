@@ -1,6 +1,6 @@
 import React, {ChangeEvent, Component, FormEvent, MouseEventHandler, MouseEvent} from 'react';
 import Modal from 'react-modal';
-import hydroDrop from '../images/hydro-drop.png';
+import hydroDrop from '../assets/images/hydro-drop.png';
 
 Modal.setAppElement('#root');
 
@@ -23,7 +23,7 @@ class EthToBsc extends Component<PropsType> {
         })
     }
 
-    addFund = (e: MouseEvent<HTMLButtonElement> ) => {
+    addFund = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         this.props.approveFunds(this.props.swapAddress, this.state.swapAmount);
 
@@ -99,7 +99,7 @@ class EthToBsc extends Component<PropsType> {
                             // }}
                             className="form-control form-control-lg"
                             placeholder="0"
-                            />
+                        />
                         <div className="input-group-append">
                             <div className="input-group-text">
                                 <img src={hydroDrop} height='25' alt="hydro-drop"/>
@@ -135,7 +135,7 @@ class EthToBsc extends Component<PropsType> {
                         </div>
                     </div>
                     {Number(this.props.allowed) > 0 ? <button type="submit" disabled={disable}
-                                                      className="btn btn-block btn-lg swap-btn">Swap</button> :
+                                                              className="btn btn-block btn-lg swap-btn">Swap</button> :
                         <button onClick={e => this.addFund(e)} className="btn btn-block btn-lg swap-btn">Approve
                             Tokens</button>}
 
