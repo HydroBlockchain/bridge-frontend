@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 //import getWeb3 from '../getWeb3';
 import Navbar from '../Navbar';
 import Web3 from 'web3';
-import Main from '../Main';
+import Main from '../Main/Main';
 import HydroAbi from '../../assets/abis/hydro.json';
 import EthToBscAbi from '../../assets/abis/ethToBsc.json';
 import BscToEthAbi from '../../assets/abis/bscToEth.json';

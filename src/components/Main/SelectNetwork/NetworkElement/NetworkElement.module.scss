@@ -1,0 +1,25 @@
+.networkElement {
+    max-width: 360px;
+    width: 100%;
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 165px;
+        background: #313647;
+        border-radius: 15px;
+        padding: 17px;
+
+        .tempCircle {
+            width: 50px;
+            height: 50px;
+            background: #4E5260;
+            border-radius: 50%;
+        }
+
+        .select {
+            background-color: #313647;
+        }
+    }
+}
