@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Component, FormEvent, MouseEventHandler} from 'react';
+import React, {ChangeEvent, Component, FormEvent, MouseEventHandler, MouseEvent} from 'react';
 import Modal from 'react-modal';
 import hydroDrop from '../images/hydro-drop.png';
 
@@ -23,8 +23,8 @@ class EthToBsc extends Component<PropsType> {
         })
     }
 
-    addFund = () => {
-        // e.preventDefault();
+    addFund = (e: MouseEvent<HTMLButtonElement> ) => {
+        e.preventDefault();
         this.props.approveFunds(this.props.swapAddress, this.state.swapAmount);
 
     }
@@ -73,7 +73,7 @@ class EthToBsc extends Component<PropsType> {
         return (
             <div className="tx-interface">
 
-                <form className="mb-3" onSubmit={this.swap}>
+                <form className="mb-3" onSubmit={e => this.swap}>
                     <h3>{this.props.text}</h3>
                     <p className='success'>{this.props.loading_text}</p>
                     <div>
@@ -99,7 +99,7 @@ class EthToBsc extends Component<PropsType> {
                             // }}
                             className="form-control form-control-lg"
                             placeholder="0"
-                            required/>
+                            />
                         <div className="input-group-append">
                             <div className="input-group-text">
                                 <img src={hydroDrop} height='25' alt="hydro-drop"/>
@@ -136,7 +136,7 @@ class EthToBsc extends Component<PropsType> {
                     </div>
                     {Number(this.props.allowed) > 0 ? <button type="submit" disabled={disable}
                                                       className="btn btn-block btn-lg swap-btn">Swap</button> :
-                        <button onClick={this.addFund} className="btn btn-block btn-lg swap-btn">Approve
+                        <button onClick={e => this.addFund(e)} className="btn btn-block btn-lg swap-btn">Approve
                             Tokens</button>}
 
                 </form>
