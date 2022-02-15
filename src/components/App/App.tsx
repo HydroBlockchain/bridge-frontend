@@ -12,6 +12,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Contract} from 'web3-eth-contract';
 import {AbiItem, fromWei} from 'web3-utils'
+import {Menu} from "../Main/Menu/Menu";
 
 class App extends Component {
 
@@ -52,7 +53,7 @@ class App extends Component {
     }
 
     componentDidMount = async () => {
-        try {
+      /*  try {
 
             let ethereum = window.ethereum;
             let web3 = window.web3;
@@ -101,9 +102,7 @@ class App extends Component {
                 `Failed to load web3, accounts, or contract. Check console for details.`,
             );
             console.error(error);
-        }
-
-
+        }*/
     };
 
     getGasPrice() {
@@ -425,6 +424,13 @@ class App extends Component {
                         <main role="main" className="col-lg-12 ml-auto mr-auto ">
                             <div className="content mr-auto ml-auto">
                                 {content}
+
+                                <div id="content" className="mt-5 swap-form">
+                                    <div className="card mb-4">
+                                        <Menu className={'card-body main-form'}/>
+                                    </div>
+                                </div>
+
                                 <ToastContainer
                                     position="bottom-left"
                                     autoClose={false}
