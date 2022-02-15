@@ -10,24 +10,26 @@ const options = [
 ]
 
 const selectStyles: StylesConfig = {
-    control: (styles) => ({
-        ...styles,
-        backgroundColor: '#313647',
-        "&:selected": {
-            color: 'white'
-        }
-    }),
-    menuList: (base) => ({
+    control: base => ({
         ...base,
         backgroundColor: '#313647',
     }),
-    option: (styles) => ({
-        ...styles,
-        "&:hover": {
+    singleValue: base => ({
+        ...base,
+        color: 'white'
+    }),
+    menuList: base => ({
+        ...base,
+        backgroundColor: '#313647',
+    }),
+    option: (base, {isSelected, isFocused}) => ({
+        ...base,
+        backgroundColor: isSelected ? '#203147' : isFocused ? '#203147' : '#313647',
+        ":hover": {
+            ...base[':hover'],
             backgroundColor: '#4E5260'
-        }
-    })
-
+        },
+    }),
 }
 
 export const NetworkElement = (props: PropsType) => {
@@ -35,7 +37,6 @@ export const NetworkElement = (props: PropsType) => {
         <span>{props.text}</span>
         <div className={s.item}>
             <div className={s.tempCircle}/>
-            {/*<div>Select Network</div>*/}
             <Select
                 options={options}
                 styles={selectStyles}
