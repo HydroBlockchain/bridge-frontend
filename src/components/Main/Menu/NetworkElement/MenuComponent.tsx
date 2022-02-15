@@ -9,10 +9,13 @@ const options = [
     { value: 'Coinex Smart Chain', label: 'Coinex Smart Chain' }
 ]
 
+const elementColor = '#313647'
+const selectByArrowColor = '#203147'
+
 const selectStyles: StylesConfig = {
     control: base => ({
         ...base,
-        backgroundColor: '#313647',
+        backgroundColor: elementColor,
     }),
     singleValue: base => ({
         ...base,
@@ -20,11 +23,11 @@ const selectStyles: StylesConfig = {
     }),
     menuList: base => ({
         ...base,
-        backgroundColor: '#313647',
+        backgroundColor: elementColor,
     }),
     option: (base, {isSelected, isFocused}) => ({
         ...base,
-        backgroundColor: isSelected ? '#203147' : isFocused ? '#203147' : '#313647',
+        backgroundColor: isSelected ? selectByArrowColor : isFocused ? selectByArrowColor : elementColor,
         ":hover": {
             ...base[':hover'],
             backgroundColor: '#4E5260'

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import EthToBsc from "./EthToBsc";
 import BscToEth from "../BscToEth";
-import {SelectNetwork} from "./SelectNetwork/SelectNetwork";
+import {Menu} from "./Menu/Menu";
 
 class Main extends Component<PropsType> {
     constructor(props: PropsType) {
@@ -40,9 +40,8 @@ class Main extends Component<PropsType> {
                 </div>
 
                 <div id="content" className="mt-5 swap-form">
-                    {/*<SelectNetwork />*/}
                     <div className="card mb-4">
-                        <SelectNetwork className={'card-body main-form'}/>
+                        <Menu className={'card-body main-form'}/>
                     </div>
                     <div className="card mb-4">
                         <div className="card-body main-form">{content}</div>
