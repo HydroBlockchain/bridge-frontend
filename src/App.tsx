@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 //import getWeb3 from '../getWeb3';
-import Navbar from '../Navbar';
+import Navbar from './components/Navbar';
 import Web3 from 'web3';
-import Main from '../Main/Main';
-import HydroAbi from '../../assets/abis/hydro.json';
-import EthToBscAbi from '../../assets/abis/ethToBsc.json';
-import BscToEthAbi from '../../assets/abis/bscToEth.json';
-import BepHydro from '../../assets/abis/bephydro.json';
+import Main from './components/Main/Main';
+import HydroAbi from './assets/abis/hydro.json';
+import EthToBscAbi from './assets/abis/ethToBsc.json';
+import BscToEthAbi from './assets/abis/bscToEth.json';
+import BepHydro from './assets/abis/bephydro.json';
 import './App.scss'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Contract} from 'web3-eth-contract';
 import {AbiItem, fromWei} from 'web3-utils'
-import {Menu} from "../Main/Menu/Menu";
+import {Menu} from "./components/Menu/Menu";
 
 class App extends Component {
 

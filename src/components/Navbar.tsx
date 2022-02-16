@@ -49,7 +49,7 @@ class Navbar extends Component<PropsType> {
                                 alt=""
                             />
                         ) : (
-                            <span></span>
+                            <span> </span>
                         )}
                     </li>
                 </ul>

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import EthToBsc from "./EthToBsc";
 import BscToEth from "../BscToEth";
-import {Menu} from "./Menu/Menu";
+import {Menu} from "../Menu/Menu";
 
 class Main extends Component<PropsType> {
     constructor(props: PropsType) {

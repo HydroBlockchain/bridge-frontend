@@ -1,36 +1,67 @@
-import React, {ChangeEvent, SetStateAction, useState} from "react";
+import React, {useState} from "react";
 import s from './Menu.module.scss'
 import {NetworkElement} from "./NetworkElement/MenuComponent";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import Web3 from 'web3';
+import {useDispatch} from "react-redux";
+import {connectToMetamask} from "../../redux/bridge-reducer";
+import Web3 from "web3";
 
 export const Menu = (props: PropsType) => {
 
     const [inputValue, setInputValue] = useState<string>('')
     const [buttonText, setButtonText] = useState<'Connect Wallet' | 'Swap'>('Connect Wallet')
 
+    const dispatch = useDispatch()
+
     const onButtonClick = () => {
         // buttonText === 'Connect Wallet' ? setButtonText('Swap') : setButtonText('Connect Wallet')
-        connectWallet()
-            .then(() => {
-                alert('connected')
-            })
+        dispatch(connectToMetamask())
     }
 
-    const connectWallet = async () => {
+    const onButtonClickHere = async () => {
+        // buttonText === 'Connect Wallet' ? setButtonText('Swap') : setButtonText('Connect Wallet')
+        dispatch(connectToMetamask())
+
+        if(window.ethereum) {
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            const chainId = await window.ethereum.request({ method: 'eth_chainId'});
+            // Check if user is connected to Mainnet
+            if(chainId != '0x1') {
+                alert("Please connect to Mainnet");
+            } else {
+                let wallet = accounts[0];
+                // setWalletAddress(wallet);
+            }
+        } else {
+            alert("Please install Mask");
+        }
+    }
+
+    const connectToMetamaskOld = async () => {
         try {
-            let ethereum = window.ethereum;
-            let web3 = window.web3;
+            /*let ethereum = window.ethereum;
+            let web3 = window.web3;*/
+            let ethereum;
+            if (window.ethereum) ethereum = window.ethereum;
+            let web3;
+            if (window.web3) web3 = window.web3;
+
             if (typeof ethereum !== 'undefined') {
+
+                debugger
                 await ethereum.enable();
                 web3 = new Web3(ethereum);
                 // this.setState({web3})
             } else if (typeof web3 !== 'undefined') {
+
+                debugger
                 console.log('Web3 Detected!')
                 window.web3 = new Web3(web3.currentProvider);
                 // this.setState({web3})
             } else {
+
+                debugger
                 console.log('No Web3 Detected')
                 window.web3 = new Web3(new Web3.providers.WebsocketProvider('wss://infura.io/ws/v3/72e114745bbf4822b987489c119f858b'));
                 // this.setState({web3})
@@ -99,5 +130,5 @@ export const Menu = (props: PropsType) => {
 type PropsType = {
     className: string
 }
-
 declare let window: any;
+
