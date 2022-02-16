@@ -44,7 +44,6 @@ export const Menu = (props: PropsType) => {
                 <div>Amount Received</div>
                 <button>Amount</button>
                 <button onClick={connectToMetamaskHandler}>{buttonText}</button>
-                <button onClick={testChangeNetworkHandler}>Test: Change Network</button>
             </div>
         </div>
     )

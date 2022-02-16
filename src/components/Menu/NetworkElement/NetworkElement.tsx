@@ -5,10 +5,10 @@ import {useDispatch} from "react-redux";
 import {changeNetwork} from "../../../redux/bridge-reducer";
 
 const options = [
-    {value: 'Ethereum', label: 'Ethereum'},
+    {value: 'eth', label: 'Ethereum'},
     {value: 'bsc', label: 'Binance Smart Chain'},
     {value: 'polygon', label: 'Polygon'},
-    {value: 'Coinex Smart Chain', label: 'Coinex Smart Chain'}
+    {value: 'csc', label: 'Coinex Smart Chain'}
 ]
 
 const elementColor = '#313647'
