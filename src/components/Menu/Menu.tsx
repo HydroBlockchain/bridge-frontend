@@ -4,7 +4,7 @@ import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch} from "react-redux";
-import {connectToMetamask} from "../../redux/bridge-reducer";
+import {changeNetwork, connectToMetamask} from "../../redux/bridge-reducer";
 
 export const Menu = (props: PropsType) => {
 
@@ -13,8 +13,12 @@ export const Menu = (props: PropsType) => {
 
     const dispatch = useDispatch()
 
-    const onButtonClick = () => {
+    const connectToMetamaskHandler = () => {
         dispatch(connectToMetamask())
+    }
+
+    const testChangeNetworkHandler = () => {
+        dispatch(changeNetwork('bsc'))
     }
 
     return (
@@ -39,7 +43,8 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <button>Amount</button>
-                <button onClick={onButtonClick}>{buttonText}</button>
+                <button onClick={connectToMetamaskHandler}>{buttonText}</button>
+                <button onClick={testChangeNetworkHandler}>Test: Change Network</button>
             </div>
         </div>
     )

@@ -417,7 +417,7 @@ class App extends Component {
 
         return (
             <div>
-                <Navbar account={this.state.account} networkId={this.state.networkID}/>
+                <Navbar />
 
                 <div className="container-fluid mt-5">
                     <div className="row mt-5">

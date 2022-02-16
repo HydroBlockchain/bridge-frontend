@@ -1,12 +1,14 @@
 import React from "react";
 import s from "./NetworkElement.module.scss";
 import Select, {StylesConfig} from "react-select";
+import {useDispatch} from "react-redux";
+import {changeNetwork} from "../../../redux/bridge-reducer";
 
 const options = [
-    { value: 'Ethereum', label: 'Ethereum' },
-    { value: 'Binance Smart Chain', label: 'Binance Smart Chain' },
-    { value: 'Polygon', label: 'Polygon' },
-    { value: 'Coinex Smart Chain', label: 'Coinex Smart Chain' }
+    {value: 'Ethereum', label: 'Ethereum'},
+    {value: 'bsc', label: 'Binance Smart Chain'},
+    {value: 'polygon', label: 'Polygon'},
+    {value: 'Coinex Smart Chain', label: 'Coinex Smart Chain'}
 ]
 
 const elementColor = '#313647'
@@ -36,6 +38,14 @@ const selectStyles: StylesConfig = {
 }
 
 export const NetworkElement = (props: PropsType) => {
+    const dispatch = useDispatch()
+
+    // todo: fix any
+    const selectNetworkHandler = (e: any) => {
+        dispatch(changeNetwork(e.value))
+    }
+
+
     return <div className={s.networkElement}>
         <span>{props.text}</span>
         <div className={s.item}>
@@ -45,6 +55,7 @@ export const NetworkElement = (props: PropsType) => {
                 styles={selectStyles}
                 components={{IndicatorSeparator: () => null}}
                 placeholder="Select Network"
+                onChange={e => selectNetworkHandler(e)}
             />
         </div>
     </div>

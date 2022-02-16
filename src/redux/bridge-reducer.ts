@@ -3,6 +3,7 @@ import {AppRootStateType} from "./store";
 import Web3 from "web3";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
+import {chains} from "../assets/chains";
 
 let initialState = {
     account: '',
@@ -73,7 +74,7 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
             window.web3 = new Web3(web3.currentProvider);
             dispatch(setWeb3(web3))
 
-            // get account from web3 and set it to state
+            // for login
             const accounts = await getState().bridge.web3.eth.getAccounts();
             const account = accounts[0]
             dispatch(setAccount(account))
@@ -85,15 +86,6 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
         const networkID = await web3.eth.net.getId();
         dispatch(setNetworkID(networkID))
 
-        /*        if (this.state.networkID === 56) {
-            this.load_Hydro_Bsc(this.state.web3)
-            //this.getGasPrice()
-        } else if (this.state.networkID === 1) {
-            this.load_Hydro_Eth(this.state.web3)
-        } else {
-            this.setState({wrongNetwork: 'This network is not supported yet. Please switch to Ethereum or Binance Smart Chain'})
-        }*/
-
         window.ethereum.on('accountsChanged', function () {
             window.location.reload();
         })
@@ -104,7 +96,6 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
 
     } catch (error) {
         dispatch(setLoading(false))
-        // Catch any errors for any of the above operations.
         alert(
             `Please unlock you Metamask.`,
         );
@@ -112,6 +103,17 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
     }
 }
 
+export const changeNetwork = (networkName: string): AppThunk => async () => {
+    try {
+        if (!window.ethereum) console.warn("No crypto wallet found");
+        await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [chains[networkName]]
+        });
+    } catch (err) {
+        console.warn('changeNetwork error');
+    }
+}
 
 export type InitialStateType = typeof initialState
 

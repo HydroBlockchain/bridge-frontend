@@ -5,9 +5,8 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../redux/store";
 import {InitialStateType} from "../redux/bridge-reducer";
 
-export const Navbar = (props: PropsType) => {
+export const Navbar = () => {
     const {networkID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
-    console.log(account)
 
     const statusNetwork = (networkID: number) => {
         if (networkID === 1) {
@@ -52,9 +51,4 @@ export const Navbar = (props: PropsType) => {
             </ul>
         </nav>
     )
-}
-
-type PropsType = {
-    account: string
-    networkId: number
 }
