@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 //import getWeb3 from '../getWeb3';
-import Navbar from './components/Navbar';
 import Web3 from 'web3';
 import Main from './components/Main/Main';
 import HydroAbi from './assets/abis/hydro.json';
@@ -13,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Contract} from 'web3-eth-contract';
 import {AbiItem, fromWei} from 'web3-utils'
 import {Menu} from "./components/Menu/Menu";
+import {Navbar} from "./components/Navbar";
 
 class App extends Component {
 

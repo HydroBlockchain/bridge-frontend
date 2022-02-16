@@ -1,64 +1,58 @@
-import React, {Component} from "react";
+import React, {Component, useEffect} from "react";
 import Identicon from "identicon.js";
 import bridgeLogo from '../assets/images/hydrobridge.svg';
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../redux/store";
+import {InitialStateType} from "../redux/bridge-reducer";
 
-class Navbar extends Component<PropsType> {
+export const Navbar = (props: PropsType) => {
+    const {networkID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+    console.log(account)
 
-    render() {
-        let network = "";
+    const statusNetwork = (networkID: number) => {
+        if (networkID === 1) {
+            return "Ethereum Main Network";
+        } else if (networkID === 56) {
+            return "BSC Main Network";
+        } else if (networkID === 137) {
+            return "Polygon Main Network";
+        } else if (networkID === 1285) {
+            return "Moonriver Main Network";
+        } else if (networkID === 52) {
+            return "CoinEx Chain Main Network";
+        } else if (networkID === 0) return "Please click Connect Wallet and unlock you Metamask";
+    }
 
-        if (this.props.networkId === 1) {
-            network = "Ethereum Main";
-        } else if (this.props.networkId === 56) {
-            network = "BSC Main";
-        } else if (this.props.networkId === 137) {
-            network = "Polygon Main";
-        } else if (this.props.networkId === 1285) {
-            network = "Moonriver Main";
-        } else if (this.props.networkId === 52) {
-            network = "CoinEx Chain Main";
-        } else if (network !== '') network = "Wrong";
-
-        return (
-            <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
+    return (
+        <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
         <span className="ml-2">
         <img className='bridge-logo' src={bridgeLogo} alt='bridge'/>
         </span>
-                <div className="network-status">{network} Network</div>
+            <div className="network-status">{statusNetwork(networkID)}</div>
 
-                <ul className="navbar-nav px-3">
-                    <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-                        <small className="text-secondary">
-                            <small id="account">
-                                {this.props.account
-                                    .slice(0, 5)
-                                    .concat("...")
-                                    .concat(this.props.account.slice(37, 42))}
-                            </small>
+            <ul className="navbar-nav px-3">
+                <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                    <small className="text-secondary">
+                        <small id="account">
+                            {account
+                                .slice(0, 5)
+                                .concat("...")
+                                .concat(account.slice(37, 42))}
                         </small>
+                    </small>
 
-                        {this.props.account ? (
-                            <img
-                                className="identicon ml-2"
-                                width="20"
-                                height="20"
-                                src={`data:image/png;base64,${new Identicon(
-                                    this.props.account,
-                                    30
-                                ).toString()}`}
-                                alt=""
-                            />
-                        ) : (
-                            <span> </span>
-                        )}
-                    </li>
-                </ul>
-            </nav>
-        );
-    }
+                    {account ? (<img
+                        className="identicon ml-2"
+                        width="20"
+                        height="20"
+                        src={`data:image/png;base64,${new Identicon(account, 30).toString()}`}
+                        alt=""
+                    />) : (<span> </span>)}
+                </li>
+            </ul>
+        </nav>
+    )
 }
-
-export default Navbar;
 
 type PropsType = {
     account: string

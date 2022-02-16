@@ -7,7 +7,13 @@ import {Provider} from "react-redux";
 import {store} from "./redux/store";
 
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(
+    <React.StrictMode>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root'));
 
 // If you want your redux to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

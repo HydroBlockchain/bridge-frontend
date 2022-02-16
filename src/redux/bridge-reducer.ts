@@ -40,10 +40,12 @@ let initialState = {
     swapping: false,
 }
 
-export const bridgeReducer = (state = initialState, action: BridgeActionTypes): InitialStateProfileType => {
+export const bridgeReducer = (state = initialState, action: BridgeActionTypes): InitialStateType => {
     switch (action.type) {
         case 'BRIDGE/SET-WEB3':
         case 'BRIDGE/SET-NETWORK-ID':
+        case 'BRIDGE/SET-LOADING':
+        case "BRIDGE/SET-ACCOUNT":
             return {...state, ...action.payload}
     }
     return state
@@ -52,19 +54,72 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
 //Action creators:
 const setWeb3 = (web3: Web3) => ({type: 'BRIDGE/SET-WEB3', payload: {web3}} as const)
 const setNetworkID = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {networkID}} as const)
+const setLoading = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
+const setAccount = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
 
 //Thunks:
-export const connectToMetamask = (): AppThunk => async (dispatch) => {
-    await (window as any).ethereum.enable();
-    const web3 = new Web3((window as any).ethereum);
+export const connectToMetamask = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    try {
+        let ethereum = window.ethereum;
+        let web3 = window.web3;
+
+        if (typeof ethereum !== 'undefined') {
+            await ethereum.enable();
+            web3 = new Web3(ethereum);
+            dispatch(setWeb3(web3))
+        }
+        if (typeof web3 !== 'undefined') {
+            console.log('Web3 Detected!')
+            window.web3 = new Web3(web3.currentProvider);
+            dispatch(setWeb3(web3))
+
+            // get account from web3 and set it to state
+            const accounts = await getState().bridge.web3.eth.getAccounts();
+            const account = accounts[0]
+            dispatch(setAccount(account))
+        } else {
+            console.log('No Web3 Detected')
+            window.web3 = new Web3(new Web3.providers.WebsocketProvider('wss://infura.io/ws/v3/72e114745bbf4822b987489c119f858b'));
+            if (web3) dispatch(setWeb3(web3))
+        }
+        const networkID = await web3.eth.net.getId();
+        dispatch(setNetworkID(networkID))
+
+        /*        if (this.state.networkID === 56) {
+            this.load_Hydro_Bsc(this.state.web3)
+            //this.getGasPrice()
+        } else if (this.state.networkID === 1) {
+            this.load_Hydro_Eth(this.state.web3)
+        } else {
+            this.setState({wrongNetwork: 'This network is not supported yet. Please switch to Ethereum or Binance Smart Chain'})
+        }*/
+
+        window.ethereum.on('accountsChanged', function () {
+            window.location.reload();
+        })
+
+        window.ethereum.on('chainChanged', function () {
+            window.location.reload();
+        })
+
+    } catch (error) {
+        dispatch(setLoading(false))
+        // Catch any errors for any of the above operations.
+        alert(
+            `Please unlock you Metamask.`,
+        );
+        console.error(error);
+    }
 }
 
 
-export type InitialStateProfileType = typeof initialState
+export type InitialStateType = typeof initialState
 
 export type BridgeActionTypes =
     | ReturnType<typeof setWeb3>
     | ReturnType<typeof setNetworkID>
+    | ReturnType<typeof setLoading>
+    | ReturnType<typeof setAccount>
 
 type AppThunk = ThunkAction<void, AppRootStateType, unknown, BridgeActionTypes>
 
