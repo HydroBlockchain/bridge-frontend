@@ -36,17 +36,27 @@ export const Menu = (props: PropsType) => {
 
     const [stateLeft, setStateLeft] = useState("")
     const [stateRight, setStateRight] = useState("")
+    const [isDisabled, setIsDisabled] = useState(true)
 
     useEffect(() => {
         setStateLeft(statusNetwork(networkID))
+        if (networkID !== 0) {
+            setButtonText('Swap')
+            setIsDisabled(false)
+        }
+        else {
+            setButtonText('Connect Wallet')
+            setIsDisabled(true)
+        }
+
     },[networkID])
 
     return (
         <div className={props.className}>
             <div className={s.selectNetwork}>
-                <NetworkElement text={'From'} isMain={true} state={stateLeft} setState={setStateLeft}/>
+                <NetworkElement text={'From'} isMain={true} state={stateLeft} setState={setStateLeft} isDisabled={isDisabled}/>
                 <div className={s.swapper}><FontAwesomeIcon icon={faArrowRightArrowLeft}/></div>
-                <NetworkElement text={'To'} state={stateRight} setState={setStateRight}/>
+                <NetworkElement text={'To'} state={stateRight} setState={setStateRight} isDisabled={isDisabled}/>
             </div>
             <div className={s.amount}>
                 <div className={s.headerAndBalance}>

@@ -66,6 +66,7 @@ export const NetworkElement = (props: PropsType) => {
                 onChange={onChange}
                 placeholder={"Select Network"}
                 value={getValue()}
+                isDisabled={props.isDisabled}
             />
         </div>
     </div>
@@ -80,4 +81,5 @@ type PropsType = {
     isMain?: boolean
     state: string
     setState: (value: string) => void
+    isDisabled: boolean
 }
