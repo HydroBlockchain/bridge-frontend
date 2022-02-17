@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import s from "./NetworkElement.module.scss";
-import Select, {StylesConfig} from "react-select";
+import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetwork} from "../../../redux/bridge-reducer";
 
@@ -39,12 +39,23 @@ const selectStyles: StylesConfig = {
 
 export const NetworkElement = (props: PropsType) => {
     const dispatch = useDispatch()
+    const [state, setState] = useState("")
+    useEffect(() => {
+        if (state !== '') dispatch(changeNetwork(state))
+    },[state])
 
-    // todo: fix any
-    const selectNetworkHandler = (e: any) => {
-        dispatch(changeNetwork(e.value))
+    const onChange = (option: PropsValue<Option | Option[]>) => {
+        setState((option as Option).value);
     }
 
+    const getValue = () => {
+        if (options) {
+            return options.find((option) => option.value === state);
+        } else {
+            // todo: fix any
+            return '' as any
+        }
+    };
 
     return <div className={s.networkElement}>
         <span>{props.text}</span>
@@ -53,14 +64,19 @@ export const NetworkElement = (props: PropsType) => {
             <Select
                 options={options}
                 styles={selectStyles}
-                components={{IndicatorSeparator: () => null}}
-                placeholder="Select Network"
-                onChange={e => selectNetworkHandler(e)}
+                name={"select"}
+                onChange={onChange}
+                placeholder={"Select Network"}
+                value={getValue()}
             />
         </div>
     </div>
 }
 
+interface Option {
+    label: string;
+    value: string;
+}
 type PropsType = {
     text: string
 }
