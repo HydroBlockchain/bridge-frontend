@@ -106,10 +106,20 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
 export const changeNetwork = (networkName: string): AppThunk => async () => {
     try {
         if (!window.ethereum) console.warn("No crypto wallet found");
-        await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [chains[networkName]]
-        });
+        try {
+            await window.ethereum.request({
+                method: "wallet_switchEthereumChain",
+                params: [{chainId: chains[networkName].chainId}],
+            });
+        } catch (error) {
+            if ((error as ErrorType).code === 4902) {
+                await window.ethereum.request({
+                    method: "wallet_addEthereumChain",
+                    params: [chains[networkName]],
+                });
+            }
+        }
+
     } catch (err) {
         console.warn('changeNetwork error');
     }
@@ -125,4 +135,8 @@ export type BridgeActionTypes =
 
 type AppThunk = ThunkAction<void, AppRootStateType, unknown, BridgeActionTypes>
 
-declare let window: any;
+type ErrorType = {
+    code: number
+}
+
+declare let window: any; //todo: maybe fix any
