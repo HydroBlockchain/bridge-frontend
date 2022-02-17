@@ -1,28 +1,29 @@
-import React, {Component, useEffect} from "react";
+import React from "react";
 import Identicon from "identicon.js";
 import bridgeLogo from '../assets/images/hydrobridge.svg';
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../redux/store";
-import {changeNetworkThunk, InitialStateType} from "../redux/bridge-reducer";
+import {InitialStateType} from "../redux/bridge-reducer";
+
+const statusNetwork = (networkID: number) => {
+    switch (networkID) {
+        case 1:
+            return 'Ethereum Main'
+        case 56:
+            return 'BSC Main';
+        case 137:
+            return 'Polygon Main';
+        case 1285:
+            return 'Moonriver Main';
+        case 52:
+            return 'CoinEx Chain Main';
+        default:
+            return 'Please click Connect Wallet and unlock you Metamask'
+    }
+}
 
 export const Navbar = () => {
     const {networkID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
-
-
-
-    const statusNetwork = (networkID: number) => {
-        if (networkID === 1) {
-            return "Ethereum Main Network";
-        } else if (networkID === 56) {
-            return "BSC Main Network";
-        } else if (networkID === 137) {
-            return "Polygon Main Network";
-        } else if (networkID === 1285) {
-            return "Moonriver Main Network";
-        } else if (networkID === 52) {
-            return "CoinEx Chain Main Network";
-        } else if (networkID === 0) return "Please click Connect Wallet and unlock you Metamask";
-    }
 
     return (
         <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">

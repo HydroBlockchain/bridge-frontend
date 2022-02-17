@@ -1,15 +1,32 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import s from './Menu.module.scss'
 import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import {useDispatch} from "react-redux";
-import {changeNetworkThunk, connectToMetamaskThunk} from "../../redux/bridge-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {changeNetworkThunk, connectToMetamaskThunk, InitialStateType} from "../../redux/bridge-reducer";
+import {AppRootStateType} from "../../redux/store";
+
+const statusNetwork = (networkID: number) => {
+    switch (networkID) {
+        case 1:
+            return 'eth'
+        case 56:
+            return 'bsc';
+        case 137:
+            return 'polygon';
+        case 52:
+            return 'csc';
+        default:
+            return ''
+    }
+}
 
 export const Menu = (props: PropsType) => {
 
     const [inputValue, setInputValue] = useState<string>('')
     const [buttonText, setButtonText] = useState<'Connect Wallet' | 'Swap'>('Connect Wallet')
+    const {networkID} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
 
     const dispatch = useDispatch()
 
@@ -17,12 +34,19 @@ export const Menu = (props: PropsType) => {
         dispatch(connectToMetamaskThunk())
     }
 
+    const [stateLeft, setStateLeft] = useState("")
+    const [stateRight, setStateRight] = useState("")
+
+    useEffect(() => {
+        setStateLeft(statusNetwork(networkID))
+    },[networkID])
+
     return (
         <div className={props.className}>
             <div className={s.selectNetwork}>
-                <NetworkElement text={'From'}/>
+                <NetworkElement text={'From'} isMain={true} state={stateLeft} setState={setStateLeft}/>
                 <div className={s.swapper}><FontAwesomeIcon icon={faArrowRightArrowLeft}/></div>
-                <NetworkElement text={'To'}/>
+                <NetworkElement text={'To'} state={stateRight} setState={setStateRight}/>
             </div>
             <div className={s.amount}>
                 <div className={s.headerAndBalance}>

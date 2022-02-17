@@ -39,21 +39,19 @@ const selectStyles: StylesConfig = {
 
 export const NetworkElement = (props: PropsType) => {
     const dispatch = useDispatch()
-    const [state, setState] = useState("")
     useEffect(() => {
-        if (state !== '') dispatch(changeNetworkThunk(state))
-    },[state])
+        if (props.isMain && props.state !== '') dispatch(changeNetworkThunk(props.state))
+    },[props.state])
 
     const onChange = (option: PropsValue<Option | Option[]>) => {
-        setState((option as Option).value);
+        props.setState((option as Option).value);
     }
 
     const getValue = () => {
         if (options) {
-            return options.find((option) => option.value === state);
+            return options.find((option) => option.value === props.state);
         } else {
-            // todo: fix any
-            return '' as any
+            return '' as any // todo: fix any
         }
     };
 
@@ -73,10 +71,13 @@ export const NetworkElement = (props: PropsType) => {
     </div>
 }
 
-interface Option {
+type Option = {
     label: string;
     value: string;
 }
 type PropsType = {
     text: string
+    isMain?: boolean
+    state: string
+    setState: (value: string) => void
 }

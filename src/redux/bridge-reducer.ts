@@ -58,7 +58,6 @@ const setNetworkIDAC = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', p
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
 
-
 // Helpers:
 // set userAccount
 const setAccountHelper =  async () => {
@@ -76,7 +75,6 @@ const changeNetworkHelper = async (networkName: string) => {
             method: "wallet_switchEthereumChain",
             params: [{chainId: chains[networkName].chainId}],
         });
-        // console.log('changeNetwork success')
         return true
     } catch (error) {
         try {
@@ -95,6 +93,9 @@ const changeNetworkHelper = async (networkName: string) => {
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+
+    //todo: add here progress bar of app
+
     try {
         let ethereum = window.ethereum;
         let web3 = window.web3;
@@ -119,7 +120,6 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
         }
 
         // set networkID
-        // const networkID = await web3.eth.net.getId();
         const networkID = await setNetworkIDHelper()
         dispatch(setNetworkIDAC(networkID))
 
@@ -129,20 +129,13 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
 
         //turn on monitoring if chain in metamask changed
         window.ethereum.on('chainChanged', async function () {
-            // window.location.reload();
-
-            // dispatch(setNetworkID(networkID))
-
             const account = await setAccountHelper()
             dispatch(setAccountAC(account))
 
             const networkID = await setNetworkIDHelper()
             dispatch(setNetworkIDAC(networkID))
 
-
             console.log('CHAIN CHANGED!')
-
-
         })
     } catch (error) {
         dispatch(setLoadingAC(false))
@@ -157,11 +150,7 @@ export const changeNetworkThunk = (networkName: string): AppThunk => async (disp
     if (await changeNetworkHelper(networkName)) {
         console.log('changeNetwork success')
 
-        // const account = await setAccountHelper()
-        // dispatch(setAccountAC(account))
-        //
-        // const networkID = await setNetworkIDHelper()
-        // dispatch(setNetworkIDAC(networkID))
+        //todo: here will be later status of app with progress bar
 
     } else {
         console.log('changeNetwork success')
@@ -183,4 +172,4 @@ type ErrorType = {
     code: number
 }
 
-declare let window: any; //todo: maybe fix any
+declare let window: any; // todo: maybe fix any
