@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-//import getWeb3 from '../getWeb3';
 import Web3 from 'web3';
 import Main from './components/Main/Main';
 import HydroAbi from './assets/abis/hydro.json';

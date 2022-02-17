@@ -4,7 +4,7 @@ import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {changeNetworkThunk, connectToMetamaskThunk, InitialStateType} from "../../redux/bridge-reducer";
+import {connectToMetamaskThunk, InitialStateType} from "../../redux/bridge-reducer";
 import {AppRootStateType} from "../../redux/store";
 
 const statusNetwork = (networkID: number) => {
@@ -72,7 +72,7 @@ export const Menu = (props: PropsType) => {
             </div>
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
-                <button>Amount</button>
+                <button disabled={isDisabled}>Amount</button>
                 <button onClick={connectToMetamaskHandler}>{buttonText}</button>
             </div>
         </div>

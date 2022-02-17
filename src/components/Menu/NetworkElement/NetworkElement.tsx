@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
@@ -18,6 +18,8 @@ const selectStyles: StylesConfig = {
     control: base => ({
         ...base,
         backgroundColor: elementColor,
+        border: 0,
+        boxShadow: 'none'
     }),
     singleValue: base => ({
         ...base,
@@ -67,6 +69,9 @@ export const NetworkElement = (props: PropsType) => {
                 placeholder={"Select Network"}
                 value={getValue()}
                 isDisabled={props.isDisabled}
+                components={{
+                    IndicatorSeparator: () => null
+                }}
             />
         </div>
     </div>
