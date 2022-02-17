@@ -3,10 +3,12 @@ import Identicon from "identicon.js";
 import bridgeLogo from '../assets/images/hydrobridge.svg';
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../redux/store";
-import {InitialStateType} from "../redux/bridge-reducer";
+import {changeNetworkThunk, InitialStateType} from "../redux/bridge-reducer";
 
 export const Navbar = () => {
     const {networkID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+
+
 
     const statusNetwork = (networkID: number) => {
         if (networkID === 1) {

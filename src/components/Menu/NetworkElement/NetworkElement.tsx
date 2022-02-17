@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
-import {changeNetwork} from "../../../redux/bridge-reducer";
+import {changeNetworkThunk} from "../../../redux/bridge-reducer";
 
 const options = [
     {value: 'eth', label: 'Ethereum'},
@@ -41,7 +41,7 @@ export const NetworkElement = (props: PropsType) => {
     const dispatch = useDispatch()
     const [state, setState] = useState("")
     useEffect(() => {
-        if (state !== '') dispatch(changeNetwork(state))
+        if (state !== '') dispatch(changeNetworkThunk(state))
     },[state])
 
     const onChange = (option: PropsValue<Option | Option[]>) => {

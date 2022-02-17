@@ -4,7 +4,7 @@ import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch} from "react-redux";
-import {changeNetwork, connectToMetamask} from "../../redux/bridge-reducer";
+import {changeNetworkThunk, connectToMetamaskThunk} from "../../redux/bridge-reducer";
 
 export const Menu = (props: PropsType) => {
 
@@ -14,7 +14,7 @@ export const Menu = (props: PropsType) => {
     const dispatch = useDispatch()
 
     const connectToMetamaskHandler = () => {
-        dispatch(connectToMetamask())
+        dispatch(connectToMetamaskThunk())
     }
 
     return (
