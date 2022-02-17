@@ -58,6 +58,9 @@ const setNetworkID = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', pay
 const setLoading = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccount = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
 
+
+
+
 //Thunks:
 export const connectToMetamask = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
     try {
@@ -74,26 +77,28 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
             window.web3 = new Web3(web3.currentProvider);
             dispatch(setWeb3(web3))
 
-            // for login
+            // set account
             const accounts = await getState().bridge.web3.eth.getAccounts();
             const account = accounts[0]
             dispatch(setAccount(account))
+
         } else {
             console.log('No Web3 Detected')
             window.web3 = new Web3(new Web3.providers.WebsocketProvider('wss://infura.io/ws/v3/72e114745bbf4822b987489c119f858b'));
             if (web3) dispatch(setWeb3(web3))
         }
+
+        // set networkID
         const networkID = await web3.eth.net.getId();
         dispatch(setNetworkID(networkID))
 
-        window.ethereum.on('accountsChanged', function () {
-            window.location.reload();
-        })
+        // window.ethereum.on('accountsChanged', function () {
+        //     window.location.reload();
+        // })
 
-        window.ethereum.on('chainChanged', function () {
+        /*window.ethereum.on('chainChanged', function () {
             window.location.reload();
-        })
-
+        })*/
     } catch (error) {
         dispatch(setLoading(false))
         alert(
@@ -103,26 +108,73 @@ export const connectToMetamask = (): AppThunk => async (dispatch, getState: () =
     }
 }
 
-export const changeNetwork = (networkName: string): AppThunk => async () => {
+const changeNetworkHelper = async (networkName: string) => {
     try {
-        if (!window.ethereum) console.warn("No crypto wallet found");
+        await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{chainId: chains[networkName].chainId}],
+        });
+        // console.log('changeNetwork success')
+        return true
+    } catch (error) {
         try {
-            await window.ethereum.request({
-                method: "wallet_switchEthereumChain",
-                params: [{chainId: chains[networkName].chainId}],
-            });
-        } catch (error) {
             if ((error as ErrorType).code === 4902) {
                 await window.ethereum.request({
                     method: "wallet_addEthereumChain",
                     params: [chains[networkName]],
                 });
+                return true
             }
+        } catch (error) {
+            return false
+        }
+    }
+}
+
+export const changeNetwork = (networkName: string): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    /*try {
+        if (!window.ethereum) console.warn("No crypto wallet found");
+        await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{chainId: chains[networkName].chainId}],
+        });
+        console.log('changeNetwork success')
+        // change flag
+    } catch (error) {
+        if ((error as ErrorType).code === 4902) {
+            await window.ethereum.request({
+                method: "wallet_addEthereumChain",
+                params: [chains[networkName]],
+            });
+            // console.warn('changeNetwork error');
+            //change flag
         }
 
-    } catch (err) {
-        console.warn('changeNetwork error');
+        /!*await connectToMetamaskAPI(networkName)
+            .then(() => {
+                console.log('changeNetwork success')
+            })
+            .catch(() =>{
+                console.warn('changeNetwork error');
+            })*!/
+    }*/
+    if (await changeNetworkHelper(networkName)) {
+        console.log('changeNetwork success')
+
+        // set account
+        const accounts = await getState().bridge.web3.eth.getAccounts();
+        const account = accounts[0]
+        dispatch(setAccount(account))
+
+        // set networkID
+        let web3 = window.web3;
+        const networkID = await web3.eth.net.getId();
+        dispatch(setNetworkID(networkID))
+
+    } else {
+        console.log('changeNetwork success')
     }
+
 }
 
 export type InitialStateType = typeof initialState

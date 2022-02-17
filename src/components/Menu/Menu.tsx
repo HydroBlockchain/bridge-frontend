@@ -17,10 +17,6 @@ export const Menu = (props: PropsType) => {
         dispatch(connectToMetamask())
     }
 
-    const testChangeNetworkHandler = () => {
-        dispatch(changeNetwork('bsc'))
-    }
-
     return (
         <div className={props.className}>
             <div className={s.selectNetwork}>
