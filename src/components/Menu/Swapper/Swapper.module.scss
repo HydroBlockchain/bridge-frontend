@@ -1,0 +1,17 @@
+@import '../../../common/styles/sass/variables';
+
+.swapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 39px;
+    height: 39px;
+    background: $elementColor;
+    border-radius: 50%;
+}
+
+.swapperDisabled {
+    color: $textColorDisabled;
+    cursor: auto;
+}

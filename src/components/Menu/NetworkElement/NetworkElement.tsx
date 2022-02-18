@@ -42,6 +42,7 @@ const selectStyles: StylesConfig = {
 export const NetworkElement = (props: PropsType) => {
     const dispatch = useDispatch()
     useEffect(() => {
+        //change network in Metamask
         if (props.isMain && props.state !== '') dispatch(changeNetworkThunk(props.state))
     },[props.state])
 

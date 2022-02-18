@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import s from './Menu.module.scss'
 import {NetworkElement} from "./NetworkElement/NetworkElement";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {connectToMetamaskThunk, InitialStateType} from "../../redux/bridge-reducer";
 import {AppRootStateType} from "../../redux/store";
+import {Swapper} from "./Swapper/Swapper";
 
 const statusNetwork = (networkID: number) => {
     switch (networkID) {
@@ -36,27 +35,37 @@ export const Menu = (props: PropsType) => {
 
     const [stateLeft, setStateLeft] = useState("")
     const [stateRight, setStateRight] = useState("")
-    const [isDisabled, setIsDisabled] = useState(true)
+    const [isSelAndAmountBtnDisabled, setIsSelAndAmountBtnDisabled] = useState(true)
+    const [isSwapperDisabled, setIsSwapperDisabled] = useState(true)
 
     useEffect(() => {
         setStateLeft(statusNetwork(networkID))
         if (networkID !== 0) {
             setButtonText('Swap')
-            setIsDisabled(false)
-        }
-        else {
+            setIsSelAndAmountBtnDisabled(false)
+        } else {
             setButtonText('Connect Wallet')
-            setIsDisabled(true)
+            setIsSelAndAmountBtnDisabled(true)
         }
+        stateRight === '' || stateLeft === stateRight
+            ? setIsSwapperDisabled(true)
+            : setIsSwapperDisabled(false)
+    }, [networkID, stateLeft, stateRight])
 
-    },[networkID])
+    const onClickSwapper = () => {
+        const tempStateValue = stateLeft
+        setStateLeft(stateRight)
+        setStateRight(tempStateValue)
+    }
 
     return (
         <div className={props.className}>
             <div className={s.selectNetwork}>
-                <NetworkElement text={'From'} isMain={true} state={stateLeft} setState={setStateLeft} isDisabled={isDisabled}/>
-                <div className={s.swapper}><FontAwesomeIcon icon={faArrowRightArrowLeft}/></div>
-                <NetworkElement text={'To'} state={stateRight} setState={setStateRight} isDisabled={isDisabled}/>
+                <NetworkElement text={'From'} isMain={true} state={stateLeft} setState={setStateLeft}
+                                isDisabled={isSelAndAmountBtnDisabled}/>
+                <Swapper isDisable={isSwapperDisabled} onClick={onClickSwapper}/>
+                <NetworkElement text={'To'} state={stateRight} setState={setStateRight}
+                                isDisabled={isSelAndAmountBtnDisabled}/>
             </div>
             <div className={s.amount}>
                 <div className={s.headerAndBalance}>
@@ -72,7 +81,7 @@ export const Menu = (props: PropsType) => {
             </div>
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
-                <button disabled={isDisabled}>Amount</button>
+                <button disabled={isSelAndAmountBtnDisabled}>Amount</button>
                 <button className={networkID === 0
                     ? s.accent
                     : ''} onClick={connectToMetamaskHandler}>{buttonText}</button>
@@ -80,7 +89,6 @@ export const Menu = (props: PropsType) => {
         </div>
     )
 }
-
 
 
 type PropsType = {

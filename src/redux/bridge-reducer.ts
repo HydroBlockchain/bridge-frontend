@@ -150,7 +150,7 @@ export const changeNetworkThunk = (networkName: string): AppThunk => async (disp
     if (await changeNetworkHelper(networkName)) {
         console.log('changeNetwork success')
 
-        //todo: here will be later status of app with progress bar
+        //todo: here will be status of app with progress bar
 
     } else {
         console.log('changeNetwork success')
