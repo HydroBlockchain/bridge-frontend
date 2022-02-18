@@ -1,9 +1,10 @@
 import React from "react";
 import Identicon from "identicon.js";
-import bridgeLogo from '../assets/images/hydrobridge.svg';
+import bridgeLogo from '../../assets/images/hydrobridge.svg';
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../redux/store";
-import {InitialStateType} from "../redux/bridge-reducer";
+import {AppRootStateType} from "../../redux/store";
+import {InitialStateType} from "../../redux/bridge-reducer";
+import s from './Navbar.module.scss'
 
 const statusNetwork = (networkID: number) => {
     switch (networkID) {
@@ -18,7 +19,7 @@ const statusNetwork = (networkID: number) => {
         case 52:
             return 'CoinEx Chain Main';
         default:
-            return 'Please click Connect Wallet and unlock you Metamask'
+            return 'Please click Connect Wallet and unlock you Metamask.'
     }
 }
 
@@ -30,7 +31,9 @@ export const Navbar = () => {
         <span className="ml-2">
         <img className='bridge-logo' src={bridgeLogo} alt='bridge'/>
         </span>
-            <div className="network-status">{statusNetwork(networkID)}</div>
+            <div className={networkID === 0
+                ? `${s.networkStatus} ${s.accent}`
+                : s.networkStatus}>{statusNetwork(networkID)}</div>
 
             <ul className="navbar-nav px-3">
                 <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">

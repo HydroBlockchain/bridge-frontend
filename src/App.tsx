@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Contract} from 'web3-eth-contract';
 import {AbiItem, fromWei} from 'web3-utils'
 import {Menu} from "./components/Menu/Menu";
-import {Navbar} from "./components/Navbar";
+import {Navbar} from "./components/Navbar/Navbar";
 
 class App extends Component {
 

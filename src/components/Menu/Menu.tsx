@@ -73,7 +73,9 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <button disabled={isDisabled}>Amount</button>
-                <button onClick={connectToMetamaskHandler}>{buttonText}</button>
+                <button className={networkID === 0
+                    ? s.accent
+                    : ''} onClick={connectToMetamaskHandler}>{buttonText}</button>
             </div>
         </div>
     )

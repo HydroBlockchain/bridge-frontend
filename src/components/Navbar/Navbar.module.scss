@@ -1,0 +1,20 @@
+@import '../../common/styles/sass/variables';
+
+.networkStatus {
+    font-size: 14px;
+    font-weight: 900;
+    color: #74798a88;
+}
+
+.accent {
+    color: $accentColor;
+}
+
+@media (max-width: 500px) {
+    .networkStatus {
+        padding-top: 10px;
+        font-size: 12px;
+        font-weight: 900;
+        color: #565c7088;
+    }
+}
