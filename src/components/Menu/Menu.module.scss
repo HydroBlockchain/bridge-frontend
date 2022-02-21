@@ -1,85 +1,87 @@
 @import '../../common/styles/sass/variables';
+
 $textColor: #B2B2B2;
+$btnColor: #203147;
 
-.selectNetwork {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+.menu {
 
-.amount {
-    margin-top: 25px;
+    input, .amountReceived {
+        width: 100%;
+        background: $elementColor;
+        border: none;
+        height: 55px;
+        border-radius: 15px;
+        padding-left: 35px;
+        color: $textColor;
+    }
 
-    .headerAndBalance {
+    .amountReceived {
+        display: flex;
+        align-items: center;
+    }
+
+    .selectNetwork {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .buttonIn {
-        width: 100%;
-        position: relative;
+    .amount {
+        margin-top: 25px;
 
-        input {
-            width: 100%;
-            background: $elementColor;
-            border: none;
-            height: 55px;
-            border-radius: 15px;
-            padding-left: 35px;
-            color: $textColor;
+        .headerAndBalance {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        button {
-            position: absolute;
-            border-radius: 10px;
-            width: 75px;
-            height: 33px;
-            right: 11px;
-            top: 20%;
-            background: #565A66;
-            color: $textColor;
-            cursor: pointer;
+        .buttonIn {
+            width: 100%;
+            position: relative;
+
+            button {
+                position: absolute;
+                border-radius: 10px;
+                width: 75px;
+                height: 33px;
+                right: 11px;
+                top: 20%;
+                background: #565A66;
+                color: $textColor;
+                cursor: pointer;
+            }
         }
     }
-}
 
-.buttonsBlock {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
+    .buttonsBlock {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
 
-    button {
-        color: #A5A5A5;
-        border-radius: 15px;
-        height: 55px;
-        cursor: pointer;
-
-        &:nth-of-type(1) {
-            background: $elementColor;
+        button {
+            color: #A5A5A5;
+            border-radius: 15px;
+            height: 55px;
+            cursor: pointer;
+            background: $btnColor;
+            margin-top: 10px;
 
             &:disabled {
                 color: $textColorDisabled;
                 cursor: auto;
+
                 &:hover {
-                    background: $elementColor;
+                    background: $btnColor;
                 }
             }
         }
 
-        &:nth-of-type(2) {
-            margin-top: 11px;
-            background: #2B2E39;
+        .accent {
+            border: 1px solid $accentColor;
         }
 
-        &:hover {
-            background: #203147;
-        }
     }
-
-    .accent {
-        border: 1px solid $accentColor;
-    }
-
 }
+
+
 

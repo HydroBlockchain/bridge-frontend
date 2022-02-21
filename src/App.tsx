@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Web3 from 'web3';
 import Main from './components/Main/Main';
 import HydroAbi from './assets/abis/hydro.json';
 import EthToBscAbi from './assets/abis/ethToBsc.json';
@@ -12,6 +11,7 @@ import {Contract} from 'web3-eth-contract';
 import {AbiItem, fromWei} from 'web3-utils'
 import {Menu} from "./components/Menu/Menu";
 import {Navbar} from "./components/Navbar/Navbar";
+import Web3 from "web3";
 
 class App extends Component {
 
@@ -420,7 +420,7 @@ class App extends Component {
 
                 <div className="container-fluid mt-5">
                     <div className="row mt-5">
-                        <main role="main" className="col-lg-12 ml-auto mr-auto ">
+                        <main role="main" className="col-lg-12 ml-auto mr-auto">
                             <div className="content mr-auto ml-auto">
                                 {content}
 

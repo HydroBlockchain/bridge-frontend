@@ -5,6 +5,8 @@ import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
 
 const options = [
+    {value: 'MumbaiTest', label: 'Mumbai Testnet'}, // for testing
+    {value: 'RinkebyTest', label: 'Rinkeby Test Network'}, // for testing
     {value: 'eth', label: 'Ethereum'},
     {value: 'bsc', label: 'Binance Smart Chain'},
     {value: 'polygon', label: 'Polygon'},

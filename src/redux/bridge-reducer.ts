@@ -4,6 +4,7 @@ import Web3 from "web3";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {chains} from "../assets/chains";
+import {localAPI} from "../api/localAPI";
 
 let initialState = {
     account: '',
@@ -57,43 +58,10 @@ const setWeb3AC = (web3: Web3) => ({type: 'BRIDGE/SET-WEB3', payload: {web3}} as
 const setNetworkIDAC = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {networkID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
-
-// Helpers:
-// set userAccount
-const setAccountHelper =  async () => {
-    const accounts = await window.web3.eth.getAccounts();
-    return accounts[0]
-}
-// set selected network id
-const setNetworkIDHelper = async () => {
-    const web3 = window.web3;
-    return await web3.eth.net.getId();
-}
-const changeNetworkHelper = async (networkName: string) => {
-    try {
-        await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{chainId: chains[networkName].chainId}],
-        });
-        return true
-    } catch (error) {
-        try {
-            if ((error as ErrorType).code === 4902) {
-                await window.ethereum.request({
-                    method: "wallet_addEthereumChain",
-                    params: [chains[networkName]],
-                });
-                return true
-            }
-        } catch (error) {
-            return false
-        }
-    }
-}
+const setHydroAC = (account: string) => ({type: 'BRIDGE/SET-HYDRO', payload: {account}} as const)
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-
     //todo: add here progress bar of app
 
     try {
@@ -110,8 +78,9 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
             window.web3 = new Web3(web3.currentProvider);
             dispatch(setWeb3AC(web3))
 
-            const account = await setAccountHelper()
+            const account = await localAPI.getAccount()
             dispatch(setAccountAC(account))
+            debugger
 
         } else {
             console.log('No Web3 Detected')
@@ -120,7 +89,7 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
         }
 
         // set networkID
-        const networkID = await setNetworkIDHelper()
+        const networkID = await localAPI.setNetworkID()
         dispatch(setNetworkIDAC(networkID))
 
         // window.ethereum.on('accountsChanged', function () {
@@ -129,10 +98,12 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
 
         //turn on monitoring if chain in metamask changed
         window.ethereum.on('chainChanged', async function () {
-            const account = await setAccountHelper()
+            // const account = await getAccountHelper()
+            const account = await localAPI.getAccount()
             dispatch(setAccountAC(account))
 
-            const networkID = await setNetworkIDHelper()
+            // const networkID = await setNetworkIDHelper()
+            const networkID = await localAPI.setNetworkID()
             dispatch(setNetworkIDAC(networkID))
 
             console.log('CHAIN CHANGED!')
@@ -147,7 +118,7 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
 }
 
 export const changeNetworkThunk = (networkName: string): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    if (await changeNetworkHelper(networkName)) {
+    if (await localAPI.changeNetwork(networkName)) {
         console.log('changeNetwork success')
 
         //todo: here will be status of app with progress bar
@@ -155,7 +126,20 @@ export const changeNetworkThunk = (networkName: string): AppThunk => async (disp
     } else {
         console.log('changeNetwork success')
     }
+}
 
+export const getHydroBalanceThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    const bridgeState = getState().bridge
+    const res = await bridgeState.hydroInstance.methods.balanceOf(bridgeState.account).call()
+    const hydroBalance = bridgeState.web3.utils.fromWei(res.toString(), 'ether');
+    dispatch(setHydroAC(hydroBalance))
+}
+
+export const approveFundsThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    const bridgeState = getState().bridge
+    await bridgeState.hydroInstance.methods.approve(bridgeState.swapAddress, bridgeState.web3.utils.toWei('1000000000')).send({
+        from: bridgeState.account,
+    })
 }
 
 export type InitialStateType = typeof initialState
@@ -165,11 +149,8 @@ export type BridgeActionTypes =
     | ReturnType<typeof setNetworkIDAC>
     | ReturnType<typeof setLoadingAC>
     | ReturnType<typeof setAccountAC>
+    | ReturnType<typeof setHydroAC>
 
 type AppThunk = ThunkAction<void, AppRootStateType, unknown, BridgeActionTypes>
-
-type ErrorType = {
-    code: number
-}
 
 declare let window: any; // todo: maybe fix any

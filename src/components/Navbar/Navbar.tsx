@@ -8,6 +8,9 @@ import s from './Navbar.module.scss'
 
 const statusNetwork = (networkID: number) => {
     switch (networkID) {
+        case 0: {
+            return 'Please click Connect Wallet and unlock you Metamask.'
+        }
         case 1:
             return 'Ethereum Main'
         case 56:
@@ -18,8 +21,12 @@ const statusNetwork = (networkID: number) => {
             return 'Moonriver Main';
         case 52:
             return 'CoinEx Chain Main';
+        case 80001: // for testing
+            return 'Mumbai Testnet';
+        case 4: // for testing
+            return 'Rinkeby Test Network'
         default:
-            return 'Please click Connect Wallet and unlock you Metamask.'
+            return 'This network is not supported yet.'
     }
 }
 

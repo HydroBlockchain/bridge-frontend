@@ -65,4 +65,32 @@ export const chains: any = {
         ],
         blockExplorerUrls: ["https://www.coinex.net"]
     },
+    MumbaiTest: {  // for testing
+        chainId: `0x${Number(80001).toString(16)}`,
+        chainName: "Mumbai Testnet",
+        nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18
+        },
+        rpcUrls: [""],
+        blockExplorerUrls: [""]
+    },
+    RinkebyTest : { // for testing
+        chainId: `0x${Number(4).toString(16)}`,
+        chainName: "Rinkeby Test Network",
+        nativeCurrency: {
+            name: "Ether",
+            symbol: "ETH",
+            decimals: 18
+        },
+        rpcUrls: [""],
+        blockExplorerUrls: [""]
+    },
 };
+
+type chainsType = {
+
+}
+
+// note: adding chains doesn't work for test nets
