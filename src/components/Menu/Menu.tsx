@@ -2,7 +2,12 @@ import React, {useEffect, useState} from "react";
 import s from './Menu.module.scss'
 import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {useDispatch, useSelector} from "react-redux";
-import {approveFundsThunk, connectToMetamaskThunk, InitialStateType} from "../../redux/bridge-reducer";
+import {
+    approveFundsThunk,
+    connectToMetamaskThunk,
+    getHydroBalanceThunk,
+    InitialStateType
+} from "../../redux/bridge-reducer";
 import {AppRootStateType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {localAPI} from "../../api/localAPI";
@@ -52,14 +57,15 @@ export const Menu = (props: PropsType) => {
             ? setIsSwapperDisabled(true)
             : setIsSwapperDisabled(false);
 
-        (networkID === 0 || networkID === 1 || networkID === 56 || networkID === 137 || networkID === 57)
+        (networkID === 0 || networkID === 1 || networkID === 56 || networkID === 137 || networkID === 57
+            || networkID === 80001 /*test net*/ || networkID === 4 /*test net*/)
             ? setIsSupportNetwork(true) : setIsSupportNetwork(false)
 
     }, [networkID, stateLeft, stateRight])
 
     useEffect(() => {
-        if (networkID !== 0) {
-            // localAPI.getHydroBalance()
+        if (isSupportedNetwork) {
+            dispatch(getHydroBalanceThunk())
         }
     }, [networkID])
 

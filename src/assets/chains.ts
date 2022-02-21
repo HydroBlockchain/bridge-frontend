@@ -38,19 +38,6 @@ export const chains: any = {
     },
     eth: {
         chainId: `0x${Number(1).toString(16)}`,
-        chainName: "Ethereum Mainnet",
-        nativeCurrency: {
-            name: "Ether",
-            symbol: "ETH",
-            decimals: 18
-        },
-        rpcUrls: [
-            "https://mainnet.infura.io/v3/9fcc59df830f45e3ab04ef14539d5fa5",
-            "wss://mainnet.infura.io/ws/v3/9fcc59df830f45e3ab04ef14539d5fa5",
-            "https://api.mycryptoapi.com/eth",
-            "https://cloudflare-eth.com"
-        ],
-        blockExplorerUrls: ["https://etherscan.io"]
     },
     csc: {
         chainId: `0x${Number(52).toString(16)}`,
