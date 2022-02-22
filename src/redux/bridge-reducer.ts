@@ -3,10 +3,11 @@ import {AppRootStateType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {localAPI} from "../api/localAPI";
+import {networkIDs} from "../common/variables";
 
 let initialState = {
     account: '',
-    hydroBalance: '0',
+    hydroBalance: '',
     bepBalance: '0',
     allowedHydro: '0',
     allowedBep: '0',
@@ -25,7 +26,7 @@ let initialState = {
     allowed: '0' as ReturnType<typeof fromWei>,
     eth_allowed: 0,
     blockNumber: 0,
-    networkID: 0,
+    networkID: networkIDs.notSelected,
     text: '',
     wrongNetwork: '',
     API_LINK: '',
@@ -44,6 +45,7 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
         case 'BRIDGE/SET-NETWORK-ID':
         case 'BRIDGE/SET-LOADING':
         case "BRIDGE/SET-ACCOUNT":
+        case "BRIDGE/SET-HYDRO-BALANCE":
             return {...state, ...action.payload}
     }
     return state
@@ -53,7 +55,7 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
 const setNetworkIDAC = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {networkID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
-const setHydroBalanceAC = (account: string) => ({type: 'BRIDGE/SET-HYDRO', payload: {account}} as const)
+const setHydroBalanceAC = (hydroBalance: string) => ({type: 'BRIDGE/SET-HYDRO-BALANCE', payload: {hydroBalance}} as const)
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
@@ -80,8 +82,8 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState:
 
 }
 
-export const changeNetworkThunk = (networkName: string): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    if (await localAPI.changeNetwork(networkName)) {
+export const changeNetworkThunk = (networkID: number): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    if (await localAPI.changeNetwork(networkID)) {
         //todo: here will be status of app with progress bar
     } else {
         console.error('changeNetwork error')
@@ -89,7 +91,8 @@ export const changeNetworkThunk = (networkName: string): AppThunk => async (disp
 }
 
 export const getHydroBalanceThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    await localAPI.getHydroBalance()
+    const hydroBalance = await localAPI.getHydroBalance(getState().bridge.networkID)
+    dispatch(setHydroBalanceAC(hydroBalance))
 }
 
 export const approveFundsThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {

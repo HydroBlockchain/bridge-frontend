@@ -10,26 +10,7 @@ import {
 } from "../../redux/bridge-reducer";
 import {AppRootStateType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
-import {localAPI} from "../../api/localAPI";
-
-const statusNetwork = (networkID: number) => {
-    switch (networkID) {
-        case 1:
-            return 'eth'
-        case 56:
-            return 'bsc'
-        case 137:
-            return 'polygon'
-        case 52:
-            return 'csc'
-        case 80001: // for testing
-            return 'MumbaiTest';
-        case 4: // for testing
-            return 'RinkebyTest'
-        default:
-            return ''
-    }
-}
+import {networkIDs} from "../../common/variables";
 
 export const Menu = (props: PropsType) => {
     const dispatch = useDispatch()
@@ -38,14 +19,14 @@ export const Menu = (props: PropsType) => {
     const [buttonText, setButtonText] = useState<'Connect Wallet' | 'Swap'>('Connect Wallet')
     const {networkID, hydroBalance} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
     const [isSupportedNetwork, setIsSupportNetwork] = useState(false)
-    const [stateLeft, setStateLeft] = useState("")
-    const [stateRight, setStateRight] = useState("")
+    const [stateLeft, setStateLeft] = useState(0)
+    const [stateRight, setStateRight] = useState(0)
     const [isSelAndAmountBtnDisabled, setIsSelAndAmountBtnDisabled] = useState(true)
     const [isSwapperDisabled, setIsSwapperDisabled] = useState(true)
 
     useEffect(() => {
-        setStateLeft(statusNetwork(networkID))
-        if (networkID !== 0) {
+        setStateLeft(networkID)
+        if (networkID !== networkIDs.notSelected) {
             setButtonText('Swap')
             setIsSelAndAmountBtnDisabled(false)
 
@@ -53,12 +34,13 @@ export const Menu = (props: PropsType) => {
             setButtonText('Connect Wallet')
             setIsSelAndAmountBtnDisabled(true)
         }
-        stateRight === '' || stateLeft === stateRight
+        stateRight === networkIDs.notSelected || stateLeft === stateRight
             ? setIsSwapperDisabled(true)
             : setIsSwapperDisabled(false);
 
-        (networkID === 0 || networkID === 1 || networkID === 56 || networkID === 137 || networkID === 57
-            || networkID === 80001 /*test net*/ || networkID === 4 /*test net*/)
+        (networkID === networkIDs.notSelected || networkID === networkIDs.eth || networkID === networkIDs.bsc
+            || networkID === networkIDs.mumbaiTest || networkID === networkIDs.rinkebyTest
+            || networkID === networkIDs.coinExTest)
             ? setIsSupportNetwork(true) : setIsSupportNetwork(false)
 
     }, [networkID, stateLeft, stateRight])
@@ -95,7 +77,7 @@ export const Menu = (props: PropsType) => {
             <div className={s.amount}>
                 <div className={s.headerAndBalance}>
                     <div>Amount</div>
-                    <div>Balance: {hydroBalance}</div>
+                    <div>HYDRO Balance: {hydroBalance === '' ? '?' : hydroBalance}</div>
                 </div>
                 <div className={s.buttonIn}>
                     <input type="text" placeholder={'Enter amount'} value={inputValue}
@@ -107,10 +89,10 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>{inputValue !== '' ? inputValue : 0}</div>
-                <button className={networkID === 0
+                <button className={networkID === networkIDs.notSelected
                     ? s.accent
                     : ''}
-                        onClick={networkID === 0 ? connectToMetamaskHandler : swapHandler}
+                        onClick={networkID === networkIDs.notSelected ? connectToMetamaskHandler : swapHandler}
                         disabled={!isSupportedNetwork}
                 >{buttonText}</button>
             </div>

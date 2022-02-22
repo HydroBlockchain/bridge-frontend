@@ -5,26 +5,23 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
 import {InitialStateType} from "../../redux/bridge-reducer";
 import s from './Navbar.module.scss'
+import {networkIDs, networkNames} from "../../common/variables";
 
 const statusNetwork = (networkID: number) => {
     switch (networkID) {
-        case 0: {
-            return 'Please click Connect Wallet and unlock you Metamask.'
+        case networkIDs.notSelected: {
+            return networkNames.notSelected
         }
-        case 1:
-            return 'Ethereum Main'
-        case 56:
-            return 'BSC Main';
-        case 137:
-            return 'Polygon Main';
-        case 1285:
-            return 'Moonriver Main';
-        case 52:
-            return 'CoinEx Chain Main';
-        case 80001: // for testing
-            return 'Mumbai Testnet';
-        case 4: // for testing
-            return 'Rinkeby Test Network'
+        case networkIDs.eth:
+            return networkNames.eth
+        case networkIDs.bsc:
+            return networkNames.bsc
+        case networkIDs.mumbaiTest:
+            return networkNames.mumbaiTest
+        case networkIDs.rinkebyTest:
+            return networkNames.rinkebyTest
+        case networkIDs.coinExTest:
+            return networkNames.coinExTest
         default:
             return 'This network is not supported yet.'
     }

@@ -3,14 +3,14 @@ import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
+import {networkIDs, networkNames} from "../../../common/variables";
 
 const options = [
-    {value: 'MumbaiTest', label: 'Mumbai Testnet'}, // for testing
-    {value: 'RinkebyTest', label: 'Rinkeby Test Network'}, // for testing
-    {value: 'eth', label: 'Ethereum'},
-    {value: 'bsc', label: 'Binance Smart Chain'},
-    {value: 'polygon', label: 'Polygon'},
-    {value: 'csc', label: 'Coinex Smart Chain'}
+    {value: networkIDs.mumbaiTest, label: networkNames.mumbaiTest},
+    {value: networkIDs.rinkebyTest, label: networkNames.rinkebyTest},
+    {value: networkIDs.coinExTest, label: networkNames.coinExTest},
+    {value: networkIDs.eth, label: networkNames.eth},
+    {value: networkIDs.bsc, label: networkNames.bsc},
 ]
 
 const elementColor = '#313647'
@@ -45,7 +45,7 @@ export const NetworkElement = (props: PropsType) => {
     const dispatch = useDispatch()
     useEffect(() => {
         //change network in Metamask
-        if (props.isMain && props.state !== '') dispatch(changeNetworkThunk(props.state))
+        if (props.isMain && props.state !== networkIDs.notSelected) dispatch(changeNetworkThunk(props.state))
     },[props.state])
 
     const onChange = (option: PropsValue<Option | Option[]>) => {
@@ -56,7 +56,7 @@ export const NetworkElement = (props: PropsType) => {
         if (options) {
             return options.find((option) => option.value === props.state);
         } else {
-            return '' as any // todo: fix any
+            return 0 as any // todo: fix any
         }
     };
 
@@ -82,12 +82,12 @@ export const NetworkElement = (props: PropsType) => {
 
 type Option = {
     label: string;
-    value: string;
+    value: number;
 }
 type PropsType = {
     text: string
     isMain?: boolean
-    state: string
-    setState: (value: string) => void
+    state: number
+    setState: (value: number) => void
     isDisabled: boolean
 }

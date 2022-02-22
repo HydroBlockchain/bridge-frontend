@@ -2,6 +2,7 @@ import {chains} from "../assets/chains";
 import Web3 from "web3";
 import BepHydro from '../assets/abis/bephydro.json';
 import {AbiItem} from "web3-utils";
+import {networkIDs} from "../common/variables";
 
 export const localAPI = {
     getAccountAddress: async () => {
@@ -11,7 +12,7 @@ export const localAPI = {
     getNetworkID: async () => {
         return await window.web3.eth.net.getId();
     },
-    connectToMetamask: async function() {
+    connectToMetamask: async function () {
         let returnValues = {
             status: false,
             account: '',
@@ -38,11 +39,11 @@ export const localAPI = {
         return returnValues
     },
 
-    changeNetwork: async (networkName: string) => {
+    changeNetwork: async (networkID: number) => {
         try {
             await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{chainId: chains[networkName].chainId}],
+                params: [{chainId: chains[networkID].chainId}],
             })
             return true
         } catch (error) {
@@ -50,7 +51,7 @@ export const localAPI = {
                 if ((error as ErrorType).code === 4902) {
                     await window.ethereum.request({
                         method: "wallet_addEthereumChain",
-                        params: [chains[networkName]],
+                        params: [chains[networkID]],
                     });
                     return true
                 }
@@ -59,23 +60,35 @@ export const localAPI = {
             }
         }
     },
-    getHydroInstance: (web3: Web3) => {
-        const hydroAddress = "0xf3DBB49999B25c9D6641a9423C7ad84168D00071";
-        return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress);
-    },
-    getHydroBalance: async function() {
+    getHydroBalance: async function (networkID: number) {
+        let hydroAddress
+        switch (networkID) {
+            case networkIDs.eth: {
+                hydroAddress = "0x946112efaB61C3636CBD52DE2E1392D7A75A6f01"
+                break
+            }
+            case networkIDs.bsc: {
+                hydroAddress = "0xf3DBB49999B25c9D6641a9423C7ad84168D00071"
+                break
+            }
+            case networkIDs.mumbaiTest:
+            case networkIDs.rinkebyTest:
+            case networkIDs.coinExTest:
+            {
+                hydroAddress = "0x9477B2d4442FCd35368c029a0016e6800437BAe2"
+                break
+            }
+        }
+
         const address = await this.getAccountAddress()
-        console.log('account', address)
-        const balance = await window.web3.eth.getBalance(address)
-        const balanceTransformed =  window.web3.utils.fromWei(balance)
-        console.log('balanceEther', balanceTransformed) //this is ether balance
-        // now getting token balance
-        const tokenInst = new window.web3.eth.Contract(BepHydro, address);
-        console.log('hydroInstance', tokenInst)
+        const hydroInstance = new window.web3.eth.Contract(BepHydro as AbiItem[], hydroAddress);
         try {
-            const HydroInstance = await tokenInst.methods.balanceOf(address).call()
+            const HydroBalance = await hydroInstance.methods.balanceOf(address).call()
+            return window.web3.utils.fromWei(HydroBalance)
+
         } catch (error) {
             console.error(error)
+            return ''
         }
     }
 }
