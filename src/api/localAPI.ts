@@ -6,6 +6,7 @@ import {networkIDs} from "../common/variables";
 import EthToBscAbi from '../assets/abis/ethToBsc.json'
 import {getHydroBalanceThunk} from "../redux/bridge-reducer";
 import {Contract} from "web3-eth-contract";
+import BscToEthAbi from '../assets/abis/bscToEth.json';
 
 const hydroAddresses = {
     forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
@@ -102,6 +103,7 @@ export const localAPI = {
             return ''
         }
     },
+    // this for total hydro swapped
     displayApprovedFund: async function (hydroContract: Contract, hydroBalance: string, account: string, swapAddress: string) {
         console.log('displayApprovedFund, hydroBalance', hydroBalance)
         try {
@@ -109,8 +111,7 @@ export const localAPI = {
             console.log('displayApprovedFund, allowed_swap', allowed_swap)
             const allowed_swapFromWei = web3.utils.fromWei(allowed_swap.toString(), 'ether')
             console.log('displayApprovedFund, allowed_swapFromWei', allowed_swapFromWei)
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error)
         }
         // console.log('displayApprovedFund, allowed_swap', allowed_swap)
@@ -128,35 +129,17 @@ export const localAPI = {
                 }
             })
     },
-    exchangeEth2Bsc: async function (hydroContract: Contract, hydroBalance: string) {
-        console.log('exchangeEth2Bsc, hydroContract',hydroContract)
-        console.log('exchangeEth2Bsc, hydroBalance in exchangeEth2Bsc=', hydroBalance)
+    exchangeEth2Bsc: async function (hydroContract: Contract, approvedAmount: string) {
         const account = await this.getAccountAddress()
-        console.log('exchangeEth2Bsc, account', account)
-        const hydroAddress = hydroAddresses.forEth
-        console.log('exchangeEth2Bsc, hydroAddress', hydroAddress)
-        hydroContract.events.allEvents({filter: {owner: account}, toBlock: 'latest'}) //for what?
-            .on('data', () => {
-                console.log('exchangeEth2Bsc, hydroContract on inside')
-                this.displayApprovedFund(hydroContract, hydroBalance, account, swapContractAddress);
+        hydroContract.methods
+            .approve(hydroAddresses.forTestNets, web3.utils.toWei(approvedAmount))
+            .send({from: account,})
+            .on('transactionHash', (hash: string) => {
+                if (hash !== null) {
+                    // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
+                    console.log('on transactionHash')
+                }
             })
-
-        const swapContractAddress = "0xfa41d158Ea48265443799CF720a120BFE77e41ca";
-        const swapContract = new web3.eth.Contract(EthToBscAbi, swapContractAddress);
-        console.log('exchangeEth2Bsc, swapInstance', swapContract)
-
-        // for Total Hydro Swapped:
-        try {
-            const newTotalSwapped = await swapContract.methods.totalAmountSwapped().call();
-            const totalSwappedFromWei = web3.utils.fromWei(newTotalSwapped.toString())
-            console.log('exchangeEth2Bsc, totalSwappedFromWei', totalSwappedFromWei)
-        } catch (error) {
-            console.error(error)
-        }
-
-        await this.displayApprovedFund(hydroContract, hydroBalance, account,swapContractAddress);
-
-        await this.approveFunds(hydroContract, account, swapContractAddress)
     },
 
 }

@@ -105,12 +105,22 @@ export const getHydroBalanceThunk = (): AppThunk => async (dispatch, getState: (
     dispatch(setHydroBalanceAC(hydroBalance))
 }
 
-export const approveFundsThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    const bridgeState = getState().bridge
-    const hydroContract = bridgeState.hydroContract
-    const hydraBalance = bridgeState.hydroBalance
-    if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
-    await localAPI.exchangeEth2Bsc(hydroContract, hydraBalance)
+export const approveFundsThunk = (approvedAmount: string): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    if (Number(approvedAmount) > 0) {
+        const bridgeState = getState().bridge
+        const hydroContract = bridgeState.hydroContract
+        const hydraBalance = bridgeState.hydroBalance
+        if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
+        const swapContractAddress = "0xfa41d158Ea48265443799CF720a120BFE77e41ca" // eth 2 bsc
+        // const swapContractAddress = "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95" // bsc 2 eth
+        const way = 'Eth2Bsc' // Bsc2Eth
+        const networkId = networkIDs.eth
+        await localAPI.exchangeEth2Bsc(hydroContract, approvedAmount)
+    }
+    else {
+        console.error('approveFundsThunk', 'approvedAmount must be > 0')
+    }
+
 }
 
 export type InitialStateType = typeof initialState

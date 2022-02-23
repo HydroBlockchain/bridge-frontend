@@ -56,7 +56,7 @@ export const Menu = (props: PropsType) => {
     }
 
     const swapHandler = () => {
-        dispatch(approveFundsThunk())
+        dispatch(approveFundsThunk(inputValue))
     }
 
     const onClickSwapper = () => {
