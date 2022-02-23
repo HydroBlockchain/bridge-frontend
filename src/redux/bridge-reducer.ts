@@ -12,7 +12,7 @@ let initialState = {
     allowedHydro: '0',
     allowedBep: '0',
     loading: false,
-    hydroInstance: {} as Contract,
+    hydroContract: {} as Contract,
     hydroAddress: null as string | null,
     bepHydroAddress: null,
     ethToBscInstance: null,
@@ -46,6 +46,7 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
         case 'BRIDGE/SET-LOADING':
         case "BRIDGE/SET-ACCOUNT":
         case "BRIDGE/SET-HYDRO-BALANCE":
+        case "BRIDGE/SET-HYDRO-CONTRACT":
             return {...state, ...action.payload}
     }
     return state
@@ -55,7 +56,14 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
 const setNetworkIDAC = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {networkID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
-const setHydroBalanceAC = (hydroBalance: string) => ({type: 'BRIDGE/SET-HYDRO-BALANCE', payload: {hydroBalance}} as const)
+const setHydroContractAC = (hydroContract: Contract) => ({
+    type: 'BRIDGE/SET-HYDRO-CONTRACT',
+    payload: {hydroContract}
+} as const)
+const setHydroBalanceAC = (hydroBalance: string) => ({
+    type: 'BRIDGE/SET-HYDRO-BALANCE',
+    payload: {hydroBalance}
+} as const)
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
@@ -91,12 +99,18 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
 }
 
 export const getHydroBalanceThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    const hydroBalance = await localAPI.getHydroBalance(getState().bridge.networkID)
+    const hydroContract = localAPI.createHydroContract(getState().bridge.networkID)
+    dispatch(setHydroContractAC(hydroContract))
+    const hydroBalance = await localAPI.getHydroBalance(hydroContract)
     dispatch(setHydroBalanceAC(hydroBalance))
 }
 
 export const approveFundsThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    alert('approveFundsThunk')
+    const bridgeState = getState().bridge
+    const hydroContract = bridgeState.hydroContract
+    const hydraBalance = bridgeState.hydroBalance
+    if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
+    await localAPI.exchangeEth2Bsc(hydroContract, hydraBalance)
 }
 
 export type InitialStateType = typeof initialState
@@ -105,6 +119,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setNetworkIDAC>
     | ReturnType<typeof setLoadingAC>
     | ReturnType<typeof setAccountAC>
+    | ReturnType<typeof setHydroContractAC>
     | ReturnType<typeof setHydroBalanceAC>
 
 type AppThunk = ThunkAction<void, AppRootStateType, unknown, BridgeActionTypes>

@@ -19,3 +19,4 @@ export enum networkNames {
     rinkebyTest = 'Rinkeby Test Network',
     coinExTest = 'CoinEx Smart Chain Testnet',
 }
+
