@@ -3,10 +3,7 @@ import {chains} from "../assets/chains";
 import BepHydro from '../assets/abis/bephydro.json';
 import {AbiItem} from "web3-utils";
 import {addressForWeb3, networkIDs} from "../common/variables";
-import EthToBscAbi from '../assets/abis/ethToBsc.json'
-import {getHydroBalanceThunk} from "../redux/bridge-reducer";
 import {Contract} from "web3-eth-contract";
-import BscToEthAbi from '../assets/abis/bscToEth.json';
 
 const hydroAddresses = {
     forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
@@ -22,19 +19,20 @@ const swapContractAddresses = {
 
 // let web3 = window.web3
 const Web3 = require('web3');
+const Web3_2 = require('web3');
 let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
-let web3_2 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
+let web3_2 = new Web3(new Web3_2.providers.HttpProvider(addressForWeb3));
 /*const version = web3.version.api;
 console.log('version',version);*/
 
 export const localAPI = {
-    getAccountAddress: async (anotherProvider: AnotherProviderType =
-                                  {isTrue: false} ) => {
-        console.log('anotherProvider', anotherProvider)
-        if (anotherProvider.isTrue) {
+    getAccountAddress: async (isAnotherProvider: boolean = false) => {
+        if (isAnotherProvider) {
+            console.log('getAccountAddress anotherProvider', isAnotherProvider)
             console.log('getAccountAddress -> anotherProvider')
-            const accounts = await web3_2.eth.getAccounts();
-            return accounts[0]
+            // !!! Here problem with CORS if uncomment
+            // const accounts = await web3_2.eth.getAccounts();
+            // return accounts[0]
         }
         else{ const accounts = await web3.eth.getAccounts();
         return accounts[0] }
@@ -111,14 +109,12 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
-    getHydroBalance: async function (hydroContractInstance: Contract, anotherProvider:
-        AnotherProviderType = {isTrue: false}
-    ) {
-        console.log('anotherProvider', anotherProvider)
+    getHydroBalance: async function (hydroContractInstance: Contract, isAnotherProvider: boolean = false) {
+        console.log('anotherProvider', isAnotherProvider)
         /*const accounts = await web3.eth.getAccounts();
         return accounts[0]*/
-        if (anotherProvider.isTrue) {
-            const address = await this.getAccountAddress(anotherProvider)
+        if (isAnotherProvider) {
+            const address = await this.getAccountAddress(true)
         }
 
         const address = await this.getAccountAddress()
@@ -182,4 +178,4 @@ type ErrorType = {
     code: number
 }
 export type ConversionWayType = 'eth2bsc' | 'bsc2eth'
-type AnotherProviderType = { isTrue: boolean }
+type AnotherProviderType = { isAnotherProvider: boolean }

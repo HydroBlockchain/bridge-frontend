@@ -109,24 +109,23 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, networkI
     let hydroContractInstanceOut
     if (isAnotherAccount) {
         console.log('getHydroBalanceThunk, come to isAnotherAccount')
-      /*  const hydroContractInstanceRight = localAPI.createHydroContractInstance(getState().bridge.networkID)
+        const hydroContractInstanceRight = localAPI.createHydroContractInstance(getState().bridge.networkID)
         hydroContractInstanceRightOut = hydroContractInstanceRight
-        console.log('getHydroBalanceThunk, hydroContractInstanceRight=',hydroContractInstanceRight)
-        const hydroBalanceRight = await localAPI.getHydroBalance(hydroContractInstanceRight, {isTrue: true})
-        console.log('hydroBalanceRight=',hydroBalanceRight)*/
+        console.log('getHydroBalanceThunk, hydroContractInstanceRight=', hydroContractInstanceRight)
+        const hydroBalanceRight = await localAPI.getHydroBalance(hydroContractInstanceRight, true)
+        console.log('hydroBalanceRight=', hydroBalanceRight)
 
-        /* if (hydroBalanceRight !== '') {
-             console.log('Menu:hydroBalanceRight', hydroBalanceRight)
-         }*/
-    }
-    else {
+        if (hydroBalanceRight !== '') {
+            console.log('Menu:hydroBalanceRight', hydroBalanceRight)
+        }
+    } else {
         const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.networkID)
         dispatch(setHydroContractInstanceAC(hydroContractInstance))
         hydroContractInstanceOut = hydroContractInstance
         const hydroBalance = await localAPI.getHydroBalance(hydroContractInstance)
         dispatch(setHydroBalanceAC(hydroBalance))
     }
-    console.log('hydroContractInstanceOut===hydroContractInstanceRightOut',hydroContractInstanceOut===hydroContractInstanceRightOut)
+    console.log('hydroContractInstanceOut===hydroContractInstanceRightOut', hydroContractInstanceOut === hydroContractInstanceRightOut)
 
 }
 

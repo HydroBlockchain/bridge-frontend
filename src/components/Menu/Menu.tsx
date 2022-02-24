@@ -106,7 +106,7 @@ export const Menu = (props: PropsType) => {
                         </div>
                         <div className={s.amountBody}>
                             <div>Left HYDRO Balance: {hydroBalance === '' ? '?' : hydroBalance}</div>
-                            <div>Right HYDRO Balance: ?</div>
+                            <div>Right HYDRO Balance: {hydroBalanceRight === '' ? '?' : hydroBalanceRight}</div>
                         </div>
                     </div>
 
