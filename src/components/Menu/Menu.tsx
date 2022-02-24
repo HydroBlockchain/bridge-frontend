@@ -11,6 +11,9 @@ import {
 import {AppRootStateType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {networkIDs} from "../../common/variables";
+import {ConversionWayType} from "../../api/localAPI";
+
+
 
 export const Menu = (props: PropsType) => {
     const dispatch = useDispatch()
@@ -23,6 +26,7 @@ export const Menu = (props: PropsType) => {
     const [stateRight, setStateRight] = useState(0)
     const [isSelAndAmountBtnDisabled, setIsSelAndAmountBtnDisabled] = useState(true)
     const [isSwapperDisabled, setIsSwapperDisabled] = useState(true)
+    const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
 
     useEffect(() => {
         setStateLeft(networkID)
@@ -43,6 +47,10 @@ export const Menu = (props: PropsType) => {
             || networkID === networkIDs.coinExTest)
             ? setIsSupportNetwork(true) : setIsSupportNetwork(false)
 
+        // for swap conversion way
+        if (stateLeft === networkIDs.eth && stateRight === networkIDs.bsc) {console.log('eth2bsc'); setSwapWay('eth2bsc')}
+        else if (stateLeft === networkIDs.bsc && stateRight === networkIDs.eth) {console.log('bsc2eth'); setSwapWay('bsc2eth')}
+        else setSwapWay(undefined)
     }, [networkID, stateLeft, stateRight])
 
     useEffect(() => {
@@ -50,6 +58,12 @@ export const Menu = (props: PropsType) => {
             dispatch(getHydroBalanceThunk())
         }
     }, [networkID])
+
+    /*const swapWay = (): ConversionWayType | undefined => {
+        if (stateLeft === networkIDs.eth && stateRight === networkIDs.bsc) return 'eth2bsc'
+        if (stateLeft === networkIDs.bsc && stateRight === networkIDs.eth) return 'eth2bsc'
+        else return undefined
+    }*/
 
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
@@ -89,12 +103,15 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>{inputValue !== '' ? inputValue : 0}</div>
-                <button className={networkID === networkIDs.notSelected
-                    ? s.accent
-                    : ''}
-                        onClick={networkID === networkIDs.notSelected ? connectToMetamaskHandler : swapHandler}
+                {networkID === networkIDs.notSelected &&
+                <button className={s.accent}
+                        onClick={connectToMetamaskHandler}
                         disabled={!isSupportedNetwork}
-                >{buttonText}</button>
+                >Connect Wallet</button> }
+                {networkID !== networkIDs.notSelected &&
+                <button onClick={swapHandler}
+                        disabled={swapWay === undefined || Number(inputValue) <=0}
+                >Swap</button> }
             </div>
         </div>
     )

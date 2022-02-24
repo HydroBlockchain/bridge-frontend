@@ -14,6 +14,11 @@ const hydroAddresses = {
     forTestNets: '0x9477B2d4442FCd35368c029a0016e6800437BAe2'
 }
 
+const swapContractAddresses = {
+    eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
+    bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95'
+}
+
 let web3 = window.web3
 
 export const localAPI = {
@@ -72,7 +77,7 @@ export const localAPI = {
             }
         }
     },
-    createHydroContract: (networkID: number) => {
+    createHydroContractInstance: (networkID: number) => {
         let hydroAddress
         switch (networkID) {
             case networkIDs.eth: {
@@ -92,10 +97,10 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
-    getHydroBalance: async function (hydroContract: Contract) {
+    getHydroBalance: async function (hydroContractInstance: Contract) {
         const address = await this.getAccountAddress()
         try {
-            const HydroBalance = await hydroContract.methods.balanceOf(address).call()
+            const HydroBalance = await hydroContractInstance.methods.balanceOf(address).call()
             return web3.utils.fromWei(HydroBalance)
 
         } catch (error) {
@@ -104,10 +109,10 @@ export const localAPI = {
         }
     },
     // this for total hydro swapped
-    displayApprovedFund: async function (hydroContract: Contract, hydroBalance: string, account: string, swapAddress: string) {
+    displayApprovedFund: async function (hydroContractInstance: Contract, hydroBalance: string, account: string, swapAddress: string) {
         console.log('displayApprovedFund, hydroBalance', hydroBalance)
         try {
-            const allowed_swap = await hydroContract.methods.allowed(account, swapAddress).call();
+            const allowed_swap = await hydroContractInstance.methods.allowed(account, swapAddress).call();
             console.log('displayApprovedFund, allowed_swap', allowed_swap)
             const allowed_swapFromWei = web3.utils.fromWei(allowed_swap.toString(), 'ether')
             console.log('displayApprovedFund, allowed_swapFromWei', allowed_swapFromWei)
@@ -118,8 +123,8 @@ export const localAPI = {
 
         // const allowed = web3.utils.fromWei(allowed_swap.toString(), 'ether');
     },
-    approveFunds: async function (hydroContract: Contract, account: string, swapContractAddress: string) {
-        hydroContract.methods.approve(swapContractAddress, web3.utils.toWei('1000000000')).send({
+    approveFunds: async function (hydroContractInstance: Contract, account: string, swapContractAddress: string) {
+        hydroContractInstance.methods.approve(swapContractAddress, web3.utils.toWei('1000000000')).send({
             from: account,
         })
             .on('transactionHash', (hash: string) => {
@@ -129,10 +134,14 @@ export const localAPI = {
                 }
             })
     },
-    exchangeEth2Bsc: async function (hydroContract: Contract, approvedAmount: string) {
+    exchangeEth2Bsc: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType) {
         const account = await this.getAccountAddress()
-        hydroContract.methods
-            .approve(hydroAddresses.forTestNets, web3.utils.toWei(approvedAmount))
+
+        // const swapContractAddress = "0xfa41d158Ea48265443799CF720a120BFE77e41ca" // eth 2 bsc
+        // const swapContractAddress = "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95" // bsc 2 eth
+
+        hydroContractInstance.methods
+            .approve(swapContractAddresses[way], web3.utils.toWei(approvedAmount))
             .send({from: account,})
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {
@@ -148,3 +157,4 @@ declare let window: any // todo: maybe fix any
 type ErrorType = {
     code: number
 }
+export type ConversionWayType = 'eth2bsc' | 'bsc2eth'
