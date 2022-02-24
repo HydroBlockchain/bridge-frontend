@@ -4,10 +4,12 @@ import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {localAPI} from "../api/localAPI";
 import {networkIDs} from "../common/variables";
+import App from "../App";
 
 let initialState = {
     account: '',
     hydroBalance: '',
+    hydroBalanceRight: '',
     bepBalance: '0',
     allowedHydro: '0',
     allowedBep: '0',
@@ -64,6 +66,10 @@ const setHydroBalanceAC = (hydroBalance: string) => ({
     type: 'BRIDGE/SET-HYDRO-BALANCE',
     payload: {hydroBalance}
 } as const)
+const setHydroBalanceRightAC = (hydroBalance: string) => ({
+    type: 'BRIDGE/SET-HYDRO-BALANCE-RIGHT',
+    payload: {hydroBalance}
+} as const)
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
@@ -98,11 +104,34 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
     }
 }
 
-export const getHydroBalanceThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.networkID)
-    dispatch(setHydroContractInstanceAC(hydroContractInstance))
-    const hydroBalance = await localAPI.getHydroBalance(hydroContractInstance)
-    dispatch(setHydroBalanceAC(hydroBalance))
+export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, networkID: number = 0): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    let hydroContractInstanceRightOut
+    let hydroContractInstanceOut
+    if (isAnotherAccount) {
+        console.log('getHydroBalanceThunk, come to isAnotherAccount')
+      /*  const hydroContractInstanceRight = localAPI.createHydroContractInstance(getState().bridge.networkID)
+        hydroContractInstanceRightOut = hydroContractInstanceRight
+        console.log('getHydroBalanceThunk, hydroContractInstanceRight=',hydroContractInstanceRight)
+        const hydroBalanceRight = await localAPI.getHydroBalance(hydroContractInstanceRight, {isTrue: true})
+        console.log('hydroBalanceRight=',hydroBalanceRight)*/
+
+        /* if (hydroBalanceRight !== '') {
+             console.log('Menu:hydroBalanceRight', hydroBalanceRight)
+         }*/
+    }
+    else {
+        const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.networkID)
+        dispatch(setHydroContractInstanceAC(hydroContractInstance))
+        hydroContractInstanceOut = hydroContractInstance
+        const hydroBalance = await localAPI.getHydroBalance(hydroContractInstance)
+        dispatch(setHydroBalanceAC(hydroBalance))
+    }
+    console.log('hydroContractInstanceOut===hydroContractInstanceRightOut',hydroContractInstanceOut===hydroContractInstanceRightOut)
+
+}
+
+export const getHydroBalanceForInactiveAccountThunk = (): AppThunk => async () => {
+
 }
 
 export const approveFundsThunk = (approvedAmount: string): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
@@ -111,10 +140,6 @@ export const approveFundsThunk = (approvedAmount: string): AppThunk => async (di
         const hydroContractInstance = bridgeState.hydroContractInstance
         const hydraBalance = bridgeState.hydroBalance
         if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
-        const swapContractAddress = "0xfa41d158Ea48265443799CF720a120BFE77e41ca" // eth 2 bsc
-        // const swapContractAddress = "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95" // bsc 2 eth
-        const way = 'Eth2Bsc' // Bsc2Eth
-        const networkId = networkIDs.eth
         await localAPI.exchangeEth2Bsc(hydroContractInstance, approvedAmount, "eth2bsc")
     } else {
         console.error('approveFundsThunk', 'approvedAmount must be > 0')
@@ -130,6 +155,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setAccountAC>
     | ReturnType<typeof setHydroContractInstanceAC>
     | ReturnType<typeof setHydroBalanceAC>
+    | ReturnType<typeof setHydroBalanceRightAC>
 
 type AppThunk = ThunkAction<void, AppRootStateType, unknown, BridgeActionTypes>
 

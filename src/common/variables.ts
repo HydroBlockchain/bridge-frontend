@@ -20,3 +20,5 @@ export enum networkNames {
     coinExTest = 'CoinEx Smart Chain Testnet',
 }
 
+export const addressForWeb3 = 'ws://localhost:3000'
+

@@ -27,12 +27,24 @@ $btnColor: #203147;
     }
 
     .amount {
-        margin-top: 25px;
+        //margin-top: 25px;
+        width: 100%;
 
         .headerAndBalance {
+            margin-top: 10px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: inherit;
+            .amountHeader{
+                width: inherit;
+            }
+            .amountBody {
+                width: inherit;
+                display: flex;
+                justify-content: space-between;
+            }
         }
 
         .buttonIn {

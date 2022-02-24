@@ -1,8 +1,8 @@
 import {chains} from "../assets/chains";
-import Web3 from "web3";
+// import Web3 from "web3";
 import BepHydro from '../assets/abis/bephydro.json';
 import {AbiItem} from "web3-utils";
-import {networkIDs} from "../common/variables";
+import {addressForWeb3, networkIDs} from "../common/variables";
 import EthToBscAbi from '../assets/abis/ethToBsc.json'
 import {getHydroBalanceThunk} from "../redux/bridge-reducer";
 import {Contract} from "web3-eth-contract";
@@ -16,15 +16,28 @@ const hydroAddresses = {
 
 const swapContractAddresses = {
     eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
-    bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95'
+    bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95',
+
 }
 
-let web3 = window.web3
+// let web3 = window.web3
+const Web3 = require('web3');
+let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
+let web3_2 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
+/*const version = web3.version.api;
+console.log('version',version);*/
 
 export const localAPI = {
-    getAccountAddress: async () => {
-        const accounts = await web3.eth.getAccounts();
-        return accounts[0]
+    getAccountAddress: async (anotherProvider: AnotherProviderType =
+                                  {isTrue: false} ) => {
+        console.log('anotherProvider', anotherProvider)
+        if (anotherProvider.isTrue) {
+            console.log('getAccountAddress -> anotherProvider')
+            const accounts = await web3_2.eth.getAccounts();
+            return accounts[0]
+        }
+        else{ const accounts = await web3.eth.getAccounts();
+        return accounts[0] }
     },
     getNetworkID: async () => {
         return await web3.eth.net.getId();
@@ -79,6 +92,7 @@ export const localAPI = {
     },
     createHydroContractInstance: (networkID: number) => {
         let hydroAddress
+        console.log('createHydroContractInstance networkID', networkID)
         switch (networkID) {
             case networkIDs.eth: {
                 hydroAddress = hydroAddresses.forEth
@@ -97,10 +111,20 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
-    getHydroBalance: async function (hydroContractInstance: Contract) {
+    getHydroBalance: async function (hydroContractInstance: Contract, anotherProvider:
+        AnotherProviderType = {isTrue: false}
+    ) {
+        console.log('anotherProvider', anotherProvider)
+        /*const accounts = await web3.eth.getAccounts();
+        return accounts[0]*/
+        if (anotherProvider.isTrue) {
+            const address = await this.getAccountAddress(anotherProvider)
+        }
+
         const address = await this.getAccountAddress()
         try {
             const HydroBalance = await hydroContractInstance.methods.balanceOf(address).call()
+            // const HydroBalance = await hydroContractInstance.methods.getBalance(address).call()
             return web3.utils.fromWei(HydroBalance)
 
         } catch (error) {
@@ -158,3 +182,4 @@ type ErrorType = {
     code: number
 }
 export type ConversionWayType = 'eth2bsc' | 'bsc2eth'
+type AnotherProviderType = { isTrue: boolean }

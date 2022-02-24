@@ -12,6 +12,7 @@ import {AbiItem, fromWei} from 'web3-utils'
 import {Menu} from "./components/Menu/Menu";
 import {Navbar} from "./components/Navbar/Navbar";
 import Web3 from "web3";
+// import '../public/web3.min.js'
 
 class App extends Component {
 

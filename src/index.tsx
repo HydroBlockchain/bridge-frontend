@@ -7,7 +7,10 @@ import {Provider} from "react-redux";
 import {store} from "./redux/store";
 
 
-ReactDOM.render(
+/*let cors = require('cors');
+app.use(cors({origin: 'http://localhost:3000'}));*/
+
+        ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <App/>
