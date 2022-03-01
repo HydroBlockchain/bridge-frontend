@@ -14,16 +14,17 @@ const hydroAddresses = {
 const swapContractAddresses = {
     eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
     bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95',
-
+    coinexSmartChainTestnet:  '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
+    mumbaiTestnet: '0x55656EEBCA47E834894de45408cBD4484c52518B',
+    rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
 }
 
 // let web3 = window.web3
 const Web3 = require('web3');
 const Web3_2 = require('web3');
-let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
-let web3_2 = new Web3(new Web3_2.providers.HttpProvider(addressForWeb3));
-/*const version = web3.version.api;
-console.log('version',version);*/
+
+let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3))
+let web3_2 = new Web3_2(new Web3_2.providers.HttpProvider(addressForWeb3));
 
 export const localAPI = {
     getAccountAddress: async (isAnotherProvider: boolean = false) => {
@@ -31,8 +32,8 @@ export const localAPI = {
             console.log('getAccountAddress anotherProvider', isAnotherProvider)
             console.log('getAccountAddress -> anotherProvider')
             // !!! Here problem with CORS if uncomment
-            // const accounts = await web3_2.eth.getAccounts();
-            // return accounts[0]
+            const accounts = await web3_2.eth.getAccounts();
+            return accounts[0]
         }
         else{ const accounts = await web3.eth.getAccounts();
         return accounts[0] }
@@ -113,11 +114,14 @@ export const localAPI = {
         console.log('anotherProvider', isAnotherProvider)
         /*const accounts = await web3.eth.getAccounts();
         return accounts[0]*/
+        let address
         if (isAnotherProvider) {
-            const address = await this.getAccountAddress(true)
+            address = await this.getAccountAddress(true)
+        }
+        else {
+            address = await this.getAccountAddress()
         }
 
-        const address = await this.getAccountAddress()
         try {
             const HydroBalance = await hydroContractInstance.methods.balanceOf(address).call()
             // const HydroBalance = await hydroContractInstance.methods.getBalance(address).call()

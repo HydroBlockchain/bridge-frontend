@@ -56,7 +56,7 @@ export const Menu = (props: PropsType) => {
             setSwapWay('bsc2eth')
         } else setSwapWay(undefined)
 
-        if (stateRight !== 0) {
+        if (stateRight !== 0) { // CORS errors
             console.log('Menu:start position of right state')
             dispatch(getHydroBalanceThunk(true, stateRight))
 

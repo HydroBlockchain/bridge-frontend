@@ -21,4 +21,5 @@ export enum networkNames {
 }
 
 export const addressForWeb3 = 'ws://localhost:3000'
+// export const addressForWeb3 = 'http://localhost:3000/'
 
