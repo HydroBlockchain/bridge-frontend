@@ -14,7 +14,7 @@ const hydroAddresses = {
 const swapContractAddresses = {
     eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
     bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95',
-    coinexSmartChainTestnet:  '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
+    coinexSmartChainTestnet: '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
     mumbaiTestnet: '0x55656EEBCA47E834894de45408cBD4484c52518B',
     rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
 }
@@ -34,9 +34,10 @@ export const localAPI = {
             // !!! Here problem with CORS if uncomment
             const accounts = await web3_2.eth.getAccounts();
             return accounts[0]
+        } else {
+            const accounts = await web3.eth.getAccounts();
+            return accounts[0]
         }
-        else{ const accounts = await web3.eth.getAccounts();
-        return accounts[0] }
     },
     getNetworkID: async () => {
         return await web3.eth.net.getId();
@@ -117,8 +118,7 @@ export const localAPI = {
         let address
         if (isAnotherProvider) {
             address = await this.getAccountAddress(true)
-        }
-        else {
+        } else {
             address = await this.getAccountAddress()
         }
 
@@ -158,7 +158,7 @@ export const localAPI = {
                 }
             })
     },
-    exchangeEth2Bsc: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType) {
+    exchangeTokenChain: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType) {
         const account = await this.getAccountAddress()
 
         // const swapContractAddress = "0xfa41d158Ea48265443799CF720a120BFE77e41ca" // eth 2 bsc
@@ -181,5 +181,5 @@ declare let window: any // todo: maybe fix any
 type ErrorType = {
     code: number
 }
-export type ConversionWayType = 'eth2bsc' | 'bsc2eth'
+export type ConversionWayType = 'eth2bsc' | 'bsc2eth' | 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet'
 type AnotherProviderType = { isAnotherProvider: boolean }

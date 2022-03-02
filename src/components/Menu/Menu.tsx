@@ -49,12 +49,20 @@ export const Menu = (props: PropsType) => {
 
         // for swap conversion way
         if (stateLeft === networkIDs.eth && stateRight === networkIDs.bsc) {
-            console.log('eth2bsc');
+            console.log('eth2bsc')
             setSwapWay('eth2bsc')
         } else if (stateLeft === networkIDs.bsc && stateRight === networkIDs.eth) {
-            console.log('bsc2eth');
+            console.log('bsc2eth')
             setSwapWay('bsc2eth')
-        } else setSwapWay(undefined)
+        } else if (stateRight === networkIDs.coinExTest) {
+            setSwapWay('coinexSmartChainTestnet')
+        } else if (stateRight === networkIDs.mumbaiTest) {
+            setSwapWay('mumbaiTestnet')
+        } else if (stateRight === networkIDs.rinkebyTest) {
+            setSwapWay('rinkebyTestnet')
+        }
+
+        else setSwapWay(undefined)
 
         if (stateRight !== 0) { // CORS errors
             console.log('Menu:start position of right state')
@@ -79,8 +87,11 @@ export const Menu = (props: PropsType) => {
         dispatch(connectToMetamaskThunk())
     }
 
-    const swapHandler = () => {
-        dispatch(approveFundsThunk(inputValue))
+    // todo: add variations ConversionWayType
+    const exchangeHandler = () => {
+        if (swapWay !== undefined) {
+            dispatch(approveFundsThunk(inputValue, swapWay))
+        }
     }
 
     const onClickSwapper = () => {
@@ -127,7 +138,7 @@ export const Menu = (props: PropsType) => {
                             disabled={!isSupportedNetwork}
                     >Connect Wallet</button>}
                 {networkID !== networkIDs.notSelected &&
-                    <button onClick={swapHandler}
+                    <button onClick={exchangeHandler}
                             disabled={swapWay === undefined || Number(inputValue) <= 0}
                     >Swap</button>}
             </div>

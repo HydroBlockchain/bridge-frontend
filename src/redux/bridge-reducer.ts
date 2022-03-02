@@ -2,9 +2,10 @@ import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
-import {localAPI} from "../api/localAPI";
+import {ConversionWayType, localAPI} from "../api/localAPI";
 import {networkIDs} from "../common/variables";
 import App from "../App";
+import {serverApi} from "../api/serverAPI";
 
 let initialState = {
     account: '',
@@ -133,17 +134,24 @@ export const getHydroBalanceForInactiveAccountThunk = (): AppThunk => async () =
 
 }
 
-export const approveFundsThunk = (approvedAmount: string): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
     if (Number(approvedAmount) > 0) {
         const bridgeState = getState().bridge
         const hydroContractInstance = bridgeState.hydroContractInstance
         const hydraBalance = bridgeState.hydroBalance
         if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
-        await localAPI.exchangeEth2Bsc(hydroContractInstance, approvedAmount, "eth2bsc")
+        await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, way)
+        // await serverApi.getSwapCostInHydroTokens()
+        debugger
+
     } else {
         console.error('approveFundsThunk', 'approvedAmount must be > 0')
     }
 
+}
+
+export const getSwapCostInHydroTokensThunk = (): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+   await serverApi.getSwapCostInHydroTokens()
 }
 
 export type InitialStateType = typeof initialState

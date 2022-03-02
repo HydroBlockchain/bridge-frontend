@@ -20,6 +20,8 @@ export enum networkNames {
     coinExTest = 'CoinEx Smart Chain Testnet',
 }
 
-export const addressForWeb3 = 'ws://localhost:3000'
+
+// export const addressForWeb3 = 'ws://localhost:3000'
+export const addressForWeb3 = 'ws://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
 // export const addressForWeb3 = 'http://localhost:3000/'
 
