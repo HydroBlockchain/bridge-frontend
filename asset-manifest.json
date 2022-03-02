@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/hydro-bridge-ui/static/css/main.88a9d211.chunk.css",
-    "main.js": "/hydro-bridge-ui/static/js/main.4a16ff94.chunk.js",
-    "main.js.map": "/hydro-bridge-ui/static/js/main.4a16ff94.chunk.js.map",
+    "main.js": "/hydro-bridge-ui/static/js/main.07c087b2.chunk.js",
+    "main.js.map": "/hydro-bridge-ui/static/js/main.07c087b2.chunk.js.map",
     "runtime-main.js": "/hydro-bridge-ui/static/js/runtime-main.0aaa4512.js",
     "runtime-main.js.map": "/hydro-bridge-ui/static/js/runtime-main.0aaa4512.js.map",
     "static/css/2.a50f78b6.chunk.css": "/hydro-bridge-ui/static/css/2.a50f78b6.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.a50f78b6.chunk.css",
     "static/js/2.229c03c3.chunk.js",
     "static/css/main.88a9d211.chunk.css",
-    "static/js/main.4a16ff94.chunk.js"
+    "static/js/main.07c087b2.chunk.js"
   ]
 }
