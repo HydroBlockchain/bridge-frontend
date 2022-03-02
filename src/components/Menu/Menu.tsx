@@ -12,15 +12,15 @@ import {AppRootStateType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {networkIDs} from "../../common/variables";
 import {ConversionWayType} from "../../api/localAPI";
-import {Logger} from "sass";
 
 
 export const Menu = (props: PropsType) => {
     const dispatch = useDispatch()
 
+    const {networkID, hydroBalance, hydroBalanceRight} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+
     const [inputValue, setInputValue] = useState<string>('')
     const [buttonText, setButtonText] = useState<'Connect Wallet' | 'Swap'>('Connect Wallet')
-    const {networkID, hydroBalance, hydroBalanceRight} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
     const [isSupportedNetwork, setIsSupportNetwork] = useState(false)
     const [stateLeft, setStateLeft] = useState(0)
     const [stateRight, setStateRight] = useState(0)
@@ -77,17 +77,10 @@ export const Menu = (props: PropsType) => {
         }
     }, [networkID])
 
-    /*const swapWay = (): ConversionWayType | undefined => {
-        if (stateLeft === networkIDs.eth && stateRight === networkIDs.bsc) return 'eth2bsc'
-        if (stateLeft === networkIDs.bsc && stateRight === networkIDs.eth) return 'eth2bsc'
-        else return undefined
-    }*/
-
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
     }
 
-    // todo: add variations ConversionWayType
     const exchangeHandler = () => {
         if (swapWay !== undefined) {
             dispatch(approveFundsThunk(inputValue, swapWay))
@@ -150,5 +143,4 @@ export const Menu = (props: PropsType) => {
 type PropsType = {
     className: string
 }
-// declare let window: any;
 

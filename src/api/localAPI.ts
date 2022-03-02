@@ -1,43 +1,20 @@
 import {chains} from "../assets/chains";
-// import Web3 from "web3";
 import BepHydro from '../assets/abis/bephydro.json';
 import {AbiItem} from "web3-utils";
-import {addressForWeb3, networkIDs} from "../common/variables";
+import {addressForWeb3, hydroAddresses, networkIDs, swapContractAddresses} from "../common/variables";
 import {Contract} from "web3-eth-contract";
-
-const hydroAddresses = {
-    forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
-    forBsc: '0xf3DBB49999B25c9D6641a9423C7ad84168D00071',
-    forTestNets: '0x9477B2d4442FCd35368c029a0016e6800437BAe2'
-}
-
-const swapContractAddresses = {
-    eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
-    bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95',
-    coinexSmartChainTestnet: '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
-    mumbaiTestnet: '0x55656EEBCA47E834894de45408cBD4484c52518B',
-    rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
-}
 
 // let web3 = window.web3
 const Web3 = require('web3');
-const Web3_2 = require('web3');
+// const Web3_2 = require('web3');
 
 let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3))
-let web3_2 = new Web3_2(new Web3_2.providers.HttpProvider(addressForWeb3));
+let web3_2 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
 
 export const localAPI = {
-    getAccountAddress: async (isAnotherProvider: boolean = false) => {
-        if (isAnotherProvider) {
-            console.log('getAccountAddress anotherProvider', isAnotherProvider)
-            console.log('getAccountAddress -> anotherProvider')
-            // !!! Here problem with CORS if uncomment
-            const accounts = await web3_2.eth.getAccounts();
-            return accounts[0]
-        } else {
-            const accounts = await web3.eth.getAccounts();
-            return accounts[0]
-        }
+    getAccountAddress: async () => {
+        const accounts = await web3.eth.getAccounts();
+        return accounts[0]
     },
     getNetworkID: async () => {
         return await web3.eth.net.getId();
@@ -92,7 +69,6 @@ export const localAPI = {
     },
     createHydroContractInstance: (networkID: number) => {
         let hydroAddress
-        console.log('createHydroContractInstance networkID', networkID)
         switch (networkID) {
             case networkIDs.eth: {
                 hydroAddress = hydroAddresses.forEth
@@ -111,35 +87,23 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
-    getHydroBalance: async function (hydroContractInstance: Contract, isAnotherProvider: boolean = false) {
-        console.log('anotherProvider', isAnotherProvider)
-        /*const accounts = await web3.eth.getAccounts();
-        return accounts[0]*/
+    getHydroBalance: async function (hydroContractInstance: Contract) {
         let address
-        if (isAnotherProvider) {
-            address = await this.getAccountAddress(true)
-        } else {
-            address = await this.getAccountAddress()
-        }
+        address = await this.getAccountAddress()
 
         try {
             const HydroBalance = await hydroContractInstance.methods.balanceOf(address).call()
-            // const HydroBalance = await hydroContractInstance.methods.getBalance(address).call()
             return web3.utils.fromWei(HydroBalance)
-
         } catch (error) {
-            console.error(error)
+            console.error('getHydroBalance error')
             return ''
         }
     },
     // this for total hydro swapped
     displayApprovedFund: async function (hydroContractInstance: Contract, hydroBalance: string, account: string, swapAddress: string) {
-        console.log('displayApprovedFund, hydroBalance', hydroBalance)
         try {
             const allowed_swap = await hydroContractInstance.methods.allowed(account, swapAddress).call();
-            console.log('displayApprovedFund, allowed_swap', allowed_swap)
             const allowed_swapFromWei = web3.utils.fromWei(allowed_swap.toString(), 'ether')
-            console.log('displayApprovedFund, allowed_swapFromWei', allowed_swapFromWei)
         } catch (error) {
             console.error(error)
         }
