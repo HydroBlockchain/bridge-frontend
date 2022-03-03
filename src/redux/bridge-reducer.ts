@@ -3,7 +3,7 @@ import {AppRootStateType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {ConversionWayType, localAPI} from "../api/localAPI";
-import {chainNamesForGetHydroBalance, networkIDs, RealizedNetworksRightType} from "../common/variables";
+import {chainNamesForGetHydroBalance, chainIDs, RealizedNetworksRightType} from "../common/variables";
 import {ChainType, serverApi} from "../api/serverAPI";
 
 let initialState = {
@@ -28,7 +28,7 @@ let initialState = {
     allowed: '0' as ReturnType<typeof fromWei>,
     eth_allowed: 0,
     blockNumber: 0,
-    networkID: networkIDs.notSelected,
+    networkID: chainIDs.notSelected,
     text: '',
     wrongNetwork: '',
     API_LINK: '',
@@ -154,7 +154,6 @@ export const getTransactionFeeThunk = (networkID: RealizedNetworksRightType | 0)
     if (networkID !== 0) {
         await serverApi.getTransactionFee(chainNamesForGetHydroBalance[networkID] as ChainType)
             .then(data => {
-                console.log('getTransactionFee data', data.data)
                 const transactionFee = {
                     gasPrice: data.data.gasPrice,
                     gasRequired: data.data.gasRequired,

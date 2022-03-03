@@ -10,7 +10,7 @@ import {
 } from "../../redux/bridge-reducer";
 import {AppRootStateType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
-import {networkIDs} from "../../common/variables";
+import {chainIDs} from "../../common/variables";
 import {ConversionWayType} from "../../api/localAPI";
 
 
@@ -25,54 +25,56 @@ export const Menu = (props: PropsType) => {
     } = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
 
     const [inputValue, setInputValue] = useState<string>('')
-    const [isSupportedNetwork, setIsSupportNetwork] = useState(false)
-    const [stateLeft, setStateLeft] = useState(0)
-    const [stateRight, setStateRight] = useState(0)
+    const [isSupportedChain, setIsSupportChain] = useState(false) // if selected in Metamask chain is not supported in application
+    const [outChainId, setOutChainId] = useState(chainIDs.notSelected)
+    const [intoChainId, setIntoChainId] = useState(chainIDs.notSelected)
     const [isSelAndAmountBtnDisabled, setIsSelAndAmountBtnDisabled] = useState(true)
     const [isSwapperDisabled, setIsSwapperDisabled] = useState(true)
     const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
 
     useEffect(() => {
-        setStateLeft(networkID)
-        networkID !== networkIDs.notSelected
-            ? setIsSelAndAmountBtnDisabled(false)
-            : setIsSelAndAmountBtnDisabled(true)
+        setOutChainId(networkID)
+        networkID === chainIDs.notSelected
+            ? setIsSelAndAmountBtnDisabled(true)
+            : setIsSelAndAmountBtnDisabled(false);
+        networkID in chainIDs
+            ? setIsSupportChain(true)
+            : setIsSupportChain(false)
+    }, [networkID])
 
-        stateRight === networkIDs.notSelected || stateLeft === stateRight
+    useEffect(() => {
+
+        intoChainId === chainIDs.notSelected || outChainId === intoChainId
             ? setIsSwapperDisabled(true)
             : setIsSwapperDisabled(false);
 
-        (networkID === networkIDs.notSelected || networkID === networkIDs.eth || networkID === networkIDs.bsc
-            || networkID === networkIDs.mumbaiTest || networkID === networkIDs.rinkebyTest
-            || networkID === networkIDs.coinExTest)
-            ? setIsSupportNetwork(true) : setIsSupportNetwork(false)
-
         // for swap conversion way
-        if (stateLeft === networkIDs.eth && stateRight === networkIDs.bsc) {
+        if (outChainId === chainIDs.eth && intoChainId === chainIDs.bsc) {
             console.log('eth2bsc')
             setSwapWay('eth2bsc')
-        } else if (stateLeft === networkIDs.bsc && stateRight === networkIDs.eth) {
+        } else if (outChainId === chainIDs.bsc && intoChainId === chainIDs.eth) {
             console.log('bsc2eth')
             setSwapWay('bsc2eth')
-        } else if (stateRight === networkIDs.coinExTest) {
+        } else if (intoChainId === chainIDs.coinExTest) {
             setSwapWay('coinexSmartChainTestnet')
-        } else if (stateRight === networkIDs.mumbaiTest) {
+        } else if (intoChainId === chainIDs.mumbaiTest) {
             setSwapWay('mumbaiTestnet')
-        } else if (stateRight === networkIDs.rinkebyTest) {
+        } else if (intoChainId === chainIDs.rinkebyTest) {
             setSwapWay('rinkebyTestnet')
         } else setSwapWay(undefined)
 
-        if (stateRight !== 0) {
-            dispatch(getHydroBalanceThunk(true, stateRight))
-            dispatch(getTransactionFeeThunk(stateRight))
+        if (intoChainId !== 0) {
+            dispatch(getHydroBalanceThunk(true, intoChainId))
+            dispatch(getTransactionFeeThunk(intoChainId))
         }
-    }, [networkID, stateLeft, stateRight])
+    }, [outChainId, intoChainId])
+
 
     useEffect(() => {
-        if (isSupportedNetwork) {
+        if (isSupportedChain) {
             dispatch(getHydroBalanceThunk())
         }
-    }, [networkID])
+    }, [isSupportedChain])
 
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
@@ -85,22 +87,23 @@ export const Menu = (props: PropsType) => {
     }
 
     const onClickSwapper = () => {
-        const tempStateValue = stateLeft
-        setStateLeft(stateRight)
-        setStateRight(tempStateValue)
+        const tempStateValue = outChainId
+        setOutChainId(intoChainId)
+        setIntoChainId(tempStateValue)
     }
 
     // begin of dark and light theme
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
-    // console.log('isDark',isDark)
+
+    console.log('chainIDs',chainIDs)
 
     return (
         <div className={`${props.className} ${s.menu}`}>
             <div className={s.selectNetwork}>
-                <NetworkElement text={'From'} isMain={true} state={stateLeft} setState={setStateLeft}
+                <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
                                 isDisabled={isSelAndAmountBtnDisabled}/>
                 <Swapper isDisable={isSwapperDisabled} onClick={onClickSwapper}/>
-                <NetworkElement text={'To'} state={stateRight} setState={setStateRight}
+                <NetworkElement text={'To'} state={intoChainId} setState={setIntoChainId}
                                 isDisabled={isSelAndAmountBtnDisabled}/>
             </div>
             <div className={s.amount}>
@@ -123,7 +126,7 @@ export const Menu = (props: PropsType) => {
                 </div>
                 <div className={s.transactionFee}>
                     <b>Transaction fee:</b>
-                    {!transactionFee.gasPrice && <span> ?</span> }
+                    {!transactionFee.gasPrice && <span> ?</span>}
                     {transactionFee.gasPrice &&
                       <div>
                         <div>gasPrice: {transactionFee.gasPrice}</div>
@@ -136,14 +139,14 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>{inputValue !== '' ? inputValue : 0}</div>
-                {networkID === networkIDs.notSelected &&
+                {networkID === chainIDs.notSelected &&
                   <button className={s.accent}
                           onClick={connectToMetamaskHandler}
-                          disabled={!isSupportedNetwork}
+                          disabled={!isSupportedChain}
                   >Connect Wallet</button>}
-                {networkID !== networkIDs.notSelected &&
+                {networkID !== chainIDs.notSelected &&
                   <button onClick={exchangeHandler}
-                          disabled={swapWay === undefined || Number(inputValue) <= 0}
+                          disabled={swapWay === undefined || Number(inputValue) <= 0 || outChainId === intoChainId}
                   >Swap</button>}
             </div>
         </div>

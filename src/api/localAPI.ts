@@ -1,7 +1,7 @@
 import {chains} from "../assets/chains";
 import BepHydro from '../assets/abis/bephydro.json';
 import {AbiItem} from "web3-utils";
-import {addressForWeb3, hydroAddresses, networkIDs, swapContractAddresses} from "../common/variables";
+import {addressForWeb3, hydroAddresses, chainIDs, swapContractAddresses, isTestChains} from "../common/variables";
 import {Contract} from "web3-eth-contract";
 
 // let web3 = window.web3
@@ -70,17 +70,17 @@ export const localAPI = {
     createHydroContractInstance: (networkID: number) => {
         let hydroAddress
         switch (networkID) {
-            case networkIDs.eth: {
+            case chainIDs.eth: {
                 hydroAddress = hydroAddresses.forEth
                 break
             }
-            case networkIDs.bsc: {
+            case chainIDs.bsc: {
                 hydroAddress = hydroAddresses.forBsc
                 break
             }
-            case networkIDs.mumbaiTest:
-            case networkIDs.rinkebyTest:
-            case networkIDs.coinExTest: {
+            case chainIDs.mumbaiTest:
+            case chainIDs.rinkebyTest:
+            case chainIDs.coinExTest: {
                 hydroAddress = hydroAddresses.forTestNets
                 break
             }
@@ -150,5 +150,18 @@ declare let window: any // todo: maybe fix any
 type ErrorType = {
     code: number
 }
-export type ConversionWayType = 'eth2bsc' | 'bsc2eth' | 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet'
+
+/*isTestChains
+    ? export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet'
+    : export type ConversionWayType = 'eth2bsc' | 'bsc2eth'*/
+
+// export type SomeType extends isTestChains ? TrueType : FalseType;
+
+/*export type ConversionWayType =
+    isTestChains
+        ? 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet'
+        : 'eth2bsc' | 'bsc2eth'*/
+
+export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth'
+
 type AnotherProviderType = { isAnotherProvider: boolean }

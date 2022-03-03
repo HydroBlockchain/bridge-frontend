@@ -3,20 +3,20 @@ import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
-import {isTestNets, networkIDs, networkNames} from "../../../common/variables";
+import {isTestChains, chainIDs, chainsNames} from "../../../common/variables";
 
 
 
 const options =
-    isTestNets
+    isTestChains
         ? [
-            {value: networkIDs.mumbaiTest, label: networkNames.mumbaiTest},
-            {value: networkIDs.rinkebyTest, label: networkNames.rinkebyTest},
-            {value: networkIDs.coinExTest, label: networkNames.coinExTest},
+            {value: chainIDs.mumbaiTest, label: chainsNames.mumbaiTest},
+            {value: chainIDs.rinkebyTest, label: chainsNames.rinkebyTest},
+            {value: chainIDs.coinExTest, label: chainsNames.coinExTest},
         ]
         : [
-            {value: networkIDs.eth, label: networkNames.eth},
-            {value: networkIDs.bsc, label: networkNames.bsc},
+            {value: chainIDs.eth, label: chainsNames.eth},
+            {value: chainIDs.bsc, label: chainsNames.bsc},
         ]
 
 
@@ -52,7 +52,7 @@ export const NetworkElement = (props: PropsType) => {
     const dispatch = useDispatch()
     useEffect(() => {
         //change network in Metamask
-        if (props.isMain && props.state !== networkIDs.notSelected) dispatch(changeNetworkThunk(props.state))
+        if (props.isMain && props.state !== chainIDs.notSelected) dispatch(changeNetworkThunk(props.state))
     },[props.state])
 
     const onChange = (option: PropsValue<Option | Option[]>) => {

@@ -1,21 +1,63 @@
 // === IMPORTANT: ===
 // export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
 export const addressForWeb3 = 'http://127.0.0.1:3001'
-export const isTestNets = true
+export const isTestChains = false
 // === ===
 
-export enum networkIDs {
+/*if (isTestChains) {
+    export enum chainIDs {
     notSelected = 0,
     eth = 1,
     bsc = 56,
-    polygon = 137,
-    coinEx = 52,
+    mumbaiTest = 80001,
+    rinkebyTest = 4,
+    coinExTest = 53,
+}} else
+    {
+        export enum chainIDs {
+            notSelected = 0,
+            eth = 1,
+            bsc = 56,
+            mumbaiTest = 80001,
+            rinkebyTest = 4,
+            coinExTest = 53,
+        }
+    }*/
+
+export enum chainIDs {
+    notSelected = 0,
+    eth = 1,
+    bsc = 56,
     mumbaiTest = 80001,
     rinkebyTest = 4,
     coinExTest = 53,
 }
 
-export enum networkNames {
+/*export const chainIDs = {
+    notSelected: 0,
+    eth: 1,
+    bsc: 56,
+    /!*mumbaiTest: 80001,
+    rinkebyTest: 4,
+    coinExTest: 53,*!/
+}*/
+
+export type RealizedNetworksRightType =
+    | chainIDs.eth
+    | chainIDs.bsc
+    | chainIDs.mumbaiTest
+    | chainIDs.rinkebyTest
+    | chainIDs.coinExTest
+
+export const chainNamesForGetHydroBalance = {
+    [chainIDs.eth]: 'ethereum',
+    [chainIDs.bsc]: 'binanceMainnet',
+    [chainIDs.mumbaiTest]: 'polygonTestnet',
+    [chainIDs.rinkebyTest]: 'rinkebyTestnet',
+    [chainIDs.coinExTest]: 'coinexTestNetwork',
+}
+
+export enum chainsNames {
     notSelected = 'Please click Connect Wallet and unlock you Metamask.',
     eth = 'Ethereum Mainnet',
     bsc = 'Binance Smart Chain Mainnet',
@@ -25,8 +67,6 @@ export enum networkNames {
     rinkebyTest = 'Rinkeby Test Network',
     coinExTest = 'CoinEx Smart Chain Testnet',
 }
-
-
 
 export const hydroAddresses = {
     forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
@@ -40,20 +80,6 @@ export const swapContractAddresses = {
     mumbaiTestnet: '0x55656EEBCA47E834894de45408cBD4484c52518B',
     rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
 }
-export const chainNamesForGetHydroBalance = {
-    [networkIDs.eth]: 'ethereum',
-    [networkIDs.bsc]: 'binanceMainnet',
-    [networkIDs.mumbaiTest]: 'polygonTestnet',
-    [networkIDs.rinkebyTest]: 'rinkebyTestnet',
-    [networkIDs.coinExTest]: 'coinexTestNetwork',
-}
 
-type ChainNamesForGetHydroBalanceType = typeof chainNamesForGetHydroBalance
 
-export type RealizedNetworksRightType =
-    | networkIDs.eth
-    | networkIDs.bsc
-    | networkIDs.mumbaiTest
-    | networkIDs.rinkebyTest
-    | networkIDs.coinExTest
 

@@ -5,23 +5,23 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
 import {InitialStateType} from "../../redux/bridge-reducer";
 import s from './Navbar.module.scss'
-import {networkIDs, networkNames} from "../../common/variables";
+import {chainIDs, chainsNames} from "../../common/variables";
 
 const statusNetwork = (networkID: number) => {
     switch (networkID) {
-        case networkIDs.notSelected: {
-            return networkNames.notSelected
+        case chainIDs.notSelected: {
+            return chainsNames.notSelected
         }
-        case networkIDs.eth:
-            return networkNames.eth
-        case networkIDs.bsc:
-            return networkNames.bsc
-        case networkIDs.mumbaiTest:
-            return networkNames.mumbaiTest
-        case networkIDs.rinkebyTest:
-            return networkNames.rinkebyTest
-        case networkIDs.coinExTest:
-            return networkNames.coinExTest
+        case chainIDs.eth:
+            return chainsNames.eth
+        case chainIDs.bsc:
+            return chainsNames.bsc
+        case chainIDs.mumbaiTest:
+            return chainsNames.mumbaiTest
+        case chainIDs.rinkebyTest:
+            return chainsNames.rinkebyTest
+        case chainIDs.coinExTest:
+            return chainsNames.coinExTest
         default:
             return 'This network is not supported yet.'
     }

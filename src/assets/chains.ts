@@ -1,21 +1,10 @@
 // todo: fix any
-import {networkIDs, networkNames} from "../common/variables";
+import {chainIDs, chainsNames} from "../common/variables";
 
 export const chains: any = {
-    [networkIDs.polygon]: {
-        chainId: `0x${Number(networkIDs.polygon).toString(16)}`,
-        chainName: networkNames.polygon,
-        nativeCurrency: {
-            name: "MATIC",
-            symbol: "MATIC",
-            decimals: 18
-        },
-        rpcUrls: ["https://polygon-rpc.com/"],
-        blockExplorerUrls: ["https://polygonscan.com/"]
-    },
-    [networkIDs.bsc]: {
-        chainId: `0x${Number(networkIDs.bsc).toString(16)}`,
-        chainName: networkNames.bsc,
+    [chainIDs.bsc]: {
+        chainId: `0x${Number(chainIDs.bsc).toString(16)}`,
+        chainName: chainsNames.bsc,
         nativeCurrency: {
             name: "Binance Chain Native Token",
             symbol: "BNB",
@@ -38,25 +27,12 @@ export const chains: any = {
         ],
         blockExplorerUrls: ["https://bscscan.com"]
     },
-    [networkIDs.eth]: {
-        chainId: `0x${Number(networkIDs.eth).toString(16)}`,
+    [chainIDs.eth]: {
+        chainId: `0x${Number(chainIDs.eth).toString(16)}`,
     },
-    [networkIDs.coinEx]: {
-        chainId: `0x${Number(networkIDs.coinEx).toString(16)}`,
-        chainName: networkNames.coinEx,
-        nativeCurrency: {
-            name: "CoinEx Chain Native Token",
-            symbol: "cet",
-            decimals: 18
-        },
-        rpcUrls: [
-            "https://rpc.coinex.net"
-        ],
-        blockExplorerUrls: ["https://www.coinex.net"]
-    },
-    [networkIDs.mumbaiTest]: {  // for testing
-        chainId: `0x${Number(networkIDs.mumbaiTest).toString(16)}`,
-        chainName: networkNames.mumbaiTest,
+    [chainIDs.mumbaiTest]: {  // for testing
+        chainId: `0x${Number(chainIDs.mumbaiTest).toString(16)}`,
+        chainName: chainsNames.mumbaiTest,
         nativeCurrency: {
             name: "MATIC",
             symbol: "MATIC",
@@ -65,9 +41,9 @@ export const chains: any = {
         rpcUrls: [""],
         blockExplorerUrls: [""]
     },
-    [networkIDs.rinkebyTest] : { // for testing
-        chainId: `0x${Number(networkIDs.rinkebyTest).toString(16)}`,
-        chainName: networkNames.rinkebyTest,
+    [chainIDs.rinkebyTest] : { // for testing
+        chainId: `0x${Number(chainIDs.rinkebyTest).toString(16)}`,
+        chainName: chainsNames.rinkebyTest,
         nativeCurrency: {
             name: "Ether",
             symbol: "ETH",
@@ -76,9 +52,9 @@ export const chains: any = {
         rpcUrls: [""],
         blockExplorerUrls: [""]
     },
-    [networkIDs.coinExTest]: {
-        chainId: `0x${Number(networkIDs.coinExTest).toString(16)}`,
-        chainName: networkNames.coinExTest,
+    [chainIDs.coinExTest]: {
+        chainId: `0x${Number(chainIDs.coinExTest).toString(16)}`,
+        chainName: chainsNames.coinExTest,
         nativeCurrency: {
             name: 'CoinEx Chain Test Native Token',
             symbol: "cett",
