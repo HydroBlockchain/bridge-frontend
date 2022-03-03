@@ -1,3 +1,5 @@
+import {ChainType} from "../api/serverAPI";
+
 export enum networkIDs {
     notSelected = 0,
     eth = 1,
@@ -43,9 +45,13 @@ export const chainNamesForGetHydroBalance = {
     [networkIDs.rinkebyTest]: 'rinkebyTestnet',
     [networkIDs.coinExTest]: 'coinexTestNetwork',
 }
+
+type ChainNamesForGetHydroBalanceType = typeof chainNamesForGetHydroBalance
+
 export type RealizedNetworksRightType =
     | networkIDs.eth
     | networkIDs.bsc
     | networkIDs.mumbaiTest
     | networkIDs.rinkebyTest
     | networkIDs.coinExTest
+

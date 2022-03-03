@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     approveFundsThunk,
     connectToMetamaskThunk,
-    getHydroBalanceThunk,
+    getHydroBalanceThunk, getTransactionFeeThunk,
     InitialStateType
 } from "../../redux/bridge-reducer";
 import {AppRootStateType} from "../../redux/store";
@@ -17,10 +17,14 @@ import {ConversionWayType} from "../../api/localAPI";
 export const Menu = (props: PropsType) => {
     const dispatch = useDispatch()
 
-    const {networkID, hydroBalance, hydroBalanceRight} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+    const {
+        networkID,
+        hydroBalance,
+        hydroBalanceRight,
+        transactionFee
+    } = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
 
     const [inputValue, setInputValue] = useState<string>('')
-    const [buttonText, setButtonText] = useState<'Connect Wallet' | 'Swap'>('Connect Wallet')
     const [isSupportedNetwork, setIsSupportNetwork] = useState(false)
     const [stateLeft, setStateLeft] = useState(0)
     const [stateRight, setStateRight] = useState(0)
@@ -30,14 +34,10 @@ export const Menu = (props: PropsType) => {
 
     useEffect(() => {
         setStateLeft(networkID)
-        if (networkID !== networkIDs.notSelected) {
-            setButtonText('Swap')
-            setIsSelAndAmountBtnDisabled(false)
+        networkID !== networkIDs.notSelected
+            ? setIsSelAndAmountBtnDisabled(false)
+            : setIsSelAndAmountBtnDisabled(true)
 
-        } else {
-            setButtonText('Connect Wallet')
-            setIsSelAndAmountBtnDisabled(true)
-        }
         stateRight === networkIDs.notSelected || stateLeft === stateRight
             ? setIsSwapperDisabled(true)
             : setIsSwapperDisabled(false);
@@ -60,12 +60,11 @@ export const Menu = (props: PropsType) => {
             setSwapWay('mumbaiTestnet')
         } else if (stateRight === networkIDs.rinkebyTest) {
             setSwapWay('rinkebyTestnet')
-        }
-
-        else setSwapWay(undefined)
+        } else setSwapWay(undefined)
 
         if (stateRight !== 0) {
             dispatch(getHydroBalanceThunk(true, stateRight))
+            dispatch(getTransactionFeeThunk(stateRight))
         }
     }, [networkID, stateLeft, stateRight])
 
@@ -115,23 +114,33 @@ export const Menu = (props: PropsType) => {
                 </div>
                 <div className={s.buttonIn}>
                     <input type="text" placeholder={'Enter amount'} value={inputValue}
-                           onChange={e => setInputValue(e.currentTarget.value)}/>
+                           onChange={e => setInputValue(e.currentTarget.value)} disabled={isSelAndAmountBtnDisabled}/>
                     <button>MAX</button>
                 </div>
-
+                <div className={s.transactionFee}>
+                    <b>Transaction fee:</b>
+                    {!transactionFee.gasPrice && <span> ?</span> }
+                    {transactionFee.gasPrice &&
+                      <div>
+                        <div>gasPrice: {transactionFee.gasPrice}</div>
+                        <div>gasRequired: {transactionFee.gasRequired} </div>
+                        <div>transactionCostinWei: {transactionFee.transactionCostinWei}</div>
+                      </div>
+                    }
+                </div>
             </div>
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>{inputValue !== '' ? inputValue : 0}</div>
                 {networkID === networkIDs.notSelected &&
-                    <button className={s.accent}
-                            onClick={connectToMetamaskHandler}
-                            disabled={!isSupportedNetwork}
-                    >Connect Wallet</button>}
+                  <button className={s.accent}
+                          onClick={connectToMetamaskHandler}
+                          disabled={!isSupportedNetwork}
+                  >Connect Wallet</button>}
                 {networkID !== networkIDs.notSelected &&
-                    <button onClick={exchangeHandler}
-                            disabled={swapWay === undefined || Number(inputValue) <= 0}
-                    >Swap</button>}
+                  <button onClick={exchangeHandler}
+                          disabled={swapWay === undefined || Number(inputValue) <= 0}
+                  >Swap</button>}
             </div>
         </div>
     )

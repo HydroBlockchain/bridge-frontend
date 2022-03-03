@@ -1,5 +1,3 @@
-import {toast} from "react-toastify";
-import React from "react";
 import axios from "axios";
 
 const instance = axios.create({
@@ -8,14 +6,20 @@ const instance = axios.create({
 })
 
 export const serverApi = {
-    getSwapCostInHydroTokens() {
-        return instance.get(`getSwapCostInHydroTokens?destinationChain=ethereum`)
-    },
-    getHydroBalance(address: string, chainName: string) {
+    getHydroBalance(address: string, chainName: ChainType) {
         return instance.get('getHydroBalance', {
             params: {
                 address, chainName
             }
         })
+    },
+    getTransactionFee(destinationChain: ChainType) {
+        return instance.get('getSwapCostInHydroTokens', {
+            params: {
+                destinationChain
+            }
+        })
     }
 }
+
+export type ChainType = 'ethereum' | 'binanceMainnet' | 'polygonTestnet' | 'rinkebyTestnet' | 'coinexTestNetwork'

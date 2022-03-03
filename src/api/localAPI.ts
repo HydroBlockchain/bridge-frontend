@@ -87,13 +87,16 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
+    fromWei: function (weiBalance: string, ether = '') {
+        return web3.utils.fromWei(weiBalance, ether)
+    },
     getHydroBalance: async function (hydroContractInstance: Contract) {
         let address
         address = await this.getAccountAddress()
 
         try {
             const HydroBalance = await hydroContractInstance.methods.balanceOf(address).call()
-            return web3.utils.fromWei(HydroBalance)
+            return this.fromWei(HydroBalance)
         } catch (error) {
             console.error('getHydroBalance error')
             return ''
@@ -103,7 +106,7 @@ export const localAPI = {
     displayApprovedFund: async function (hydroContractInstance: Contract, hydroBalance: string, account: string, swapAddress: string) {
         try {
             const allowed_swap = await hydroContractInstance.methods.allowed(account, swapAddress).call();
-            const allowed_swapFromWei = web3.utils.fromWei(allowed_swap.toString(), 'ether')
+            const allowed_swapFromWei = this.fromWei(allowed_swap.toString(), 'ether')
         } catch (error) {
             console.error(error)
         }
