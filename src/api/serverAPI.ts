@@ -8,9 +8,6 @@ const instance = axios.create({
 })
 
 export const serverApi = {
-    /*getSwapCostInHydroTokens: function{
-
-    }*/
     getSwapCostInHydroTokens() {
         return instance.get(`getSwapCostInHydroTokens?destinationChain=ethereum`)
     },

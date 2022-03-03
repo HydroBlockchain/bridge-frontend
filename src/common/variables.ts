@@ -21,7 +21,7 @@ export enum networkNames {
 }
 
 // export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
-export const addressForWeb3 = 'http://127.0.0.1:3000'
+export const addressForWeb3 = 'http://127.0.0.1:3001'
 export const addressForWeb3_2 = 'https://mainnet.infura.io/v3/c68fe38b880c40fc9ef966d8d12452b0'
 
 export const hydroAddresses = {
@@ -40,5 +40,12 @@ export const chainNamesForGetHydroBalance = {
     [networkIDs.eth]: 'ethereum',
     [networkIDs.bsc]: 'binanceMainnet',
     [networkIDs.mumbaiTest]: 'polygonTestnet',
+    [networkIDs.rinkebyTest]: 'rinkebyTestnet',
+    [networkIDs.coinExTest]: 'coinexTestNetwork',
 }
-export type RealizedNetworksType = networkIDs.eth | networkIDs.bsc | networkIDs.mumbaiTest
+export type RealizedNetworksRightType =
+    | networkIDs.eth
+    | networkIDs.bsc
+    | networkIDs.mumbaiTest
+    | networkIDs.rinkebyTest
+    | networkIDs.coinExTest

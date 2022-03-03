@@ -3,7 +3,7 @@ import {AppRootStateType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {ConversionWayType, localAPI} from "../api/localAPI";
-import {chainNamesForGetHydroBalance, networkIDs, RealizedNetworksType} from "../common/variables";
+import {chainNamesForGetHydroBalance, networkIDs, RealizedNetworksRightType} from "../common/variables";
 import App from "../App";
 import {serverApi} from "../api/serverAPI";
 
@@ -106,7 +106,7 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
     }
 }
 
-export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, networkID: RealizedNetworksType | 0 = 0)
+export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, networkID: RealizedNetworksRightType | 0 = 0)
     : AppThunk => async (dispatch, getState: () => AppRootStateType) => {
     const account = getState().bridge.account
     if (isAnotherAccount && networkID !== 0) {
