@@ -1,4 +1,8 @@
-import {ChainType} from "../api/serverAPI";
+// === IMPORTANT: ===
+// export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
+export const addressForWeb3 = 'http://127.0.0.1:3001'
+export const isTestNets = true
+// === ===
 
 export enum networkIDs {
     notSelected = 0,
@@ -22,9 +26,7 @@ export enum networkNames {
     coinExTest = 'CoinEx Smart Chain Testnet',
 }
 
-// export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
-export const addressForWeb3 = 'http://127.0.0.1:3001'
-export const addressForWeb3_2 = 'https://mainnet.infura.io/v3/c68fe38b880c40fc9ef966d8d12452b0'
+
 
 export const hydroAddresses = {
     forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',

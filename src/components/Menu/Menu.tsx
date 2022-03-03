@@ -90,6 +90,10 @@ export const Menu = (props: PropsType) => {
         setStateRight(tempStateValue)
     }
 
+    // begin of dark and light theme
+    const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
+    // console.log('isDark',isDark)
+
     return (
         <div className={`${props.className} ${s.menu}`}>
             <div className={s.selectNetwork}>
@@ -124,7 +128,7 @@ export const Menu = (props: PropsType) => {
                       <div>
                         <div>gasPrice: {transactionFee.gasPrice}</div>
                         <div>gasRequired: {transactionFee.gasRequired} </div>
-                        <div>transactionCostinWei: {transactionFee.transactionCostinWei}</div>
+                        <div>transactionCost: {transactionFee.transactionCostinWei}</div>
                       </div>
                     }
                 </div>

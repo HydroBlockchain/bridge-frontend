@@ -115,9 +115,11 @@ export const localAPI = {
         // const allowed = web3.utils.fromWei(allowed_swap.toString(), 'ether');
     },
     approveFunds: async function (hydroContractInstance: Contract, account: string, swapContractAddress: string) {
-        hydroContractInstance.methods.approve(swapContractAddress, web3.utils.toWei('1000000000')).send({
-            from: account,
-        })
+        hydroContractInstance.methods
+            .approve(swapContractAddress, web3.utils.toWei('1000000000'))
+            .send({
+                from: account,
+            })
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {
                     // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);

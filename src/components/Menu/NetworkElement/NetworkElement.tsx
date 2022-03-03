@@ -3,15 +3,22 @@ import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
-import {networkIDs, networkNames} from "../../../common/variables";
+import {isTestNets, networkIDs, networkNames} from "../../../common/variables";
 
-const options = [
-    {value: networkIDs.mumbaiTest, label: networkNames.mumbaiTest},
-    {value: networkIDs.rinkebyTest, label: networkNames.rinkebyTest},
-    {value: networkIDs.coinExTest, label: networkNames.coinExTest},
-    {value: networkIDs.eth, label: networkNames.eth},
-    {value: networkIDs.bsc, label: networkNames.bsc},
-]
+
+
+const options =
+    isTestNets
+        ? [
+            {value: networkIDs.mumbaiTest, label: networkNames.mumbaiTest},
+            {value: networkIDs.rinkebyTest, label: networkNames.rinkebyTest},
+            {value: networkIDs.coinExTest, label: networkNames.coinExTest},
+        ]
+        : [
+            {value: networkIDs.eth, label: networkNames.eth},
+            {value: networkIDs.bsc, label: networkNames.bsc},
+        ]
+
 
 const elementColor = '#313647'
 const selectByArrowColor = '#203147'
