@@ -135,7 +135,6 @@ export const Menu = (props: PropsType) => {
                         <div>gasRequired: {transactionFee.gasRequired}</div>
                         <div>transactionCost: {transactionFee.transactionCostinEth}</div>
                         <div>transactionCostInHydro: {transactionFee.transactionCostInHydro}</div>
-                        <div>hydroTokensToBeReceived: {transactionFee.hydroTokensToBeReceived}</div>
                       </div>
                     }
                 </div>
@@ -144,7 +143,7 @@ export const Menu = (props: PropsType) => {
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>
                     {/*{inputValue !== '' ? inputValue : 0}*/}
-                    {transactionFee.transactionCostInHydro ? transactionFee.transactionCostInHydro : '?'}
+                    {transactionFee.hydroTokensToBeReceived ? transactionFee.hydroTokensToBeReceived : '?'}
                 </div>
                 {chainID === chainIDs.notSelected &&
                   <button className={s.accent}
