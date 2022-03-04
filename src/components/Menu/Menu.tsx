@@ -43,10 +43,15 @@ export const Menu = (props: PropsType) => {
             || chainID === chainIDs.coinExTest)
             ? setIsSupportChain(true)
             : setIsSupportChain(false)
-        if (isSupportedChain) {
-            dispatch(getHydroBalanceThunk(false, outChainId))
-        }
     }, [chainID])
+
+    useEffect(() => {
+
+        if (isSupportedChain) {
+            dispatch(getHydroBalanceThunk())
+
+        }
+    }, [outChainId])
 
     useEffect(() => {
 

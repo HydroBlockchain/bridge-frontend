@@ -3,7 +3,7 @@ import {AppRootStateType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {ConversionWayType, localAPI} from "../api/localAPI";
-import {chainNamesForGetHydroBalance, chainIDs, RealizedNetworksRightType} from "../common/variables";
+import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from "../common/variables";
 import {ChainType, serverApi} from "../api/serverAPI";
 
 let initialState = {
@@ -98,8 +98,8 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
         const account = await localAPI.getAccountAddress()
         dispatch(setAccountAC(account))
 
-        const networkID = await localAPI.getChainID()
-        dispatch(setChainIDAC(chainID))
+        const newChainID = await localAPI.getChainID()
+        dispatch(setChainIDAC(newChainID))
     })
 
 }
@@ -113,7 +113,6 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async () => {
 }
 
 export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    debugger
     if (Number(approvedAmount) > 0) {
         const bridgeState = getState().bridge
         const hydroContractInstance = bridgeState.hydroContractInstance
@@ -125,9 +124,8 @@ export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType
     }
 }
 
-export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID: RealizedNetworksRightType | 0 = 0)
+export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID: RealizedChainsRightType | 0 = 0)
     : AppThunk => async (dispatch, getState: () => AppRootStateType) => {
-    debugger
     const account = getState().bridge.account
     if (isAnotherAccount && chainID !== chainIDs.notSelected) {
         try {
@@ -152,7 +150,7 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID:
     }
 }
 
-export const getTransactionFeeThunk = (chainID: RealizedNetworksRightType | 0): AppThunk => async (dispatch) => {
+export const getTransactionFeeThunk = (chainID: RealizedChainsRightType | 0): AppThunk => async (dispatch) => {
     if (chainID !== 0) {
         await serverApi.getTransactionFee(chainNamesForGetHydroBalance[chainID] as ChainType)
             .then(data => {

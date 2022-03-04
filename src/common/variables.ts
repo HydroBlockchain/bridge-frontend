@@ -13,7 +13,7 @@ export enum chainIDs {
     coinExTest = 53,
 }
 
-export type RealizedNetworksRightType =
+export type RealizedChainsRightType =
     | chainIDs.eth
     | chainIDs.bsc
     | chainIDs.mumbaiTest
