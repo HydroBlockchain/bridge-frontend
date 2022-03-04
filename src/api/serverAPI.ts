@@ -13,10 +13,10 @@ export const serverApi = {
             }
         })
     },
-    getTransactionFee(destinationChain: ChainType) {
+    getTransactionFee(amountOfHydro: string, destinationChain: ChainType) {
         return instance.get('getSwapCostInHydroTokens', {
             params: {
-                destinationChain
+                amountOfHydro, destinationChain
             }
         })
     }

@@ -37,10 +37,7 @@ export const Menu = (props: PropsType) => {
         chainID === chainIDs.notSelected
             ? setIsSelAndAmountBtnDisabled(true)
             : setIsSelAndAmountBtnDisabled(false);
-        /*chainIDs in chainIDs*/
-        (chainID === chainIDs.notSelected || chainID === chainIDs.eth || chainID === chainIDs.bsc
-            || chainID === chainIDs.mumbaiTest || chainID === chainIDs.rinkebyTest
-            || chainID === chainIDs.coinExTest)
+        chainID in chainIDs
             ? setIsSupportChain(true)
             : setIsSupportChain(false)
     }, [chainID])
@@ -76,7 +73,7 @@ export const Menu = (props: PropsType) => {
 
         if (intoChainId !== 0) {
             dispatch(getHydroBalanceThunk(true, intoChainId))
-            dispatch(getTransactionFeeThunk(intoChainId))
+            dispatch(getTransactionFeeThunk(inputValue, intoChainId))
         }
     }, [outChainId, intoChainId])
 
@@ -135,15 +132,20 @@ export const Menu = (props: PropsType) => {
                     {transactionFee.gasPrice &&
                       <div>
                         <div>gasPrice: {transactionFee.gasPrice}</div>
-                        <div>gasRequired: {transactionFee.gasRequired} </div>
-                        <div>transactionCost: {transactionFee.transactionCostinWei}</div>
+                        <div>gasRequired: {transactionFee.gasRequired}</div>
+                        <div>transactionCost: {transactionFee.transactionCostinEth}</div>
+                        <div>transactionCostInHydro: {transactionFee.transactionCostInHydro}</div>
+                        <div>hydroTokensToBeReceived: {transactionFee.hydroTokensToBeReceived}</div>
                       </div>
                     }
                 </div>
             </div>
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
-                <div className={s.amountReceived}>{inputValue !== '' ? inputValue : 0}</div>
+                <div className={s.amountReceived}>
+                    {/*{inputValue !== '' ? inputValue : 0}*/}
+                    {transactionFee.transactionCostInHydro ? transactionFee.transactionCostInHydro : '?'}
+                </div>
                 {chainID === chainIDs.notSelected &&
                   <button className={s.accent}
                           onClick={connectToMetamaskHandler}

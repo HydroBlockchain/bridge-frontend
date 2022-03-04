@@ -150,16 +150,17 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID:
     }
 }
 
-export const getTransactionFeeThunk = (chainID: RealizedChainsRightType | 0): AppThunk => async (dispatch) => {
+export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedChainsRightType | 0): AppThunk => async (dispatch) => {
     if (chainID !== 0) {
-        await serverApi.getTransactionFee(chainNamesForGetHydroBalance[chainID] as ChainType)
+        await serverApi.getTransactionFee(amountOfHydro,chainNamesForGetHydroBalance[chainID] as ChainType)
             .then(data => {
-                const transactionFee = {
+                console.log(data)
+                /*const transactionFee = {
                     gasPrice: data.data.gasPrice,
                     gasRequired: data.data.gasRequired,
-                    transactionCostinWei: localAPI.fromWei(data.data.transactionCostinWei.toString())
-                }
-                dispatch(setTransactionFeeAC(transactionFee))
+                    transactionCostinEth: data.data.transactionCostinEth
+                }*/
+                dispatch(setTransactionFeeAC(data.data))
             })
             .catch(e => {
                 console.log('getTransactionFee error', e)
@@ -185,5 +186,7 @@ declare let window: any; // todo: maybe fix any
 type TransactionFeeType = {
     gasPrice: string
     gasRequired: number
-    transactionCostinWei: number
+    transactionCostinEth: number
+    transactionCostInHydro: number
+    hydroTokensToBeReceived: number
 }
