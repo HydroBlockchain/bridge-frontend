@@ -18,7 +18,7 @@ export const Menu = (props: PropsType) => {
     const dispatch = useDispatch()
 
     const {
-        networkID,
+        chainID,
         hydroBalance,
         hydroBalanceRight,
         transactionFee
@@ -33,14 +33,20 @@ export const Menu = (props: PropsType) => {
     const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
 
     useEffect(() => {
-        setOutChainId(networkID)
-        networkID === chainIDs.notSelected
+        setOutChainId(chainID)
+        chainID === chainIDs.notSelected
             ? setIsSelAndAmountBtnDisabled(true)
             : setIsSelAndAmountBtnDisabled(false);
-        networkID in chainIDs
+        /*chainIDs in chainIDs*/
+        (chainID === chainIDs.notSelected || chainID === chainIDs.eth || chainID === chainIDs.bsc
+            || chainID === chainIDs.mumbaiTest || chainID === chainIDs.rinkebyTest
+            || chainID === chainIDs.coinExTest)
             ? setIsSupportChain(true)
             : setIsSupportChain(false)
-    }, [networkID])
+        if (isSupportedChain) {
+            dispatch(getHydroBalanceThunk(false, outChainId))
+        }
+    }, [chainID])
 
     useEffect(() => {
 
@@ -69,19 +75,13 @@ export const Menu = (props: PropsType) => {
         }
     }, [outChainId, intoChainId])
 
-
-    useEffect(() => {
-        if (isSupportedChain) {
-            dispatch(getHydroBalanceThunk())
-        }
-    }, [isSupportedChain])
-
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
     }
 
     const exchangeHandler = () => {
         if (swapWay !== undefined) {
+            debugger
             dispatch(approveFundsThunk(inputValue, swapWay))
         }
     }
@@ -92,10 +92,10 @@ export const Menu = (props: PropsType) => {
         setIntoChainId(tempStateValue)
     }
 
-    // begin of dark and light theme
+    // begin of dark and light theme switch
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
 
-    console.log('chainIDs',chainIDs)
+    // console.log('chainIDs',chainIDs)
 
     return (
         <div className={`${props.className} ${s.menu}`}>
@@ -139,12 +139,12 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>{inputValue !== '' ? inputValue : 0}</div>
-                {networkID === chainIDs.notSelected &&
+                {chainID === chainIDs.notSelected &&
                   <button className={s.accent}
                           onClick={connectToMetamaskHandler}
                           disabled={!isSupportedChain}
                   >Connect Wallet</button>}
-                {networkID !== chainIDs.notSelected &&
+                {chainID !== chainIDs.notSelected &&
                   <button onClick={exchangeHandler}
                           disabled={swapWay === undefined || Number(inputValue) <= 0 || outChainId === intoChainId}
                   >Swap</button>}

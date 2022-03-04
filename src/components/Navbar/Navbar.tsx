@@ -7,8 +7,8 @@ import {InitialStateType} from "../../redux/bridge-reducer";
 import s from './Navbar.module.scss'
 import {chainIDs, chainsNames} from "../../common/variables";
 
-const statusNetwork = (networkID: number) => {
-    switch (networkID) {
+const statusNetwork = (chainID: number) => {
+    switch (chainID) {
         case chainIDs.notSelected: {
             return chainsNames.notSelected
         }
@@ -28,16 +28,16 @@ const statusNetwork = (networkID: number) => {
 }
 
 export const Navbar = () => {
-    const {networkID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+    const {chainID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
 
     return (
         <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
         <span className="ml-2">
         <img className='bridge-logo' src={bridgeLogo} alt='bridge'/>
         </span>
-            <div className={networkID === 0
+            <div className={chainID === 0
                 ? `${s.networkStatus} ${s.accent}`
-                : s.networkStatus}>{statusNetwork(networkID)}</div>
+                : s.networkStatus}>{statusNetwork(chainID)}</div>
 
             <ul className="navbar-nav px-3">
                 <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">

@@ -1,7 +1,7 @@
 import {chains} from "../assets/chains";
 import BepHydro from '../assets/abis/bephydro.json';
 import {AbiItem} from "web3-utils";
-import {addressForWeb3, hydroAddresses, chainIDs, swapContractAddresses, isTestChains} from "../common/variables";
+import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from "../common/variables";
 import {Contract} from "web3-eth-contract";
 
 // let web3 = window.web3
@@ -16,14 +16,14 @@ export const localAPI = {
         const accounts = await web3.eth.getAccounts();
         return accounts[0]
     },
-    getNetworkID: async () => {
+    getChainID: async () => {
         return await web3.eth.net.getId();
     },
     connectToMetamask: async function () {
         let returnValues = {
             status: false,
             account: '',
-            networkID: 0,
+            chainID: 0,
         }
         try {
             if (typeof window.ethereum !== 'undefined') {
@@ -42,15 +42,15 @@ export const localAPI = {
             console.error('localAPI.connectToMetamask error')
         }
 
-        returnValues.networkID = await web3.eth.net.getId()
+        returnValues.chainID = await web3.eth.net.getId()
         return returnValues
     },
 
-    changeNetwork: async (networkID: number) => {
+    changeNetwork: async (chainID: number) => {
         try {
             await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{chainId: chains[networkID].chainId}],
+                params: [{chainId: chains[chainID].chainId}],
             })
             return true
         } catch (error) {
@@ -58,7 +58,7 @@ export const localAPI = {
                 if ((error as ErrorType).code === 4902) {
                     await window.ethereum.request({
                         method: "wallet_addEthereumChain",
-                        params: [chains[networkID]],
+                        params: [chains[chainID]],
                     });
                     return true
                 }
@@ -67,9 +67,9 @@ export const localAPI = {
             }
         }
     },
-    createHydroContractInstance: (networkID: number) => {
+    createHydroContractInstance: (chainID: number) => {
         let hydroAddress
-        switch (networkID) {
+        switch (chainID) {
             case chainIDs.eth: {
                 hydroAddress = hydroAddresses.forEth
                 break
@@ -150,17 +150,6 @@ declare let window: any // todo: maybe fix any
 type ErrorType = {
     code: number
 }
-
-/*isTestChains
-    ? export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet'
-    : export type ConversionWayType = 'eth2bsc' | 'bsc2eth'*/
-
-// export type SomeType extends isTestChains ? TrueType : FalseType;
-
-/*export type ConversionWayType =
-    isTestChains
-        ? 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet'
-        : 'eth2bsc' | 'bsc2eth'*/
 
 export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth'
 

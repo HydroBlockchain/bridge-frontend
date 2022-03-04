@@ -28,7 +28,7 @@ let initialState = {
     allowed: '0' as ReturnType<typeof fromWei>,
     eth_allowed: 0,
     blockNumber: 0,
-    networkID: chainIDs.notSelected,
+    chainID: chainIDs.notSelected,
     text: '',
     wrongNetwork: '',
     API_LINK: '',
@@ -59,7 +59,7 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
 }
 
 //Action creators:
-const setNetworkIDAC = (networkID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {networkID}} as const)
+const setChainIDAC = (chainID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {chainID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
 const setHydroContractInstanceAC = (hydroContractInstance: Contract) => ({
@@ -82,12 +82,12 @@ const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
     //todo: add here progress bar of app
-    const {status, account, networkID} = await localAPI.connectToMetamask()
+    const {status, account, chainID} = await localAPI.connectToMetamask()
     if (status) {
         if (account !== '') {
             dispatch(setAccountAC(account))
         }
-        if (networkID !== 0) dispatch(setNetworkIDAC(networkID))
+        if (chainID !== 0) dispatch(setChainIDAC(chainID))
         dispatch(setLoadingAC(true))
     } else {
         dispatch(setLoadingAC(false))
@@ -98,8 +98,8 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
         const account = await localAPI.getAccountAddress()
         dispatch(setAccountAC(account))
 
-        const networkID = await localAPI.getNetworkID()
-        dispatch(setNetworkIDAC(networkID))
+        const networkID = await localAPI.getChainID()
+        dispatch(setChainIDAC(chainID))
     })
 
 }
@@ -113,6 +113,7 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async () => {
 }
 
 export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    debugger
     if (Number(approvedAmount) > 0) {
         const bridgeState = getState().bridge
         const hydroContractInstance = bridgeState.hydroContractInstance
@@ -124,12 +125,13 @@ export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType
     }
 }
 
-export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, networkID: RealizedNetworksRightType | 0 = 0)
+export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID: RealizedNetworksRightType | 0 = 0)
     : AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    debugger
     const account = getState().bridge.account
-    if (isAnotherAccount && networkID !== 0) {
+    if (isAnotherAccount && chainID !== chainIDs.notSelected) {
         try {
-            await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[networkID] as ChainType)
+            await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[chainID] as ChainType)
                 .then(data => {
                     dispatch(setHydroBalanceRightAC(data.data.tokenBalance))
                 })
@@ -143,16 +145,16 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, networkI
             dispatch(setHydroBalanceRightAC('?'))
         }
     } else {
-        const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.networkID)
+        const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.chainID)
         dispatch(setHydroContractInstanceAC(hydroContractInstance))
         const hydroBalance = await localAPI.getHydroBalance(hydroContractInstance)
         dispatch(setHydroBalanceAC(hydroBalance))
     }
 }
 
-export const getTransactionFeeThunk = (networkID: RealizedNetworksRightType | 0): AppThunk => async (dispatch) => {
-    if (networkID !== 0) {
-        await serverApi.getTransactionFee(chainNamesForGetHydroBalance[networkID] as ChainType)
+export const getTransactionFeeThunk = (chainID: RealizedNetworksRightType | 0): AppThunk => async (dispatch) => {
+    if (chainID !== 0) {
+        await serverApi.getTransactionFee(chainNamesForGetHydroBalance[chainID] as ChainType)
             .then(data => {
                 const transactionFee = {
                     gasPrice: data.data.gasPrice,
@@ -170,7 +172,7 @@ export const getTransactionFeeThunk = (networkID: RealizedNetworksRightType | 0)
 export type InitialStateType = typeof initialState
 
 export type BridgeActionTypes =
-    | ReturnType<typeof setNetworkIDAC>
+    | ReturnType<typeof setChainIDAC>
     | ReturnType<typeof setLoadingAC>
     | ReturnType<typeof setAccountAC>
     | ReturnType<typeof setHydroContractInstanceAC>

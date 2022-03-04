@@ -1,28 +1,8 @@
 // === IMPORTANT: ===
 // export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
 export const addressForWeb3 = 'http://127.0.0.1:3001'
-export const isTestChains = false
+export const isTestChains = true
 // === ===
-
-/*if (isTestChains) {
-    export enum chainIDs {
-    notSelected = 0,
-    eth = 1,
-    bsc = 56,
-    mumbaiTest = 80001,
-    rinkebyTest = 4,
-    coinExTest = 53,
-}} else
-    {
-        export enum chainIDs {
-            notSelected = 0,
-            eth = 1,
-            bsc = 56,
-            mumbaiTest = 80001,
-            rinkebyTest = 4,
-            coinExTest = 53,
-        }
-    }*/
 
 export enum chainIDs {
     notSelected = 0,
@@ -32,15 +12,6 @@ export enum chainIDs {
     rinkebyTest = 4,
     coinExTest = 53,
 }
-
-/*export const chainIDs = {
-    notSelected: 0,
-    eth: 1,
-    bsc: 56,
-    /!*mumbaiTest: 80001,
-    rinkebyTest: 4,
-    coinExTest: 53,*!/
-}*/
 
 export type RealizedNetworksRightType =
     | chainIDs.eth
