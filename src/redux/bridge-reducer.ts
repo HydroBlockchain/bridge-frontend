@@ -1,10 +1,11 @@
 import {ThunkAction} from "redux-thunk";
-import {AppRootStateType} from "./store";
+import {AppStoreType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {ConversionWayType, localAPI} from "../api/localAPI";
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from "../common/variables";
 import {ChainType, serverApi} from "../api/serverAPI";
+import {setAppStatusAC} from "./appReducer";
 
 let initialState = {
     account: '',
@@ -81,8 +82,9 @@ const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
-    //todo: add here progress bar of app
+    dispatch(setAppStatusAC('loading'))
     const {status, account, chainID} = await localAPI.connectToMetamask()
+
     if (status) {
         if (account !== '') {
             dispatch(setAccountAC(account))
@@ -92,6 +94,7 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
     } else {
         dispatch(setLoadingAC(false))
     }
+    dispatch(setAppStatusAC('succeeded'))
 
     //turn on monitoring if chain in metamask changed
     window.ethereum.on('chainChanged', async function () {
@@ -104,31 +107,35 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
 
 }
 
-export const changeNetworkThunk = (networkID: number): AppThunk => async () => {
+export const changeNetworkThunk = (networkID: number): AppThunk => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     if (await localAPI.changeNetwork(networkID)) {
-        //todo: here will be status of app with progress bar
+        dispatch(setAppStatusAC('succeeded'))
     } else {
         console.error('changeNetwork error')
     }
 }
 
-export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     if (Number(approvedAmount) > 0) {
         const bridgeState = getState().bridge
         const hydroContractInstance = bridgeState.hydroContractInstance
         const hydraBalance = bridgeState.hydroBalance
         if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
+        dispatch(setAppStatusAC('loading'))
         await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, way)
+        dispatch(setAppStatusAC('succeeded'))
     } else {
         console.error('approveFundsThunk', 'approvedAmount must be > 0')
     }
 }
 
 export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID: RealizedChainsRightType | 0 = 0)
-    : AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    : AppThunk => async (dispatch, getState: () => AppStoreType) => {
     const account = getState().bridge.account
     if (isAnotherAccount && chainID !== chainIDs.notSelected) {
         try {
+            dispatch(setAppStatusAC('loading'))
             await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[chainID] as ChainType)
                 .then(data => {
                     dispatch(setHydroBalanceRightAC(data.data.tokenBalance))
@@ -142,6 +149,9 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID:
             console.error('getHydroBalanceThunk error', e)
             dispatch(setHydroBalanceRightAC('?'))
         }
+        finally {
+            dispatch(setAppStatusAC('succeeded'))
+        }
     } else {
         const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.chainID)
         dispatch(setHydroContractInstanceAC(hydroContractInstance))
@@ -152,6 +162,7 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID:
 
 export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedChainsRightType | 0): AppThunk => async (dispatch) => {
     if (chainID !== 0) {
+        dispatch(setAppStatusAC('loading'))
         await serverApi.getTransactionFee(amountOfHydro,chainNamesForGetHydroBalance[chainID] as ChainType)
             .then(data => {
                 console.log(data)
@@ -164,6 +175,9 @@ export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedC
             })
             .catch(e => {
                 console.log('getTransactionFee error', e)
+            })
+            .finally(()=> {
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -178,8 +192,10 @@ export type BridgeActionTypes =
     | ReturnType<typeof setHydroBalanceAC>
     | ReturnType<typeof setHydroBalanceRightAC>
     | ReturnType<typeof setTransactionFeeAC>
+    | ReturnType<typeof setAppStatusAC>
 
-type AppThunk = ThunkAction<void, AppRootStateType, unknown, BridgeActionTypes>
+
+type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 
 declare let window: any; // todo: maybe fix any
 

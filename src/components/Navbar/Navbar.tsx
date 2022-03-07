@@ -2,7 +2,7 @@ import React from "react";
 import Identicon from "identicon.js";
 import bridgeLogo from '../../assets/images/hydrobridge.svg';
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../redux/store";
+import {AppStoreType} from "../../redux/store";
 import {InitialStateType} from "../../redux/bridge-reducer";
 import s from './Navbar.module.scss'
 import {chainIDs, chainsNames} from "../../common/variables";
@@ -28,19 +28,17 @@ const statusNetwork = (chainID: number) => {
 }
 
 export const Navbar = () => {
-    const {chainID, account} = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+    const {chainID, account} = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
 
     return (
-        <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
-        <span className="ml-2">
-        <img className='bridge-logo' src={bridgeLogo} alt='bridge'/>
-        </span>
+        <div className={s.navbar}>
+            <img className='bridge-logo' src={bridgeLogo} alt='bridge'/>
             <div className={chainID === 0
                 ? `${s.networkStatus} ${s.accent}`
-                : s.networkStatus}>{statusNetwork(chainID)}</div>
-
-            <ul className="navbar-nav px-3">
-                <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                : s.networkStatus}>{statusNetwork(chainID)}
+            </div>
+            <ul>
+                <li>
                     <small className="text-secondary">
                         <small id="account">
                             {account
@@ -59,6 +57,6 @@ export const Navbar = () => {
                     />) : (<span> </span>)}
                 </li>
             </ul>
-        </nav>
+        </div>
     )
 }

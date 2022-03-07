@@ -8,7 +8,7 @@ import {
     getHydroBalanceThunk, getTransactionFeeThunk,
     InitialStateType
 } from "../../redux/bridge-reducer";
-import {AppRootStateType} from "../../redux/store";
+import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {chainIDs} from "../../common/variables";
 import {ConversionWayType} from "../../api/localAPI";
@@ -22,7 +22,7 @@ export const Menu = (props: PropsType) => {
         hydroBalance,
         hydroBalanceRight,
         transactionFee
-    } = useSelector<AppRootStateType, InitialStateType>(state => state.bridge)
+    } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
 
     const [inputValue, setInputValue] = useState<string>('')
     const [isSupportedChain, setIsSupportChain] = useState(false) // if selected in Metamask chain is not supported in application
