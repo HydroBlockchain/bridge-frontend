@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import s from './Menu.module.scss'
 import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {useDispatch, useSelector} from "react-redux";
@@ -97,7 +97,17 @@ export const Menu = (props: PropsType) => {
     // begin of dark and light theme switch
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
 
-    // console.log('chainIDs',chainIDs)
+    const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.currentTarget.value)
+
+        if (intoChainId !== 0) {
+            setTimeout(() => {
+                // dispatch(getHydroBalanceThunk(true, intoChainId))
+                dispatch(getTransactionFeeThunk(inputValue, intoChainId))
+            },1000)
+        }
+
+    }
 
     return (
         <div className={`${props.className} ${s.menu}`}>
@@ -119,11 +129,10 @@ export const Menu = (props: PropsType) => {
                             <div>Right HYDRO Balance: {hydroBalanceRight === '' ? '?' : hydroBalanceRight}</div>
                         </div>
                     </div>
-
                 </div>
                 <div className={s.buttonIn}>
                     <input type="text" placeholder={'Enter amount'} value={inputValue}
-                           onChange={e => setInputValue(e.currentTarget.value)} disabled={isSelAndAmountBtnDisabled}/>
+                           onChange={(e) => onChangeInput(e)} disabled={isSelAndAmountBtnDisabled}/>
                     <button>MAX</button>
                 </div>
                 <div className={s.transactionFee}>
@@ -142,7 +151,6 @@ export const Menu = (props: PropsType) => {
             <div className={s.buttonsBlock}>
                 <div>Amount Received</div>
                 <div className={s.amountReceived}>
-                    {/*{inputValue !== '' ? inputValue : 0}*/}
                     {transactionFee.hydroTokensToBeReceived ? transactionFee.hydroTokensToBeReceived : '?'}
                 </div>
                 {chainID === chainIDs.notSelected &&
