@@ -3,8 +3,18 @@
 $textColor: #B2B2B2;
 $btnColor: #203147;
 
-.menu {
+@mixin disabledButton {
+    &:disabled {
+        color: $textColorDisabled;
+        cursor: auto;
 
+        &:hover {
+            background: $btnColor;
+        }
+    }
+}
+
+.menu {
     input, .amountReceived {
         width: 100%;
         background: $elementColor;
@@ -37,9 +47,11 @@ $btnColor: #203147;
             justify-content: space-between;
             align-items: center;
             width: inherit;
-            .amountHeader{
+
+            .amountHeader {
                 width: inherit;
             }
+
             .amountBody {
                 width: inherit;
                 display: flex;
@@ -61,8 +73,10 @@ $btnColor: #203147;
                 background: #565A66;
                 color: $textColor;
                 cursor: pointer;
+                @include disabledButton;
             }
         }
+
         .transactionFee {
             margin-top: 10px;
         }
@@ -80,20 +94,16 @@ $btnColor: #203147;
             cursor: pointer;
             background: $btnColor;
             margin-top: 10px;
-
-            &:disabled {
-                color: $textColorDisabled;
-                cursor: auto;
-
-                &:hover {
-                    background: $btnColor;
-                }
-            }
+            @include disabledButton;
         }
 
         .accent {
             border: 1px solid $accentColor;
         }
+
+    }
+
+    button {
 
     }
 }

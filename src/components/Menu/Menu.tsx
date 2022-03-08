@@ -101,16 +101,12 @@ export const Menu = (props: PropsType) => {
         setIntoChainId(tempStateValue)
     }
 
+    const maxHandler = () => {
+        if (hydroBalance) setInputValue(hydroBalance)
+    }
+
     // begin of dark and light theme switch
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
-
-    const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log('e.currentTarget.value', e.currentTarget.value)
-        setInputValue(e.currentTarget.value)
-
-
-
-    }
 
     return (
         <div className={`${props.className} ${s.menu}`}>
@@ -135,8 +131,8 @@ export const Menu = (props: PropsType) => {
                 </div>
                 <div className={s.buttonIn}>
                     <input type="text" placeholder={'Enter amount'} value={inputValue}
-                           onChange={(e) => onChangeInput(e)} disabled={isSelAndAmountBtnDisabled}/>
-                    <button>MAX</button>
+                           onChange={(e) => setInputValue(e.currentTarget.value)} disabled={isSelAndAmountBtnDisabled}/>
+                    <button onClick={maxHandler} disabled={hydroBalance === ''}>MAX</button>
                 </div>
                 <div className={s.transactionFee}>
                     <b>Transaction fee:</b>

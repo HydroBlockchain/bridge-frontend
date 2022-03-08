@@ -1,7 +1,7 @@
 // === IMPORTANT: ===
 // export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
 export const addressForWeb3 = 'http://127.0.0.1:3001'
-export const isTestChains = false
+export const isTestChains = true
 // === ===
 
 export enum chainIDs {
