@@ -5,19 +5,16 @@
 /* General */
 
 body {
-    background-color: #131925;
-    height: 82vh;
+    background-color: #212124;
     width: 100%;
     position: relative;
-    font-family: Georgia, "Times New Roman", Times, serif;
-    font-family: "Montserrat", sans-serif;
 }
 
 /* Nav */
 
 nav {
     color: #ffffffb7;
-    background-color: #2c3244a1 !important;
+    //background-color: #2c3244a1 !important;
     height: 8vh;
     padding-right: 1rem !important;
     font-size: 1.5rem;
@@ -96,14 +93,6 @@ form h3 {
     margin-top: 15%;
     left: 50%;
     transform: translate(-50%, 25%);
-}
-
-.card {
-    border-radius: 15px !important;
-    margin-top: 10px;
-    background-color: #2c3244a1;
-    color: #ffffffb7;
-    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
 }
 
 .balances {

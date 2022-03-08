@@ -1,7 +1,7 @@
 import {chains} from "../assets/chains";
 import BepHydro from '../assets/abis/bephydro_copy.json';
 import {AbiItem} from "web3-utils";
-import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from "../common/variables";
+import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from "../common/common";
 import {Contract} from "web3-eth-contract";
 
 const Web3 = require('web3');

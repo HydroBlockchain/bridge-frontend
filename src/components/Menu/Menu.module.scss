@@ -1,7 +1,6 @@
-@import '../../common/styles/sass/variables';
+@import '../../common/styles/variables';
 
 $textColor: #B2B2B2;
-$btnColor: #203147;
 
 @mixin disabledButton {
     &:disabled {
@@ -9,104 +8,123 @@ $btnColor: #203147;
         cursor: auto;
 
         &:hover {
-            background: $btnColor;
+            background: $buttonColor;
         }
     }
 }
 
-.menu {
-    input, .amountReceived {
+.menuContainer {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 50px);
+
+    .menu {
+        background-color: #161618;
+        border-radius: 25px;
+        color: #ffffffb7;
         width: 100%;
-        background: $elementColor;
-        border: none;
-        height: 55px;
-        border-radius: 15px;
-        padding-left: 35px;
-        color: $textColor;
-    }
+        max-width: 850px;
+        padding: 27.5px;
+        height: 600px;
 
-    .amountReceived {
-        display: flex;
-        align-items: center;
-    }
+        input, .amountReceived {
+            width: 100%;
+            background: $elementColor;
+            border: none;
+            height: 55px;
+            border-radius: 15px;
+            padding-left: 35px;
+            color: $textColor;
+        }
 
-    .selectNetwork {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        .amountReceived {
+            display: flex;
+            align-items: center;
+        }
 
-    .amount {
-        //margin-top: 25px;
-        width: 100%;
-
-        .headerAndBalance {
-            margin-top: 10px;
-            margin-bottom: 10px;
+        .selectNetwork {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: inherit;
+        }
 
-            .amountHeader {
-                width: inherit;
-            }
+        .amount {
+            //margin-top: 25px;
+            width: 100%;
 
-            .amountBody {
-                width: inherit;
+            .headerAndBalance {
+                margin-top: 10px;
+                margin-bottom: 10px;
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
+                width: inherit;
+
+                .amountHeader {
+                    width: inherit;
+                }
+
+                .amountBody {
+                    width: inherit;
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+
+            .buttonIn {
+                width: 100%;
+                position: relative;
+
+                button {
+                    position: absolute;
+                    border-radius: 10px;
+                    width: 75px;
+                    height: 33px;
+                    right: 11px;
+                    top: 20%;
+                    background: $buttonColor;
+                    color: $textColor;
+                    cursor: pointer;
+                    @include disabledButton;
+                }
+            }
+
+            .transactionFee {
+                margin-top: 10px;
             }
         }
 
-        .buttonIn {
-            width: 100%;
-            position: relative;
+        .buttonsBlock {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
 
             button {
-                position: absolute;
-                border-radius: 10px;
-                width: 75px;
-                height: 33px;
-                right: 11px;
-                top: 20%;
-                background: #565A66;
-                color: $textColor;
+                color: #A5A5A5;
+                border-radius: 15px;
+                height: 55px;
                 cursor: pointer;
+                background: $buttonColor;
+                margin-top: 10px;
                 @include disabledButton;
             }
-        }
 
-        .transactionFee {
-            margin-top: 10px;
-        }
-    }
+            .accent {
+                border: 1px solid $accentColor;
+            }
 
-    .buttonsBlock {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
+        }
 
         button {
-            color: #A5A5A5;
-            border-radius: 15px;
-            height: 55px;
-            cursor: pointer;
-            background: $btnColor;
-            margin-top: 10px;
-            @include disabledButton;
+
         }
-
-        .accent {
-            border: 1px solid $accentColor;
-        }
-
-    }
-
-    button {
-
     }
 }
+
+
 
 
 

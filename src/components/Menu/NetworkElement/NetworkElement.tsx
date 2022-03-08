@@ -3,9 +3,8 @@ import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
-import {isTestChains, chainIDs, chainsNames} from "../../../common/variables";
-
-
+import {isTestChains, chainIDs, chainsNames} from "../../../common/common";
+import {elementColor} from "../../../common/styles/variables";
 
 const options =
     isTestChains
@@ -19,8 +18,6 @@ const options =
             {value: chainIDs.bsc, label: chainsNames.bsc},
         ]
 
-
-const elementColor = '#313647'
 const selectByArrowColor = '#203147'
 
 const selectStyles: StylesConfig = {

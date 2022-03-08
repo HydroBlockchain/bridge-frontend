@@ -1,0 +1,1 @@
+export const elementColor = '#212124';

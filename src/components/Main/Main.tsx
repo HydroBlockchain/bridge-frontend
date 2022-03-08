@@ -41,7 +41,7 @@ class Main extends Component<PropsType> {
 
                 <div id="content" className="mt-5 swap-form">
                     <div className="card mb-4">
-                        <Menu className={'card-body main-form'}/>
+                        <Menu/>
                     </div>
                 </div>
             </div>

@@ -11,12 +11,12 @@ import {
 } from "../../redux/bridge-reducer";
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
-import {chainIDs} from "../../common/variables";
+import {chainIDs} from "../../common/common";
 import {ConversionWayType} from "../../api/localAPI";
 import {RequestStatusType} from "../../redux/appReducer";
 
 
-export const Menu = (props: PropsType) => {
+export const Menu = () => {
     const dispatch = useDispatch()
 
     const {
@@ -119,65 +119,63 @@ export const Menu = (props: PropsType) => {
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
 
     return (
-        <div className={`${props.className} ${s.menu}`}>
-            <div className={s.selectNetwork}>
-                <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
-                                isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
-                <Swapper isDisable={isSwapperDisabled()} onClick={onClickSwapper}/>
-                <NetworkElement text={'To'} state={intoChainId} setState={setIntoChainId}
-                                isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
-            </div>
-            <div className={s.amount}>
-                <div className={s.headerAndBalance}>
-                    <div className={s.amount}>
-                        <div className={s.amountHeader}>
-                            Amount
-                        </div>
-                        <div className={s.amountBody}>
-                            <div>Left HYDRO Balance: {hydroBalance === '' ? '?' : hydroBalance}</div>
-                            <div>Right HYDRO Balance: {hydroBalanceRight === '' ? '?' : hydroBalanceRight}</div>
+        <div className={s.menuContainer}>
+            <div className={`${s.menu}`}>
+                <div className={s.selectNetwork}>
+                    <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
+                                    isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                    <Swapper isDisable={isSwapperDisabled()} onClick={onClickSwapper}/>
+                    <NetworkElement text={'To'} state={intoChainId} setState={setIntoChainId}
+                                    isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                </div>
+                <div className={s.amount}>
+                    <div className={s.headerAndBalance}>
+                        <div className={s.amount}>
+                            <div className={s.amountHeader}>
+                                Amount
+                            </div>
+                            <div className={s.amountBody}>
+                                <div>Left HYDRO Balance: {hydroBalance === '' ? '?' : hydroBalance}</div>
+                                <div>Right HYDRO Balance: {hydroBalanceRight === '' ? '?' : hydroBalanceRight}</div>
+                            </div>
                         </div>
                     </div>
+                    <div className={s.buttonIn}>
+                        <input type="text" placeholder={'Enter amount'} value={inputValue}
+                               onChange={(e) => setInputValue(e.currentTarget.value)}
+                               disabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                        <button onClick={maxHandler} disabled={isMaxButtonDisabled()}>MAX</button>
+                    </div>
+                    <div className={s.transactionFee}>
+                        <b>Transaction fee:</b>
+                        {!transactionFee.gasPrice && <span> ?</span>}
+                        {transactionFee.gasPrice &&
+                          <div>
+                            <div>gasPrice: {transactionFee.gasPrice}</div>
+                            <div>gasRequired: {transactionFee.gasRequired}</div>
+                            <div>transactionCost: {transactionFee.transactionCostinEth}</div>
+                            <div>transactionCostInHydro: {transactionFee.transactionCostInHydro}</div>
+                          </div>
+                        }
+                    </div>
                 </div>
-                <div className={s.buttonIn}>
-                    <input type="text" placeholder={'Enter amount'} value={inputValue}
-                           onChange={(e) => setInputValue(e.currentTarget.value)}
-                           disabled={isChainsSelectorsAndAmountInputDisabled()}/>
-                    <button onClick={maxHandler} disabled={isMaxButtonDisabled()}>MAX</button>
+                <div className={s.buttonsBlock}>
+                    <div>Amount Received</div>
+                    <div className={s.amountReceived}>
+                        {transactionFee.hydroTokensToBeReceived ? transactionFee.hydroTokensToBeReceived : '?'}
+                    </div>
+                    {chainID === chainIDs.notSelected &&
+                      <button className={s.accent}
+                              onClick={connectToMetamaskHandler}
+                              disabled={isConnectWalletButtonDisabled()}
+                      >Connect Wallet</button>}
+                    {chainID !== chainIDs.notSelected &&
+                      <button onClick={exchangeHandler}
+                              disabled={isSwapButtonDisabled()}
+                      >Swap</button>}
                 </div>
-                <div className={s.transactionFee}>
-                    <b>Transaction fee:</b>
-                    {!transactionFee.gasPrice && <span> ?</span>}
-                    {transactionFee.gasPrice &&
-                      <div>
-                        <div>gasPrice: {transactionFee.gasPrice}</div>
-                        <div>gasRequired: {transactionFee.gasRequired}</div>
-                        <div>transactionCost: {transactionFee.transactionCostinEth}</div>
-                        <div>transactionCostInHydro: {transactionFee.transactionCostInHydro}</div>
-                      </div>
-                    }
-                </div>
-            </div>
-            <div className={s.buttonsBlock}>
-                <div>Amount Received</div>
-                <div className={s.amountReceived}>
-                    {transactionFee.hydroTokensToBeReceived ? transactionFee.hydroTokensToBeReceived : '?'}
-                </div>
-                {chainID === chainIDs.notSelected &&
-                  <button className={s.accent}
-                          onClick={connectToMetamaskHandler}
-                          disabled={isConnectWalletButtonDisabled()}
-                  >Connect Wallet</button>}
-                {chainID !== chainIDs.notSelected &&
-                  <button onClick={exchangeHandler}
-                          disabled={isSwapButtonDisabled()}
-                  >Swap</button>}
             </div>
         </div>
+
     )
 }
-
-type PropsType = {
-    className: string
-}
-

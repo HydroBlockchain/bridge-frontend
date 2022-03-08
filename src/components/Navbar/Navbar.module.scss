@@ -1,9 +1,10 @@
-@import '../../common/styles/sass/variables';
+@import '../../common/styles/variables';
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 
     .networkStatus {
         font-size: 14px;

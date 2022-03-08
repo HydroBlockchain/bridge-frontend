@@ -1,5 +1,5 @@
 // todo: fix any
-import {chainIDs, chainsNames} from "../common/variables";
+import {chainIDs, chainsNames} from "../common/common";
 
 export const chains: any = {
     [chainIDs.bsc]: {

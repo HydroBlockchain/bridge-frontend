@@ -3,7 +3,7 @@ import {AppStoreType} from "./store";
 import {Contract} from "web3-eth-contract";
 import {fromWei} from "web3-utils";
 import {ConversionWayType, localAPI} from "../api/localAPI";
-import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from "../common/variables";
+import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from "../common/common";
 import {ChainType, serverApi} from "../api/serverAPI";
 import {setAppStatusAC} from "./appReducer";
 

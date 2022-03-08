@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {AppStoreType} from "../../redux/store";
 import {InitialStateType} from "../../redux/bridge-reducer";
 import s from './Navbar.module.scss'
-import {chainIDs, chainsNames} from "../../common/variables";
+import {chainIDs, chainsNames} from "../../common/common";
 
 const statusNetwork = (chainID: number) => {
     switch (chainID) {
@@ -38,14 +38,12 @@ export const Navbar = () => {
                 : s.networkStatus}>{statusNetwork(chainID)}
             </div>
             <ul>
-                <li>
-                    <small className="text-secondary">
-                        <small id="account">
-                            {account
-                                .slice(0, 5)
-                                .concat("...")
-                                .concat(account.slice(37, 42))}
-                        </small>
+                <div>
+                    <small id="account">
+                        {account
+                            .slice(0, 5)
+                            .concat("...")
+                            .concat(account.slice(37, 42))}
                     </small>
 
                     {account ? (<img
@@ -55,7 +53,7 @@ export const Navbar = () => {
                         src={`data:image/png;base64,${new Identicon(account, 30).toString()}`}
                         alt=""
                     />) : (<span> </span>)}
-                </li>
+                </div>
             </ul>
         </div>
     )
