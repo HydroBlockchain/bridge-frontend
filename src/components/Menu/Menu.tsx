@@ -1,17 +1,19 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import s from './Menu.module.scss'
 import {NetworkElement} from "./NetworkElement/NetworkElement";
 import {useDispatch, useSelector} from "react-redux";
 import {
     approveFundsThunk,
     connectToMetamaskThunk,
-    getHydroBalanceThunk, getTransactionFeeThunk,
+    getHydroBalanceThunk,
+    getTransactionFeeThunk,
     InitialStateType
 } from "../../redux/bridge-reducer";
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {chainIDs} from "../../common/variables";
 import {ConversionWayType} from "../../api/localAPI";
+import {RequestStatusType} from "../../redux/appReducer";
 
 
 export const Menu = (props: PropsType) => {
@@ -23,20 +25,16 @@ export const Menu = (props: PropsType) => {
         hydroBalanceRight,
         transactionFee
     } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
+    const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
 
     const [inputValue, setInputValue] = useState<string>('')
     const [isSupportedChain, setIsSupportChain] = useState(false) // if selected in Metamask chain is not supported in application
     const [outChainId, setOutChainId] = useState(chainIDs.notSelected)
     const [intoChainId, setIntoChainId] = useState(chainIDs.notSelected)
-    const [isSelAndAmountBtnDisabled, setIsSelAndAmountBtnDisabled] = useState(true)
-    const [isSwapperDisabled, setIsSwapperDisabled] = useState(true)
     const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
 
     useEffect(() => {
         setOutChainId(chainID)
-        chainID === chainIDs.notSelected
-            ? setIsSelAndAmountBtnDisabled(true)
-            : setIsSelAndAmountBtnDisabled(false);
         chainID in chainIDs
             ? setIsSupportChain(true)
             : setIsSupportChain(false)
@@ -49,10 +47,6 @@ export const Menu = (props: PropsType) => {
     }, [outChainId])
 
     useEffect(() => {
-        intoChainId === chainIDs.notSelected || outChainId === intoChainId
-            ? setIsSwapperDisabled(true)
-            : setIsSwapperDisabled(false);
-
         // for swap conversion way
         if (outChainId === chainIDs.eth && intoChainId === chainIDs.bsc) {
             setSwapWay('eth2bsc')
@@ -78,38 +72,48 @@ export const Menu = (props: PropsType) => {
         if (intoChainId !== 0 && inputValue !== '') {
             timeoutId = setTimeout(() => {
                 dispatch(getTransactionFeeThunk(inputValue, intoChainId))
-            },1000)
+            }, 1000)
         }
         return () => {
             clearTimeout(timeoutId)
         }
     }, [inputValue])
 
+    // Handlers:
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
     }
-
     const exchangeHandler = () => {
         if (swapWay !== undefined) {
             dispatch(approveFundsThunk(inputValue, swapWay))
         }
     }
-
     const onClickSwapper = () => {
         const tempStateValue = outChainId
         setOutChainId(intoChainId)
         setIntoChainId(tempStateValue)
     }
-
     const maxHandler = () => {
         if (hydroBalance) setInputValue(hydroBalance)
     }
 
+    // Is buttons or elements disabled:
     const isSwapButtonDisabled = () => {
         return swapWay === undefined || Number(inputValue) <= 0 || outChainId === intoChainId
-            || (!transactionFee.hydroTokensToBeReceived)
+            || (!transactionFee.hydroTokensToBeReceived) || appStatus === 'loading'
     }
-
+    const isMaxButtonDisabled = () => {
+        return hydroBalance === '' || appStatus === 'loading'
+    }
+    const isConnectWalletButtonDisabled = () => {
+        return !isSupportedChain || appStatus === 'loading'
+    }
+    const isSwapperDisabled = () => {
+        return intoChainId === chainIDs.notSelected || outChainId === intoChainId || appStatus === 'loading'
+    }
+    const isChainsSelectorsAndAmountInputDisabled = () => {
+        return chainID === chainIDs.notSelected || appStatus === 'loading'
+    }
 
     // begin of dark and light theme switch
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
@@ -118,10 +122,10 @@ export const Menu = (props: PropsType) => {
         <div className={`${props.className} ${s.menu}`}>
             <div className={s.selectNetwork}>
                 <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
-                                isDisabled={isSelAndAmountBtnDisabled}/>
-                <Swapper isDisable={isSwapperDisabled} onClick={onClickSwapper}/>
+                                isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                <Swapper isDisable={isSwapperDisabled()} onClick={onClickSwapper}/>
                 <NetworkElement text={'To'} state={intoChainId} setState={setIntoChainId}
-                                isDisabled={isSelAndAmountBtnDisabled}/>
+                                isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
             </div>
             <div className={s.amount}>
                 <div className={s.headerAndBalance}>
@@ -137,8 +141,9 @@ export const Menu = (props: PropsType) => {
                 </div>
                 <div className={s.buttonIn}>
                     <input type="text" placeholder={'Enter amount'} value={inputValue}
-                           onChange={(e) => setInputValue(e.currentTarget.value)} disabled={isSelAndAmountBtnDisabled}/>
-                    <button onClick={maxHandler} disabled={hydroBalance === ''}>MAX</button>
+                           onChange={(e) => setInputValue(e.currentTarget.value)}
+                           disabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                    <button onClick={maxHandler} disabled={isMaxButtonDisabled()}>MAX</button>
                 </div>
                 <div className={s.transactionFee}>
                     <b>Transaction fee:</b>
@@ -161,7 +166,7 @@ export const Menu = (props: PropsType) => {
                 {chainID === chainIDs.notSelected &&
                   <button className={s.accent}
                           onClick={connectToMetamaskHandler}
-                          disabled={!isSupportedChain}
+                          disabled={isConnectWalletButtonDisabled()}
                   >Connect Wallet</button>}
                 {chainID !== chainIDs.notSelected &&
                   <button onClick={exchangeHandler}
@@ -171,7 +176,6 @@ export const Menu = (props: PropsType) => {
         </div>
     )
 }
-
 
 type PropsType = {
     className: string

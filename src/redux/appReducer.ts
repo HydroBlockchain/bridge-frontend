@@ -11,9 +11,6 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
     }
 }
 
-export const setIsInitializeAC = (isInitilize: boolean) => {
-    return ({type: 'APP/SET-IS-INITIALIZE', isInitilize} as const)
-}
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
 
 // Types
