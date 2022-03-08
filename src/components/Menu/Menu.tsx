@@ -43,25 +43,20 @@ export const Menu = (props: PropsType) => {
     }, [chainID])
 
     useEffect(() => {
-
         if (isSupportedChain) {
             dispatch(getHydroBalanceThunk())
-
         }
     }, [outChainId])
 
     useEffect(() => {
-
         intoChainId === chainIDs.notSelected || outChainId === intoChainId
             ? setIsSwapperDisabled(true)
             : setIsSwapperDisabled(false);
 
         // for swap conversion way
         if (outChainId === chainIDs.eth && intoChainId === chainIDs.bsc) {
-            console.log('eth2bsc')
             setSwapWay('eth2bsc')
         } else if (outChainId === chainIDs.bsc && intoChainId === chainIDs.eth) {
-            console.log('bsc2eth')
             setSwapWay('bsc2eth')
         } else if (intoChainId === chainIDs.coinExTest) {
             setSwapWay('coinexSmartChainTestnet')
@@ -77,13 +72,25 @@ export const Menu = (props: PropsType) => {
         }
     }, [outChainId, intoChainId])
 
+
+    let timeoutId: ReturnType<typeof setTimeout>
+    useEffect(() => {
+        if (intoChainId !== 0 && inputValue !== '') {
+            timeoutId = setTimeout(() => {
+                dispatch(getTransactionFeeThunk(inputValue, intoChainId))
+            },1000)
+        }
+        return () => {
+            clearTimeout(timeoutId)
+        }
+    }, [inputValue])
+
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
     }
 
     const exchangeHandler = () => {
         if (swapWay !== undefined) {
-            debugger
             dispatch(approveFundsThunk(inputValue, swapWay))
         }
     }
@@ -98,14 +105,10 @@ export const Menu = (props: PropsType) => {
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log('e.currentTarget.value', e.currentTarget.value)
         setInputValue(e.currentTarget.value)
 
-        if (intoChainId !== 0) {
-            setTimeout(() => {
-                // dispatch(getHydroBalanceThunk(true, intoChainId))
-                dispatch(getTransactionFeeThunk(inputValue, intoChainId))
-            },1000)
-        }
+
 
     }
 

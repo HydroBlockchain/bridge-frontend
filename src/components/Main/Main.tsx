@@ -43,9 +43,6 @@ class Main extends Component<PropsType> {
                     <div className="card mb-4">
                         <Menu className={'card-body main-form'}/>
                     </div>
-                   {/* <div className="card mb-4">
-                        <div className="card-body main-form">{content}</div>
-                    </div>*/}
                 </div>
             </div>
         );

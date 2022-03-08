@@ -1,5 +1,5 @@
 import {chains} from "../assets/chains";
-import BepHydro from '../assets/abis/bephydro.json';
+import BepHydro from '../assets/abis/bephydro_copy.json';
 import {AbiItem} from "web3-utils";
 import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from "../common/variables";
 import {Contract} from "web3-eth-contract";
@@ -110,29 +110,10 @@ export const localAPI = {
         } catch (error) {
             console.error(error)
         }
-        // console.log('displayApprovedFund, allowed_swap', allowed_swap)
-
         // const allowed = web3.utils.fromWei(allowed_swap.toString(), 'ether');
-    },
-    approveFunds: async function (hydroContractInstance: Contract, account: string, swapContractAddress: string) {
-        hydroContractInstance.methods
-            .approve(swapContractAddress, web3.utils.toWei('1000000000'))
-            .send({
-                from: account,
-            })
-            .on('transactionHash', (hash: string) => {
-                if (hash !== null) {
-                    // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
-                    console.log('approveFunds on')
-                }
-            })
     },
     exchangeTokenChain: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType) {
         const account = await this.getAccountAddress()
-
-        // const swapContractAddress = "0xfa41d158Ea48265443799CF720a120BFE77e41ca" // eth 2 bsc
-        // const swapContractAddress = "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95" // bsc 2 eth
-
         hydroContractInstance.methods
             .approve(swapContractAddresses[way], web3.utils.toWei(approvedAmount))
             .send({from: account,})
