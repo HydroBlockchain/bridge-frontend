@@ -105,6 +105,12 @@ export const Menu = (props: PropsType) => {
         if (hydroBalance) setInputValue(hydroBalance)
     }
 
+    const isSwapButtonDisabled = () => {
+        return swapWay === undefined || Number(inputValue) <= 0 || outChainId === intoChainId
+            || (!transactionFee.hydroTokensToBeReceived)
+    }
+
+
     // begin of dark and light theme switch
     const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
 
@@ -159,7 +165,7 @@ export const Menu = (props: PropsType) => {
                   >Connect Wallet</button>}
                 {chainID !== chainIDs.notSelected &&
                   <button onClick={exchangeHandler}
-                          disabled={swapWay === undefined || Number(inputValue) <= 0 || outChainId === intoChainId}
+                          disabled={isSwapButtonDisabled()}
                   >Swap</button>}
             </div>
         </div>

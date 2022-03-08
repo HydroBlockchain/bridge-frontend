@@ -4,12 +4,9 @@ import {AbiItem} from "web3-utils";
 import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from "../common/variables";
 import {Contract} from "web3-eth-contract";
 
-// let web3 = window.web3
 const Web3 = require('web3');
-// const Web3_2 = require('web3');
 
 let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3))
-let web3_2 = new Web3(new Web3.providers.HttpProvider(addressForWeb3));
 
 export const localAPI = {
     getAccountAddress: async () => {
