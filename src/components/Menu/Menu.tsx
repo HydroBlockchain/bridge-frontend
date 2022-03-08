@@ -11,7 +11,7 @@ import {
 } from "../../redux/bridge-reducer";
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
-import {chainIDs} from "../../common/common";
+import {chainIDs, isLightTheme} from "../../common/common";
 import {ConversionWayType} from "../../api/localAPI";
 import {RequestStatusType} from "../../redux/appReducer";
 
@@ -115,12 +115,10 @@ export const Menu = () => {
         return chainID === chainIDs.notSelected || appStatus === 'loading'
     }
 
-    // begin of dark and light theme switch
-    const isDark = window.matchMedia("(prefers-color-scheme:dark)").matches
-
     return (
         <div className={s.menuContainer}>
-            <div className={`${s.menu}`}>
+            {/*isLightTheme ? `${s.app} ${s.lightTheme}` : `${s.app}`*/}
+            <div className={isLightTheme ? `${s.menu} ${s.lightTheme}` : `${s.menu}`}>
                 <div className={s.selectNetwork}>
                     <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
                                     isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>

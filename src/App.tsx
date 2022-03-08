@@ -9,12 +9,13 @@ import {useSelector} from "react-redux";
 import {RequestStatusType} from "./redux/appReducer";
 import {AppStoreType} from "./redux/store";
 import s from './App.module.scss'
+import {isLightTheme} from "./common/common";
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
 
     return (
-        <div className={s.App}>
+        <div className={isLightTheme ? `${s.app} ${s.lightTheme}` : `${s.app}`}>
             <Navbar/>
             {status === 'loading' && <LinearProgress/>}
             <Menu/>

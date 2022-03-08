@@ -52,5 +52,6 @@ export const swapContractAddresses = {
     rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
 }
 
-
+// for dark and light theme switch
+export const isLightTheme = window.matchMedia("(prefers-color-scheme:light)").matches
 

@@ -3,8 +3,8 @@ import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
-import {isTestChains, chainIDs, chainsNames} from "../../../common/common";
-import {elementColor} from "../../../common/styles/variables";
+import {isTestChains, chainIDs, chainsNames, isLightTheme} from "../../../common/common";
+import {elementColor, elementColorLight} from "../../../common/styles/variables";
 
 const options =
     isTestChains
@@ -19,11 +19,12 @@ const options =
         ]
 
 const selectByArrowColor = '#203147'
+const elementColorFinal = isLightTheme ? elementColorLight : elementColor
 
 const selectStyles: StylesConfig = {
     control: base => ({
         ...base,
-        backgroundColor: elementColor,
+        backgroundColor: elementColorFinal,
         border: 0,
         boxShadow: 'none'
     }),
@@ -33,11 +34,11 @@ const selectStyles: StylesConfig = {
     }),
     menuList: base => ({
         ...base,
-        backgroundColor: elementColor,
+        backgroundColor: elementColorFinal,
     }),
     option: (base, {isSelected, isFocused}) => ({
         ...base,
-        backgroundColor: isSelected ? selectByArrowColor : isFocused ? selectByArrowColor : elementColor,
+        backgroundColor: isSelected ? selectByArrowColor : isFocused ? selectByArrowColor : elementColorFinal,
         ":hover": {
             ...base[':hover'],
             backgroundColor: '#4E5260'
@@ -66,7 +67,7 @@ export const NetworkElement = (props: PropsType) => {
 
     return <div className={s.networkElement}>
         <span>{props.text}</span>
-        <div className={s.item}>
+        <div className={isLightTheme ? `${s.item} ${s.lightTheme}` : `${s.item}` }>
             <div className={s.tempCircle}/>
             <Select
                 options={options}

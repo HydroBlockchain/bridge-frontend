@@ -1,6 +1,5 @@
 @import '../../common/styles/variables';
 
-$textColor: #B2B2B2;
 
 @mixin disabledButton {
     &:disabled {
@@ -22,7 +21,7 @@ $textColor: #B2B2B2;
     height: calc(100% - 50px);
 
     .menu {
-        background-color: #161618;
+        background-color: $menuColor;
         border-radius: 25px;
         color: #ffffffb7;
         width: 100%;
@@ -118,9 +117,11 @@ $textColor: #B2B2B2;
 
         }
 
-        button {
 
-        }
+    }
+    .lightTheme {
+        background-color: $menuColorLight;
+        color: $textColorLight;
     }
 }
 

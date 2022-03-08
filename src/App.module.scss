@@ -1,3 +1,10 @@
-.App {
+@import './common/styles/variables';
+
+.app {
     height: 100vh;
+    background-color: $backgroundColor;
+}
+
+.lightTheme {
+    background-color: $backgroundColorLight;
 }

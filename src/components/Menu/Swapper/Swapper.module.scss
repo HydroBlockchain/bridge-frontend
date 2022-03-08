@@ -7,8 +7,12 @@
     cursor: pointer;
     width: 39px;
     height: 39px;
-    background: $elementColor;
+    background: $swapperAndSwapButtonColor;
     border-radius: 50%;
+}
+
+.lightTheme {
+    background: $swapperAndSwapButtonColorLight;
 }
 
 .swapperDisabled {
