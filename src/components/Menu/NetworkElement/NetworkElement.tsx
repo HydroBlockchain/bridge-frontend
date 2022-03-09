@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
 import {isTestChains, chainIDs, chainsNames, isLightTheme} from "../../../common/common";
 import {elementColor, elementColorLight} from "../../../common/styles/variables";
+import cn from "classnames";
 
 const options =
     isTestChains
@@ -68,7 +69,7 @@ export const NetworkElement = (props: PropsType) => {
     return <div className={s.networkElement}>
         <span>{props.text}</span>
         <div className={isLightTheme ? `${s.item} ${s.lightTheme}` : `${s.item}` }>
-            <div className={s.tempCircle}/>
+            <div className={isLightTheme ? cn(s.tempCircle, s.lightTheme) : cn(s.tempCircle)}/>
             <Select
                 options={options}
                 styles={selectStyles}

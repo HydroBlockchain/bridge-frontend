@@ -2,17 +2,26 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import s from './Swapper.module.scss'
+import cn from "classnames";
+import {isLightTheme} from "../../../common/common";
 
-export const Swapper = (props: PropsType) => {
+
+export const Swapper  = (props: PropsType) => {
+
+
+
     return (
-    <div className={props.isDisable
-        ? `${s.swapper} ${s.swapperDisabled}`
-        : s.swapper
+    <div className={
+        props.isDisable
+            ? isLightTheme
+                ? cn(s.swapper, s.swapperDisabled, s.lightTheme)
+                : cn(s.swapper, s.swapperDisabled)
+            : isLightTheme ? cn(s.swapper, s.lightTheme) : s.swapper
     }
          onClick={() => {
              if (!props.isDisable) props.onClick()
          }}
-    ><FontAwesomeIcon icon={faArrowRightArrowLeft}/>
+    ><FontAwesomeIcon icon={faArrowRightArrowLeft} className={s.icon}/>
     </div>
     )
 }

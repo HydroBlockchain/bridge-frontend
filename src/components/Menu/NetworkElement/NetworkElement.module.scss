@@ -9,15 +9,19 @@
         flex-direction: column;
         justify-content: space-between;
         height: 165px;
-        background: $elementColor;
+        background: $backgroundColor;
         border-radius: 15px;
         padding: 17px;
 
         .tempCircle {
             width: 50px;
             height: 50px;
-            background: #101010;
+            background: $swapperAndSwapButtonColor;
             border-radius: 50%;
+        }
+
+        .lightTheme {
+            background: $swapperAndSwapButtonColorLight;
         }
 
         .select {
@@ -26,6 +30,6 @@
     }
 
     .lightTheme {
-        background: $elementColorLight;
+        background: $backgroundColorLight;
     }
 }

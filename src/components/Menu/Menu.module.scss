@@ -5,10 +5,6 @@
     &:disabled {
         color: $textColorDisabled;
         cursor: auto;
-
-        &:hover {
-            background: $buttonColor;
-        }
     }
 }
 
@@ -31,12 +27,17 @@
 
         input, .amountReceived {
             width: 100%;
-            background: $elementColor;
+            background: $backgroundColor;
             border: none;
             height: 55px;
             border-radius: 15px;
             padding-left: 35px;
             color: $textColor;
+        }
+
+        .lightTheme {
+            background: $backgroundColorLight;
+            color: $textColorLight;
         }
 
         .amountReceived {
@@ -84,10 +85,20 @@
                     height: 33px;
                     right: 11px;
                     top: 20%;
-                    background: $buttonColor;
+                    background: $menuColor;
                     color: $textColor;
                     cursor: pointer;
                     @include disabledButton;
+                }
+
+                .lightTheme {
+                    background: $menuColorLight;
+                    color: $textColorLight;
+                }
+
+                .lightThemeInput {
+                    background: $backgroundColorLight;
+                    color: $textColorLight;
                 }
             }
 
@@ -101,7 +112,7 @@
             display: flex;
             flex-direction: column;
 
-            button {
+            .connectSwapButton {
                 color: #A5A5A5;
                 border-radius: 15px;
                 height: 55px;
@@ -113,6 +124,16 @@
 
             .accent {
                 border: 1px solid $accentColor;
+            }
+
+            .lightTheme {
+                background: $swapperAndSwapButtonColorLight;
+                color: $backgroundColorLight;
+            }
+
+            .lightThemeAmount {
+                background: $backgroundColorLight;
+                color: $textColorLight;
             }
 
         }

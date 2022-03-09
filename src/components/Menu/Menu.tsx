@@ -14,6 +14,7 @@ import {Swapper} from "./Swapper/Swapper";
 import {chainIDs, isLightTheme} from "../../common/common";
 import {ConversionWayType} from "../../api/localAPI";
 import {RequestStatusType} from "../../redux/appReducer";
+import cn from "classnames";
 
 
 export const Menu = () => {
@@ -117,7 +118,6 @@ export const Menu = () => {
 
     return (
         <div className={s.menuContainer}>
-            {/*isLightTheme ? `${s.app} ${s.lightTheme}` : `${s.app}`*/}
             <div className={isLightTheme ? `${s.menu} ${s.lightTheme}` : `${s.menu}`}>
                 <div className={s.selectNetwork}>
                     <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
@@ -141,8 +141,12 @@ export const Menu = () => {
                     <div className={s.buttonIn}>
                         <input type="text" placeholder={'Enter amount'} value={inputValue}
                                onChange={(e) => setInputValue(e.currentTarget.value)}
-                               disabled={isChainsSelectorsAndAmountInputDisabled()}/>
-                        <button onClick={maxHandler} disabled={isMaxButtonDisabled()}>MAX</button>
+                               disabled={isChainsSelectorsAndAmountInputDisabled()}
+                               className={isLightTheme ? s.lightThemeInput : ''}
+                        />
+                        <button onClick={maxHandler} disabled={isMaxButtonDisabled()}
+                                className={isLightTheme ? s.lightTheme : ''}>MAX
+                        </button>
                     </div>
                     <div className={s.transactionFee}>
                         <b>Transaction fee:</b>
@@ -159,17 +163,23 @@ export const Menu = () => {
                 </div>
                 <div className={s.buttonsBlock}>
                     <div>Amount Received</div>
-                    <div className={s.amountReceived}>
+                    <div className={isLightTheme ? cn(s.amountReceived, s.lightThemeAmount) : cn(s.amountReceived)}>
                         {transactionFee.hydroTokensToBeReceived ? transactionFee.hydroTokensToBeReceived : '?'}
                     </div>
                     {chainID === chainIDs.notSelected &&
-                      <button className={s.accent}
-                              onClick={connectToMetamaskHandler}
-                              disabled={isConnectWalletButtonDisabled()}
+                      <button
+                        className={isLightTheme
+                            ? cn(s.accent, s.connectSwapButton, s.lightTheme)
+                            : cn(s.accent, s.connectSwapButton)}
+                        onClick={connectToMetamaskHandler}
+                        disabled={isConnectWalletButtonDisabled()}
                       >Connect Wallet</button>}
                     {chainID !== chainIDs.notSelected &&
                       <button onClick={exchangeHandler}
                               disabled={isSwapButtonDisabled()}
+                              className={isLightTheme
+                                  ? cn(s.connectSwapButton, s.lightTheme)
+                                  : cn(s.connectSwapButton)}
                       >Swap</button>}
                 </div>
             </div>
