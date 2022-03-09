@@ -4,7 +4,13 @@ import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch} from "react-redux";
 import {changeNetworkThunk} from "../../../redux/bridge-reducer";
 import {isTestChains, chainIDs, chainsNames, isLightTheme} from "../../../common/common";
-import {elementColor, elementColorLight} from "../../../common/styles/variables";
+import {
+    backgroundColor,
+    backgroundColorLight,
+    menuColor,
+    menuColorLight,
+    swapperAndSwapButtonColor, swapperAndSwapButtonColorLight, textColor, textColorLight
+} from "../../../common/styles/variables";
 import cn from "classnames";
 
 const options =
@@ -19,30 +25,37 @@ const options =
             {value: chainIDs.bsc, label: chainsNames.bsc},
         ]
 
-const selectByArrowColor = '#203147'
-const elementColorFinal = isLightTheme ? elementColorLight : elementColor
+const selectByArrowColor = isLightTheme ? menuColorLight : menuColor
+const backgroundColorFinal = isLightTheme ? backgroundColorLight : backgroundColor
 
 const selectStyles: StylesConfig = {
     control: base => ({
         ...base,
-        backgroundColor: elementColorFinal,
+        backgroundColor: backgroundColorFinal,
         border: 0,
-        boxShadow: 'none'
+        boxShadow: 'none',
+        // color: 'red'
     }),
     singleValue: base => ({
         ...base,
-        color: 'white'
+        color: isLightTheme ? textColorLight : textColor
     }),
     menuList: base => ({
         ...base,
-        backgroundColor: elementColorFinal,
+        backgroundColor: backgroundColorFinal,
     }),
     option: (base, {isSelected, isFocused}) => ({
         ...base,
-        backgroundColor: isSelected ? selectByArrowColor : isFocused ? selectByArrowColor : elementColorFinal,
+        backgroundColor: isSelected
+            ? selectByArrowColor
+            : isFocused
+                ? selectByArrowColor
+                : backgroundColorFinal,
+        color: isLightTheme ? textColorLight: textColor,
         ":hover": {
             ...base[':hover'],
-            backgroundColor: '#4E5260'
+            backgroundColor: isLightTheme ? swapperAndSwapButtonColorLight : swapperAndSwapButtonColor,
+            color: 'white'
         },
     }),
 }

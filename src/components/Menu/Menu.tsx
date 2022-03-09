@@ -129,12 +129,12 @@ export const Menu = () => {
                 <div className={s.amount}>
                     <div className={s.headerAndBalance}>
                         <div className={s.amount}>
-                            <div className={s.amountHeader}>
-                                Amount
-                            </div>
                             <div className={s.amountBody}>
                                 <div>Left HYDRO Balance: {hydroBalance === '' ? '?' : hydroBalance}</div>
                                 <div>Right HYDRO Balance: {hydroBalanceRight === '' ? '?' : hydroBalanceRight}</div>
+                            </div>
+                            <div className={s.amountHeader}>
+                                Amount
                             </div>
                         </div>
                     </div>

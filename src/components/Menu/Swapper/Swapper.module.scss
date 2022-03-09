@@ -9,17 +9,18 @@
     height: 39px;
     background: $swapperAndSwapButtonColor;
     border-radius: 50%;
-
     .icon {
-        color: #FFFFFF;
+        color: $backgroundColorLight;
     }
 }
 
 .lightTheme {
-    background: $swapperAndSwapButtonColorLight;
+    background: $textColorLight;
 }
 
 .swapperDisabled {
-    color: $textColorDisabled;
     cursor: auto;
+    .icon {
+        color: $textColorDisabled;
+    }
 }

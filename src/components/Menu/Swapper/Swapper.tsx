@@ -5,18 +5,16 @@ import s from './Swapper.module.scss'
 import cn from "classnames";
 import {isLightTheme} from "../../../common/common";
 
-
 export const Swapper  = (props: PropsType) => {
-
-
-
     return (
     <div className={
-        props.isDisable
-            ? isLightTheme
+        isLightTheme
+            ? props.isDisable
                 ? cn(s.swapper, s.swapperDisabled, s.lightTheme)
-                : cn(s.swapper, s.swapperDisabled)
-            : isLightTheme ? cn(s.swapper, s.lightTheme) : s.swapper
+                : cn(s.swapper, s.lightTheme)
+            : props.isDisable
+                ? cn(s.swapper, s.swapperDisabled)
+                : cn(s.swapper)
     }
          onClick={() => {
              if (!props.isDisable) props.onClick()

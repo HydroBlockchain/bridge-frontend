@@ -1,11 +1,12 @@
 import React from "react";
 import Identicon from "identicon.js";
 import bridgeLogo from '../../assets/images/hydrobridge.svg';
+import bridgeLogoLight from '../../assets/images/hydrobridge_light.svg';
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../redux/store";
 import {InitialStateType} from "../../redux/bridge-reducer";
 import s from './Navbar.module.scss'
-import {chainIDs, chainsNames} from "../../common/common";
+import {chainIDs, chainsNames, isLightTheme} from "../../common/common";
 
 const statusNetwork = (chainID: number) => {
     switch (chainID) {
@@ -32,7 +33,7 @@ export const Navbar = () => {
 
     return (
         <div className={s.navbar}>
-            <img className='bridge-logo' src={bridgeLogo} alt='bridge'/>
+            <img className='bridge-logo' src={isLightTheme ? bridgeLogoLight : bridgeLogo} alt='bridge'/>
             <div className={chainID === 0
                 ? `${s.networkStatus} ${s.accent}`
                 : s.networkStatus}>{statusNetwork(chainID)}

@@ -52,26 +52,27 @@
         }
 
         .amount {
-            //margin-top: 25px;
             width: 100%;
 
             .headerAndBalance {
                 margin-top: 10px;
-                margin-bottom: 10px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 width: inherit;
 
-                .amountHeader {
-                    width: inherit;
-                }
-
                 .amountBody {
                     width: inherit;
                     display: flex;
                     justify-content: space-between;
+                    margin-bottom: 10px;
                 }
+
+                .amountHeader {
+                    width: inherit;
+                }
+
+
             }
 
             .buttonIn {
@@ -113,7 +114,7 @@
             flex-direction: column;
 
             .connectSwapButton {
-                color: #A5A5A5;
+                color: $backgroundColorLight;
                 border-radius: 15px;
                 height: 55px;
                 cursor: pointer;
@@ -127,7 +128,7 @@
             }
 
             .lightTheme {
-                background: $swapperAndSwapButtonColorLight;
+                background: $textColorLight;
                 color: $backgroundColorLight;
             }
 
