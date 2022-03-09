@@ -142,7 +142,15 @@ export const Menu = () => {
                         <input type="text" placeholder={'Enter amount'} value={inputValue}
                                onChange={(e) => setInputValue(e.currentTarget.value)}
                                disabled={isChainsSelectorsAndAmountInputDisabled()}
-                               className={isLightTheme ? s.lightThemeInput : ''}
+                               className={
+                                   isLightTheme
+                                    ? isChainsSelectorsAndAmountInputDisabled()
+                                       ? s.disabledInputLight
+                                       : s.lightThemeInput
+                                    : isChainsSelectorsAndAmountInputDisabled()
+                                           ? s.disabledInputDark
+                                           : s.darkThemeInput
+                        }
                         />
                         <button onClick={maxHandler} disabled={isMaxButtonDisabled()}
                                 className={isLightTheme ? s.lightTheme : ''}>MAX
@@ -169,7 +177,7 @@ export const Menu = () => {
                     {chainID === chainIDs.notSelected &&
                       <button
                         className={isLightTheme
-                            ? cn(s.accent, s.connectSwapButton, s.lightTheme)
+                            ? cn(s.accentLight, s.connectSwapButton, s.lightTheme)
                             : cn(s.accent, s.connectSwapButton)}
                         onClick={connectToMetamaskHandler}
                         disabled={isConnectWalletButtonDisabled()}

@@ -1,17 +1,19 @@
 import React, {useEffect} from "react";
 import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
-import {useDispatch} from "react-redux";
-import {changeNetworkThunk} from "../../../redux/bridge-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {changeNetworkThunk, InitialStateType} from "../../../redux/bridge-reducer";
 import {isTestChains, chainIDs, chainsNames, isLightTheme} from "../../../common/common";
 import {
     backgroundColor,
     backgroundColorLight,
     menuColor,
     menuColorLight,
-    swapperAndSwapButtonColor, swapperAndSwapButtonColorLight, textColor, textColorLight
+    swapperAndSwapButtonColor, swapperAndSwapButtonColorLight, textColor, textColorDisabled, textColorLight
 } from "../../../common/styles/variables";
 import cn from "classnames";
+import {AppStoreType} from "../../../redux/store";
+import {RequestStatusType} from "../../../redux/appReducer";
 
 const options =
     isTestChains
@@ -28,39 +30,60 @@ const options =
 const selectByArrowColor = isLightTheme ? menuColorLight : menuColor
 const backgroundColorFinal = isLightTheme ? backgroundColorLight : backgroundColor
 
-const selectStyles: StylesConfig = {
-    control: base => ({
-        ...base,
-        backgroundColor: backgroundColorFinal,
-        border: 0,
-        boxShadow: 'none',
-        // color: 'red'
-    }),
-    singleValue: base => ({
-        ...base,
-        color: isLightTheme ? textColorLight : textColor
-    }),
-    menuList: base => ({
-        ...base,
-        backgroundColor: backgroundColorFinal,
-    }),
-    option: (base, {isSelected, isFocused}) => ({
-        ...base,
-        backgroundColor: isSelected
-            ? selectByArrowColor
-            : isFocused
-                ? selectByArrowColor
-                : backgroundColorFinal,
-        color: isLightTheme ? textColorLight: textColor,
-        ":hover": {
-            ...base[':hover'],
-            backgroundColor: isLightTheme ? swapperAndSwapButtonColorLight : swapperAndSwapButtonColor,
-            color: 'white'
-        },
-    }),
-}
+
 
 export const NetworkElement = (props: PropsType) => {
+    const {
+        chainID
+    } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
+    const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+
+    const selectStyles: StylesConfig = {
+        control: base => ({
+            ...base,
+            backgroundColor: backgroundColorFinal,
+            border: 0,
+            boxShadow: 'none',
+            color: 'red'
+        }),
+        singleValue: base => ({
+            ...base,
+            color: appStatus === 'loading'
+                    ? textColorDisabled
+                    : isLightTheme ? textColorLight : textColor
+        }),
+        menuList: base => ({
+            ...base,
+            backgroundColor: backgroundColorFinal,
+        }),
+        option: (base, {isSelected, isFocused}) => ({
+            ...base,
+            backgroundColor: isSelected
+                ? selectByArrowColor
+                : isFocused
+                    ? selectByArrowColor
+                    : backgroundColorFinal,
+            color: isLightTheme ? textColorLight: textColor,
+            ":hover": {
+                ...base[':hover'],
+                backgroundColor: isLightTheme ? swapperAndSwapButtonColorLight : swapperAndSwapButtonColor,
+                color: 'white'
+            },
+        }),
+        dropdownIndicator: base => ({
+            ...base,
+            color: (chainID === chainIDs.notSelected || appStatus === 'loading')
+                ? textColorDisabled
+                : isLightTheme ? textColorLight : textColor
+        }),
+        placeholder: base => ({
+            ...base,
+            color: (chainID === chainIDs.notSelected || appStatus === 'loading')
+                ? textColorDisabled
+                : isLightTheme ? textColorLight : textColor
+        })
+    }
+
     const dispatch = useDispatch()
     useEffect(() => {
         //change network in Metamask
@@ -78,6 +101,8 @@ export const NetworkElement = (props: PropsType) => {
             return 0 as any // todo: fix any
         }
     };
+
+
 
     return <div className={s.networkElement}>
         <span>{props.text}</span>

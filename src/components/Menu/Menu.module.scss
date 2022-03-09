@@ -23,7 +23,7 @@
         width: 100%;
         max-width: 850px;
         padding: 27.5px;
-        height: 600px;
+        height: 610px;
 
         input, .amountReceived {
             width: 100%;
@@ -79,6 +79,25 @@
                 width: 100%;
                 position: relative;
 
+                .lightThemeInput::placeholder {
+                    color: $textColorLight;
+                }
+
+                .darkThemeInput::placeholder {
+                    color: $textColor;
+                }
+
+                .disabledInputLight {
+                    background: $backgroundColorLight;
+                    color: $textColorDisabled;
+                }
+
+                .disabledInputDark {
+                    background: $backgroundColor;
+                    color: $textColorDisabled;
+
+                }
+
                 button {
                     position: absolute;
                     border-radius: 10px;
@@ -101,10 +120,17 @@
                     background: $backgroundColorLight;
                     color: $textColorLight;
                 }
+
+                .darkThemeInput {
+                    background: $backgroundColor;
+                    color: $textColor;
+                }
             }
 
             .transactionFee {
                 margin-top: 10px;
+                height: 100px;
+
             }
         }
 
@@ -127,6 +153,10 @@
                 border: 1px solid $accentColor;
             }
 
+            .accentLight {
+                border: 3px solid $accentColorLight;
+            }
+
             .lightTheme {
                 background: $textColorLight;
                 color: $backgroundColorLight;
@@ -141,6 +171,7 @@
 
 
     }
+
     .lightTheme {
         background-color: $menuColorLight;
         color: $textColorLight;

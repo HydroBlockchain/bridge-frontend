@@ -3,6 +3,11 @@
 .app {
     height: 100vh;
     background-color: $backgroundColor;
+
+    .blank {
+        //background-color: red;
+        height: 4px;
+    }
 }
 
 .lightTheme {

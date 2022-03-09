@@ -17,7 +17,7 @@ function App() {
     return (
         <div className={isLightTheme ? `${s.app} ${s.lightTheme}` : `${s.app}`}>
             <Navbar/>
-            {status === 'loading' && <LinearProgress/>}
+            {status === 'loading' ? <LinearProgress/> : <div className={s.blank}></div> }
             <Menu/>
             {/*<ToastContainer
                 position="bottom-left"
