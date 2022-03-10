@@ -162,7 +162,7 @@ export const getHydroBalanceThunk = (
         finally {
             dispatch(setAppStatusAC('succeeded'))
         }
-    } else { // get balance from active chainId
+    } else { // get balance from active chainId + hydroContractInstance here
         dispatch(setAppStatusAC('loading'))
         const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.chainID)
         dispatch(setHydroContractInstanceAC(hydroContractInstance))
@@ -186,6 +186,11 @@ export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedC
                 dispatch(setAppStatusAC('succeeded'))
             })
     }
+}
+
+export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState: () => AppStoreType) => {
+    const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.chainID)
+    dispatch(setHydroContractInstanceAC(hydroContractInstance))
 }
 
 export type InitialStateType = typeof initialState

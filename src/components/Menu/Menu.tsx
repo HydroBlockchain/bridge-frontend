@@ -8,7 +8,7 @@ import {
     getHydroBalanceThunk,
     getTransactionFeeThunk,
     InitialStateType,
-    setChainIDAC
+    setChainIDAC, setHydroContractInstanceThunk
 } from "../../redux/bridge-reducer";
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
@@ -34,13 +34,13 @@ export const Menu = () => {
     const [leftChainId, setLeftChainId] = useState(chainIDs.notSelected)
     const [rightChainId, setRightChainId] = useState(chainIDs.notSelected)
     const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
-    const [isSwapperChainChange, setIsSwapperChainChange] = useState(false)
 
     useEffect(() => {
         setLeftChainId(chainID)
         if (chainID !== chainIDs.notSelected) {
             // dispatch(getHydroBalanceThunk())
             dispatch(getHydroBalanceThunk(true, chainID, true))
+            dispatch(setHydroContractInstanceThunk())
         }
         chainID in chainIDs
             ? setIsSupportChain(true)
@@ -61,10 +61,8 @@ export const Menu = () => {
             setSwapWay('rinkebyTestnet')
         } else setSwapWay(undefined)
 
-        if (leftChainId !== chainIDs.notSelected) {
-            if (rightChainId !== chainIDs.notSelected) dispatch(getTransactionFeeThunk(inputValue, rightChainId))
-        }
-
+        if (leftChainId !== chainIDs.notSelected && rightChainId !== chainIDs.notSelected && leftChainId !== rightChainId)
+            dispatch(getTransactionFeeThunk(inputValue, rightChainId))
     }, [leftChainId, rightChainId])
 
     useEffect(() => {
@@ -76,7 +74,7 @@ export const Menu = () => {
 
     let timeoutId: ReturnType<typeof setTimeout>
     useEffect(() => {
-        if (rightChainId !== 0 && inputValue !== '') {
+        if (rightChainId !== 0 && inputValue !== '' && leftChainId !== rightChainId) {
             timeoutId = setTimeout(() => {
                 dispatch(getTransactionFeeThunk(inputValue, rightChainId))
             }, 1000)
@@ -180,9 +178,10 @@ export const Menu = () => {
                 <div className={s.buttonsBlock}>
                     <div>Amount Received</div>
                     <div className={isLightTheme ? cn(s.amountReceived, s.lightThemeAmount) : cn(s.amountReceived)}>
-                        {
-                            transactionFee.hydroTokensToBeReceived
+                        {   leftChainId !== rightChainId
                                 ? transactionFee.hydroTokensToBeReceived
+                                    ? transactionFee.hydroTokensToBeReceived
+                                    : '?'
                                 : '?'
                         }
                     </div>
