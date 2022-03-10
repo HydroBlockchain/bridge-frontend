@@ -60,7 +60,7 @@ export const bridgeReducer = (state = initialState, action: BridgeActionTypes): 
 }
 
 //Action creators:
-const setChainIDAC = (chainID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {chainID}} as const)
+export const setChainIDAC = (chainID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {chainID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
 const setHydroContractInstanceAC = (hydroContractInstance: Contract) => ({
@@ -130,19 +130,29 @@ export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType
     }
 }
 
-export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID: RealizedChainsRightType | 0 = 0)
+export const getHydroBalanceThunk = (
+    isGetBalanceFromBackend: boolean = false,
+    chainID: RealizedChainsRightType | 0 = 0,
+    isLeftBalance: boolean = false
+)
     : AppThunk => async (dispatch, getState: () => AppStoreType) => {
     const account = getState().bridge.account
-    if (isAnotherAccount && chainID !== chainIDs.notSelected) {
+    if (isGetBalanceFromBackend && chainID !== chainIDs.notSelected) {
         try {
             dispatch(setAppStatusAC('loading'))
             await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[chainID] as ChainType)
                 .then(data => {
-                    dispatch(setHydroBalanceRightAC(data.data.tokenBalance))
+                   isLeftBalance
+                    ? dispatch(setHydroBalanceAC(data.data.tokenBalance))
+                    : dispatch(setHydroBalanceRightAC(data.data.tokenBalance))
+
                 })
                 .catch(e => {
                     console.error('serverApi error', e.response.data.errors[0].msg)
-                    dispatch(setHydroBalanceRightAC('?'))
+                    isLeftBalance
+                        ? dispatch(setHydroBalanceAC('?'))
+                        : dispatch(setHydroBalanceRightAC('?'))
+
                 })
 
         } catch (e) {
@@ -152,11 +162,13 @@ export const getHydroBalanceThunk = (isAnotherAccount: boolean = false, chainID:
         finally {
             dispatch(setAppStatusAC('succeeded'))
         }
-    } else {
+    } else { // get balance from active chainId
+        dispatch(setAppStatusAC('loading'))
         const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.chainID)
         dispatch(setHydroContractInstanceAC(hydroContractInstance))
         const hydroBalance = await localAPI.getHydroBalance(hydroContractInstance)
         dispatch(setHydroBalanceAC(hydroBalance))
+        dispatch(setAppStatusAC('succeeded'))
     }
 }
 

@@ -7,7 +7,8 @@ import {
     connectToMetamaskThunk,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
-    InitialStateType
+    InitialStateType,
+    setChainIDAC
 } from "../../redux/bridge-reducer";
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
@@ -30,49 +31,54 @@ export const Menu = () => {
 
     const [inputValue, setInputValue] = useState<string>('')
     const [isSupportedChain, setIsSupportChain] = useState(false) // if selected in Metamask chain is not supported in application
-    const [outChainId, setOutChainId] = useState(chainIDs.notSelected)
-    const [intoChainId, setIntoChainId] = useState(chainIDs.notSelected)
+    const [leftChainId, setLeftChainId] = useState(chainIDs.notSelected)
+    const [rightChainId, setRightChainId] = useState(chainIDs.notSelected)
     const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
+    const [isSwapperChainChange, setIsSwapperChainChange] = useState(false)
 
     useEffect(() => {
-        setOutChainId(chainID)
+        setLeftChainId(chainID)
+        if (chainID !== chainIDs.notSelected) {
+            // dispatch(getHydroBalanceThunk())
+            dispatch(getHydroBalanceThunk(true, chainID, true))
+        }
         chainID in chainIDs
             ? setIsSupportChain(true)
             : setIsSupportChain(false)
     }, [chainID])
 
     useEffect(() => {
-        if (isSupportedChain) {
-            dispatch(getHydroBalanceThunk())
-        }
-    }, [outChainId])
-
-    useEffect(() => {
         // for swap conversion way
-        if (outChainId === chainIDs.eth && intoChainId === chainIDs.bsc) {
+        if (leftChainId === chainIDs.eth && rightChainId === chainIDs.bsc) {
             setSwapWay('eth2bsc')
-        } else if (outChainId === chainIDs.bsc && intoChainId === chainIDs.eth) {
+        } else if (leftChainId === chainIDs.bsc && rightChainId === chainIDs.eth) {
             setSwapWay('bsc2eth')
-        } else if (intoChainId === chainIDs.coinExTest) {
+        } else if (rightChainId === chainIDs.coinExTest) {
             setSwapWay('coinexSmartChainTestnet')
-        } else if (intoChainId === chainIDs.mumbaiTest) {
+        } else if (rightChainId === chainIDs.mumbaiTest) {
             setSwapWay('mumbaiTestnet')
-        } else if (intoChainId === chainIDs.rinkebyTest) {
+        } else if (rightChainId === chainIDs.rinkebyTest) {
             setSwapWay('rinkebyTestnet')
         } else setSwapWay(undefined)
 
-        if (intoChainId !== 0) {
-            dispatch(getHydroBalanceThunk(true, intoChainId))
-            dispatch(getTransactionFeeThunk(inputValue, intoChainId))
+        if (leftChainId !== chainIDs.notSelected) {
+            if (rightChainId !== chainIDs.notSelected) dispatch(getTransactionFeeThunk(inputValue, rightChainId))
         }
-    }, [outChainId, intoChainId])
+
+    }, [leftChainId, rightChainId])
+
+    useEffect(() => {
+        if (rightChainId !== chainIDs.notSelected) {
+            dispatch(getHydroBalanceThunk(true, rightChainId))
+        }
+    },[rightChainId])
 
 
     let timeoutId: ReturnType<typeof setTimeout>
     useEffect(() => {
-        if (intoChainId !== 0 && inputValue !== '') {
+        if (rightChainId !== 0 && inputValue !== '') {
             timeoutId = setTimeout(() => {
-                dispatch(getTransactionFeeThunk(inputValue, intoChainId))
+                dispatch(getTransactionFeeThunk(inputValue, rightChainId))
             }, 1000)
         }
         return () => {
@@ -90,9 +96,11 @@ export const Menu = () => {
         }
     }
     const onClickSwapper = () => {
-        const tempStateValue = outChainId
-        setOutChainId(intoChainId)
-        setIntoChainId(tempStateValue)
+        const tempLeftId = leftChainId
+        const tempRightId = rightChainId
+        dispatch(setChainIDAC(tempRightId))
+        setLeftChainId(tempRightId)
+        setRightChainId(tempLeftId)
     }
     const maxHandler = () => {
         if (hydroBalance) setInputValue(hydroBalance)
@@ -100,7 +108,7 @@ export const Menu = () => {
 
     // Is buttons or elements disabled:
     const isSwapButtonDisabled = () => {
-        return swapWay === undefined || Number(inputValue) <= 0 || outChainId === intoChainId
+        return swapWay === undefined || Number(inputValue) <= 0 || leftChainId === rightChainId
             || (!transactionFee.hydroTokensToBeReceived) || appStatus === 'loading'
     }
     const isMaxButtonDisabled = () => {
@@ -110,7 +118,7 @@ export const Menu = () => {
         return !isSupportedChain || appStatus === 'loading'
     }
     const isSwapperDisabled = () => {
-        return intoChainId === chainIDs.notSelected || outChainId === intoChainId || appStatus === 'loading'
+        return rightChainId === chainIDs.notSelected || leftChainId === rightChainId || appStatus === 'loading'
     }
     const isChainsSelectorsAndAmountInputDisabled = () => {
         return chainID === chainIDs.notSelected || appStatus === 'loading'
@@ -120,10 +128,10 @@ export const Menu = () => {
         <div className={s.menuContainer}>
             <div className={isLightTheme ? `${s.menu} ${s.lightTheme}` : `${s.menu}`}>
                 <div className={s.selectNetwork}>
-                    <NetworkElement text={'From'} isMain={true} state={outChainId} setState={setOutChainId}
+                    <NetworkElement text={'From'} isMain={true} state={leftChainId} setState={setLeftChainId}
                                     isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
                     <Swapper isDisable={isSwapperDisabled()} onClick={onClickSwapper}/>
-                    <NetworkElement text={'To'} state={intoChainId} setState={setIntoChainId}
+                    <NetworkElement text={'To'} state={rightChainId} setState={setRightChainId}
                                     isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
                 </div>
                 <div className={s.amount}>
@@ -172,7 +180,13 @@ export const Menu = () => {
                 <div className={s.buttonsBlock}>
                     <div>Amount Received</div>
                     <div className={isLightTheme ? cn(s.amountReceived, s.lightThemeAmount) : cn(s.amountReceived)}>
-                        {transactionFee.hydroTokensToBeReceived ? transactionFee.hydroTokensToBeReceived : '?'}
+                        {
+                            leftChainId === rightChainId
+                                ? '?'
+                                : transactionFee.hydroTokensToBeReceived
+                                    ? transactionFee.hydroTokensToBeReceived
+                                    : '?'
+                        }
                     </div>
                     {chainID === chainIDs.notSelected &&
                       <button
