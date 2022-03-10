@@ -71,7 +71,7 @@ export const Menu = () => {
         if (rightChainId !== chainIDs.notSelected) {
             dispatch(getHydroBalanceThunk(true, rightChainId))
         }
-    },[rightChainId])
+    }, [rightChainId])
 
 
     let timeoutId: ReturnType<typeof setTimeout>
@@ -152,13 +152,13 @@ export const Menu = () => {
                                disabled={isChainsSelectorsAndAmountInputDisabled()}
                                className={
                                    isLightTheme
-                                    ? isChainsSelectorsAndAmountInputDisabled()
-                                       ? s.disabledInputLight
-                                       : s.lightThemeInput
-                                    : isChainsSelectorsAndAmountInputDisabled()
+                                       ? isChainsSelectorsAndAmountInputDisabled()
+                                           ? s.disabledInputLight
+                                           : s.lightThemeInput
+                                       : isChainsSelectorsAndAmountInputDisabled()
                                            ? s.disabledInputDark
                                            : s.darkThemeInput
-                        }
+                               }
                         />
                         <button onClick={maxHandler} disabled={isMaxButtonDisabled()}
                                 className={isLightTheme ? s.lightTheme : ''}>MAX
@@ -166,8 +166,8 @@ export const Menu = () => {
                     </div>
                     <div className={s.transactionFee}>
                         <b>Transaction fee:</b>
-                        {!transactionFee.gasPrice && <span> ?</span>}
-                        {transactionFee.gasPrice &&
+                        {(!transactionFee.gasPrice || leftChainId === rightChainId) && <span> ?</span>}
+                        {(transactionFee.gasPrice && leftChainId !== rightChainId) &&
                           <div>
                             <div>gasPrice: {transactionFee.gasPrice}</div>
                             <div>gasRequired: {transactionFee.gasRequired}</div>
@@ -181,11 +181,9 @@ export const Menu = () => {
                     <div>Amount Received</div>
                     <div className={isLightTheme ? cn(s.amountReceived, s.lightThemeAmount) : cn(s.amountReceived)}>
                         {
-                            leftChainId === rightChainId
-                                ? '?'
-                                : transactionFee.hydroTokensToBeReceived
-                                    ? transactionFee.hydroTokensToBeReceived
-                                    : '?'
+                            transactionFee.hydroTokensToBeReceived
+                                ? transactionFee.hydroTokensToBeReceived
+                                : '?'
                         }
                     </div>
                     {chainID === chainIDs.notSelected &&
