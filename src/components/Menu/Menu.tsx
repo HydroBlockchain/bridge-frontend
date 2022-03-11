@@ -8,8 +8,8 @@ import {
     getHydroBalanceThunk,
     getTransactionFeeThunk,
     InitialStateType,
-    setChainIDAC, setHydroContractInstanceThunk
-} from "../../redux/bridgeReducer";
+    setChainIDAC, setHydroContractInstanceThunk, turnOnChainChangeMonitoringThunk
+} from '../../redux/bridgeReducer'
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {chainIDs, isLightTheme} from "../../common/common";
@@ -87,6 +87,7 @@ export const Menu = () => {
     // Handlers:
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
+        dispatch(turnOnChainChangeMonitoringThunk())
     }
     const exchangeHandler = () => {
         if (swapWay !== undefined) {

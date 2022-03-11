@@ -1,9 +1,8 @@
-import {AppStateType} from './appReducer'
 import {Contract} from 'web3-eth-contract'
 import {fromWei} from 'web3-utils'
 import {chainIDs} from '../common/common'
-import {bridgeStateType} from './bridgeReducer'
 import {TransactionFeeType} from '../api/serverAPI'
+import {bridgeStateType} from './bridgeReducer'
 
 let startState: bridgeStateType
 

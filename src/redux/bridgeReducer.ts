@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract'
 import {fromWei} from 'web3-utils'
 import {ConversionWayType, localAPI} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
-import {ChainType, serverApi} from '../api/serverAPI'
+import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
 import {setAppStatusAC} from './appReducer'
 
 let initialState = {
@@ -98,15 +98,6 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
     }
     dispatch(setAppStatusAC('succeeded'))
 
-    //turn on monitoring if chain in metamask changed
-    window.ethereum.on('chainChanged', async function () {
-        const account = await localAPI.getAccountAddress()
-        dispatch(setAccountAC(account))
-
-        const newChainID = await localAPI.getChainID()
-        dispatch(setChainIDAC(newChainID))
-    })
-
 }
 
 export const changeNetworkThunk = (networkID: number): AppThunk => async (dispatch) => {
@@ -116,6 +107,19 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
     } else {
         console.error('changeNetwork error')
     }
+}
+
+//turn on monitoring if chain in metamask changed
+export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch) => {
+    window.ethereum.on('chainChanged', async function () {
+        dispatch(setAppStatusAC('loading'))
+        const account = await localAPI.getAccountAddress()
+        dispatch(setAccountAC(account))
+
+        const newChainID = await localAPI.getChainID()
+        dispatch(setChainIDAC(newChainID))
+        dispatch(setAppStatusAC('succeeded'))
+    })
 }
 
 export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
@@ -211,10 +215,3 @@ type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 
 declare let window: any // todo: maybe fix any
 
-export type TransactionFeeType = {
-    gasPrice: string
-    gasRequired: number
-    transactionCostinEth: number
-    transactionCostInHydro: number
-    hydroTokensToBeReceived: number
-}
