@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import s from "./NetworkElement.module.scss";
 import Select, {PropsValue, StylesConfig} from "react-select";
 import {useDispatch, useSelector} from "react-redux";
-import {changeNetworkThunk, InitialStateType} from "../../../redux/bridge-reducer";
+import {changeNetworkThunk, InitialStateType} from "../../../redux/bridgeReducer";
 import {isTestChains, chainIDs, chainsNames, isLightTheme} from "../../../common/common";
 import {
     backgroundColor,

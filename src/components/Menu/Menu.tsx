@@ -9,7 +9,7 @@ import {
     getTransactionFeeThunk,
     InitialStateType,
     setChainIDAC, setHydroContractInstanceThunk
-} from "../../redux/bridge-reducer";
+} from "../../redux/bridgeReducer";
 import {AppStoreType} from "../../redux/store";
 import {Swapper} from "./Swapper/Swapper";
 import {chainIDs, isLightTheme} from "../../common/common";

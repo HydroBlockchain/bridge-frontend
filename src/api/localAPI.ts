@@ -1,8 +1,8 @@
-import {chains} from "../assets/chains";
+import {chains} from '../assets/chains';
 import BepHydro from '../assets/abis/bephydro_copy.json';
-import {AbiItem} from "web3-utils";
-import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from "../common/common";
-import {Contract} from "web3-eth-contract";
+import {AbiItem} from 'web3-utils';
+import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from '../common/common';
+import {Contract} from 'web3-eth-contract';
 
 const Web3 = require('web3');
 
@@ -16,7 +16,7 @@ export const localAPI = {
     getChainID: async () => {
         return await web3.eth.net.getId();
     },
-    connectToMetamask: async function () {
+    connectToMetamask: async function (): Promise<connectToMetamaskReturnType> {
         let returnValues = {
             status: false,
             account: '',
@@ -46,7 +46,7 @@ export const localAPI = {
     changeNetwork: async (chainID: number) => {
         try {
             await window.ethereum.request({
-                method: "wallet_switchEthereumChain",
+                method: 'wallet_switchEthereumChain',
                 params: [{chainId: chains[chainID].chainId}],
             })
             return true
@@ -54,7 +54,7 @@ export const localAPI = {
             try {
                 if ((error as ErrorType).code === 4902) {
                     await window.ethereum.request({
-                        method: "wallet_addEthereumChain",
+                        method: 'wallet_addEthereumChain',
                         params: [chains[chainID]],
                     });
                     return true
@@ -113,6 +113,7 @@ export const localAPI = {
         const account = await this.getAccountAddress()
         hydroContractInstance.methods
             .approve(swapContractAddresses[way], web3.utils.toWei(approvedAmount))
+            // .approve(swapContractAddresses[way], approvedAmount)
             .send({from: account,})
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {
@@ -132,3 +133,8 @@ type ErrorType = {
 export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth'
 
 type AnotherProviderType = { isAnotherProvider: boolean }
+type connectToMetamaskReturnType = {
+    status: boolean
+    account: string
+    chainID: number
+}

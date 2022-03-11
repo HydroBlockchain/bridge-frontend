@@ -1,11 +1,11 @@
-import {ThunkAction} from "redux-thunk";
-import {AppStoreType} from "./store";
-import {Contract} from "web3-eth-contract";
-import {fromWei} from "web3-utils";
-import {ConversionWayType, localAPI} from "../api/localAPI";
-import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from "../common/common";
-import {ChainType, serverApi} from "../api/serverAPI";
-import {setAppStatusAC} from "./appReducer";
+import {ThunkAction} from 'redux-thunk'
+import {AppStoreType} from './store'
+import {Contract} from 'web3-eth-contract'
+import {fromWei} from 'web3-utils'
+import {ConversionWayType, localAPI} from '../api/localAPI'
+import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
+import {ChainType, serverApi} from '../api/serverAPI'
+import {setAppStatusAC} from './appReducer'
 
 let initialState = {
     account: '',
@@ -45,14 +45,16 @@ let initialState = {
     transactionFee: {} as TransactionFeeType
 }
 
-export const bridgeReducer = (state = initialState, action: BridgeActionTypes): InitialStateType => {
+export type bridgeStateType = typeof initialState
+
+export const bridgeReducer = (state: bridgeStateType = initialState, action: BridgeActionTypes): InitialStateType => {
     switch (action.type) {
         case 'BRIDGE/SET-NETWORK-ID':
         case 'BRIDGE/SET-LOADING':
-        case "BRIDGE/SET-ACCOUNT":
-        case "BRIDGE/SET-HYDRO-BALANCE":
+        case 'BRIDGE/SET-ACCOUNT':
+        case 'BRIDGE/SET-HYDRO-BALANCE':
         case 'BRIDGE/SET-HYDRO-BALANCE-RIGHT':
-        case "BRIDGE/SET-HYDRO-CONTRACT-INSTANCE":
+        case 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE':
         case 'BRIDGE/SET-TRANSACTION-FEE':
             return {...state, ...action.payload}
     }
@@ -142,9 +144,9 @@ export const getHydroBalanceThunk = (
             dispatch(setAppStatusAC('loading'))
             await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[chainID] as ChainType)
                 .then(data => {
-                   isLeftBalance
-                    ? dispatch(setHydroBalanceAC(data.data.tokenBalance))
-                    : dispatch(setHydroBalanceRightAC(data.data.tokenBalance))
+                    isLeftBalance
+                        ? dispatch(setHydroBalanceAC(data.data.tokenBalance))
+                        : dispatch(setHydroBalanceRightAC(data.data.tokenBalance))
 
                 })
                 .catch(e => {
@@ -158,8 +160,7 @@ export const getHydroBalanceThunk = (
         } catch (e) {
             console.error('getHydroBalanceThunk error', e)
             dispatch(setHydroBalanceRightAC('?'))
-        }
-        finally {
+        } finally {
             dispatch(setAppStatusAC('succeeded'))
         }
     } else { // get balance from active chainId + hydroContractInstance here
@@ -175,14 +176,14 @@ export const getHydroBalanceThunk = (
 export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedChainsRightType | 0): AppThunk => async (dispatch) => {
     if (chainID !== 0) {
         dispatch(setAppStatusAC('loading'))
-        await serverApi.getTransactionFee(amountOfHydro,chainNamesForGetHydroBalance[chainID] as ChainType)
+        await serverApi.getTransactionFee(amountOfHydro, chainNamesForGetHydroBalance[chainID] as ChainType)
             .then(data => {
                 dispatch(setTransactionFeeAC(data.data))
             })
             .catch(e => {
                 console.log('getTransactionFee error', e)
             })
-            .finally(()=> {
+            .finally(() => {
                 dispatch(setAppStatusAC('succeeded'))
             })
     }
@@ -208,9 +209,9 @@ export type BridgeActionTypes =
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 
-declare let window: any; // todo: maybe fix any
+declare let window: any // todo: maybe fix any
 
-type TransactionFeeType = {
+export type TransactionFeeType = {
     gasPrice: string
     gasRequired: number
     transactionCostinEth: number

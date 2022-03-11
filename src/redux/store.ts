@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
-import {bridgeReducer} from "./bridge-reducer";
+import {bridgeReducer} from "./bridgeReducer";
 import {appReducer} from "./appReducer";
 
 const rootReducer = combineReducers({

@@ -4,7 +4,7 @@ import bridgeLogo from '../../assets/images/hydrobridge.svg';
 import bridgeLogoLight from '../../assets/images/hydrobridge_light.svg';
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../redux/store";
-import {InitialStateType} from "../../redux/bridge-reducer";
+import {InitialStateType} from "../../redux/bridgeReducer";
 import s from './Navbar.module.scss'
 import {chainIDs, chainsNames, isLightTheme} from "../../common/common";
 import cn from "classnames";
