@@ -1,20 +1,20 @@
-import {chains} from '../assets/chains';
-import BepHydro from '../assets/abis/bephydro_copy.json';
-import {AbiItem} from 'web3-utils';
-import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from '../common/common';
-import {Contract} from 'web3-eth-contract';
+import {chains} from '../assets/chains'
+import BepHydro from '../assets/abis/bephydro_copy.json'
+import {AbiItem} from 'web3-utils'
+import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from '../common/common'
+import {Contract} from 'web3-eth-contract'
 
-const Web3 = require('web3');
+const Web3 = require('web3')
 
 let web3 = new Web3(new Web3.providers.HttpProvider(addressForWeb3))
 
 export const localAPI = {
-    getAccountAddress: async () => {
-        const accounts = await web3.eth.getAccounts();
+    getAccountAddress: async (): Promise<string> => {
+        const accounts = await web3.eth.getAccounts()
         return accounts[0]
     },
-    getChainID: async () => {
-        return await web3.eth.net.getId();
+    getChainID: async (): Promise<number> => {
+        return await web3.eth.net.getId()
     },
     connectToMetamask: async function (): Promise<connectToMetamaskReturnType> {
         let returnValues = {
@@ -24,15 +24,15 @@ export const localAPI = {
         }
         try {
             if (typeof window.ethereum !== 'undefined') {
-                await window.ethereum.enable();
-                web3 = new Web3(window.ethereum); // Instance web3 with the provided information
+                await window.ethereum.enable()
+                web3 = new Web3(window.ethereum) // Instance web3 with the provided information
             }
             if (typeof web3 !== 'undefined') {
-                web3 = new Web3(web3.currentProvider);
+                web3 = new Web3(web3.currentProvider)
                 returnValues.account = await this.getAccountAddress()
             } else {
                 console.log('No Web3 Detected')
-                web3 = new Web3(new Web3.providers.WebsocketProvider('wss://infura.io/ws/v3/72e114745bbf4822b987489c119f858b'));
+                web3 = new Web3(new Web3.providers.WebsocketProvider('wss://infura.io/ws/v3/72e114745bbf4822b987489c119f858b'))
             }
             returnValues.status = true
         } catch (error) {
@@ -43,7 +43,7 @@ export const localAPI = {
         return returnValues
     },
 
-    changeNetwork: async (chainID: number) => {
+    changeNetwork: async (chainID: number): Promise<boolean | undefined> => {
         try {
             await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
@@ -56,7 +56,7 @@ export const localAPI = {
                     await window.ethereum.request({
                         method: 'wallet_addEthereumChain',
                         params: [chains[chainID]],
-                    });
+                    })
                     return true
                 }
             } catch (error) {
@@ -64,7 +64,7 @@ export const localAPI = {
             }
         }
     },
-    createHydroContractInstance: (chainID: number) => {
+    createHydroContractInstance: (chainID: number): Contract => {
         let hydroAddress
         switch (chainID) {
             case chainIDs.eth: {
@@ -84,10 +84,11 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
-    fromWei: function (weiBalance: string, ether = '') {
+    fromWei: function (weiBalance: string, ether = ''): string {
+        console.log(web3.utils.fromWei(weiBalance, ether))
         return web3.utils.fromWei(weiBalance, ether)
     },
-    getHydroBalance: async function (hydroContractInstance: Contract) {
+    getHydroBalance: async function (hydroContractInstance: Contract): Promise<string> {
         let address
         address = await this.getAccountAddress()
 
@@ -100,16 +101,16 @@ export const localAPI = {
         }
     },
     // this for total hydro swapped
-    displayApprovedFund: async function (hydroContractInstance: Contract, hydroBalance: string, account: string, swapAddress: string) {
+    displayApprovedFund: async function (hydroContractInstance: Contract, hydroBalance: string, account: string, swapAddress: string): Promise<void> {
         try {
-            const allowed_swap = await hydroContractInstance.methods.allowed(account, swapAddress).call();
+            const allowed_swap = await hydroContractInstance.methods.allowed(account, swapAddress).call()
             const allowed_swapFromWei = this.fromWei(allowed_swap.toString(), 'ether')
         } catch (error) {
             console.error(error)
         }
         // const allowed = web3.utils.fromWei(allowed_swap.toString(), 'ether');
     },
-    exchangeTokenChain: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType) {
+    exchangeTokenChain: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType): Promise<void> {
         const account = await this.getAccountAddress()
         hydroContractInstance.methods
             .approve(swapContractAddresses[way], web3.utils.toWei(approvedAmount))
@@ -132,7 +133,6 @@ type ErrorType = {
 
 export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth'
 
-type AnotherProviderType = { isAnotherProvider: boolean }
 type connectToMetamaskReturnType = {
     status: boolean
     account: string
