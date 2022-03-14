@@ -122,14 +122,14 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch)
     })
 }
 
-export const approveFundsThunk = (approvedAmount: string, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+export const approveFundsThunk = (approvedAmount: string, leftChainId: number, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     if (Number(approvedAmount) > 0) {
         const bridgeState = getState().bridge
         const hydroContractInstance = bridgeState.hydroContractInstance
         const hydraBalance = bridgeState.hydroBalance
         if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
         dispatch(setAppStatusAC('loading'))
-        await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, way)
+        await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, leftChainId, way)
         dispatch(setAppStatusAC('succeeded'))
     } else {
         console.error('approveFundsThunk', 'approvedAmount must be > 0')

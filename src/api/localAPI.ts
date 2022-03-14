@@ -110,11 +110,15 @@ export const localAPI = {
         }
         // const allowed = web3.utils.fromWei(allowed_swap.toString(), 'ether');
     },
-    exchangeTokenChain: async function (hydroContractInstance: Contract, approvedAmount: string, way: ConversionWayType): Promise<void> {
+    exchangeTokenChain: async function (hydroContractInstance: Contract, approvedAmount: string, leftChainId: number, conversionWay: ConversionWayType): Promise<void> {
         const account = await this.getAccountAddress()
+        console.log('conversionWay', conversionWay)
+        const finalAmount = leftChainId === chainIDs.mumbaiTest
+            ? approvedAmount
+            : web3.utils.toWei(approvedAmount)
+        // const finalAmount =  web3.utils.toWei(approvedAmount)
         hydroContractInstance.methods
-            .approve(swapContractAddresses[way], web3.utils.toWei(approvedAmount))
-            // .approve(swapContractAddresses[way], approvedAmount)
+            .approve(swapContractAddresses[conversionWay], finalAmount)
             .send({from: account,})
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {

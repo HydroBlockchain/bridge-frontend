@@ -91,7 +91,7 @@ export const Menu = () => {
     }
     const exchangeHandler = () => {
         if (swapWay !== undefined) {
-            dispatch(approveFundsThunk(inputValue, swapWay))
+            dispatch(approveFundsThunk(inputValue, leftChainId, swapWay))
         }
     }
     const onClickSwapper = () => {
