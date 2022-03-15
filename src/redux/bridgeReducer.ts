@@ -57,11 +57,16 @@ export const bridgeReducer = (state: bridgeStateType = initialState, action: Bri
         case 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE':
         case 'BRIDGE/SET-TRANSACTION-FEE':
             return {...state, ...action.payload}
+        case 'BRIDGE/SET-HYDRO-TOKENS-TO-BE-RECEIVED':
+            return {...state, transactionFee: {...state.transactionFee, hydroTokensToBeReceived: action.hydroTokensToBeReceived} }
     }
     return state
 }
 
-//Action creators:
+//Action creators :
+export const setHydroTokensToBeReceivedAC = (hydroTokensToBeReceived: number) => {
+    return ({type: 'BRIDGE/SET-HYDRO-TOKENS-TO-BE-RECEIVED', hydroTokensToBeReceived} as const)
+}
 export const setChainIDAC = (chainID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {chainID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
 const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
@@ -80,11 +85,8 @@ export const setHydroBalanceRightAC = (hydroBalanceRight: string) => ({
 export const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
     type: 'BRIDGE/SET-TRANSACTION-FEE',
     payload: {transactionFee}
-})
-const setChainNationalSymbol = (chainNationalSymbol: string) => ({
-    type: 'BRIDGE/SET-CHAIN-NATIONAL-SYMBOL',
-    payload: {chainNationalSymbol}
-})
+} as const)
+
 
 //Thunks:
 export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
@@ -214,6 +216,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setHydroBalanceRightAC>
     | ReturnType<typeof setTransactionFeeAC>
     | ReturnType<typeof setAppStatusAC>
+    | ReturnType<typeof setHydroTokensToBeReceivedAC>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>

@@ -12,7 +12,7 @@ import {
     setHydroContractInstanceThunk,
     turnOnChainChangeMonitoringThunk,
     setTransactionFeeAC,
-    setHydroBalanceAC, setHydroBalanceRightAC
+    setHydroBalanceAC, setHydroBalanceRightAC, setHydroTokensToBeReceivedAC
 } from '../../redux/bridgeReducer'
 import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
@@ -78,6 +78,7 @@ export const Menu = () => {
     let timeoutId: ReturnType<typeof setTimeout>
     useEffect(() => {
         if (rightChainId !== 0 && inputValue !== '' && leftChainId !== rightChainId) {
+            dispatch(setHydroTokensToBeReceivedAC(0))
             timeoutId = setTimeout(() => {
                 dispatch(getTransactionFeeThunk(inputValue, rightChainId))
             }, 1000)
