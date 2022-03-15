@@ -5,29 +5,29 @@ import {useDispatch, useSelector} from 'react-redux'
 import {
     approveFundsThunk,
     connectToMetamaskThunk,
-    getHydroBalanceThunk, getChainNationalSymbolThunk,
+    getHydroBalanceThunk,
     getTransactionFeeThunk,
     InitialStateType,
-    setChainIDAC, setHydroContractInstanceThunk, turnOnChainChangeMonitoringThunk
+    setChainIDAC,
+    setHydroContractInstanceThunk,
+    turnOnChainChangeMonitoringThunk,
+    setTransactionFeeAC,
+    setHydroBalanceAC, setHydroBalanceRightAC
 } from '../../redux/bridgeReducer'
 import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
-import {chainIDs, chainsPictures, isLightTheme} from '../../common/common'
+import {chainIDs, chainsNationalSymbols, chainsPictures, isLightTheme} from '../../common/common'
 import {ConversionWayType} from '../../api/localAPI'
 import {RequestStatusType} from '../../redux/appReducer'
 import cn from 'classnames'
-import binanceBNB from '../../assets/images/chainSymbols/binanceBNB.png'
-
 
 export const Menu = () => {
     const dispatch = useDispatch()
-
     const {
         chainID,
         hydroBalance,
         hydroBalanceRight,
         transactionFee,
-        chainNationalSymbol
     } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
 
@@ -40,10 +40,8 @@ export const Menu = () => {
     useEffect(() => {
         setLeftChainId(chainID)
         if (chainID !== chainIDs.notSelected) {
-            // dispatch(getHydroBalanceThunk())
             dispatch(getHydroBalanceThunk(true, chainID, true))
             dispatch(setHydroContractInstanceThunk())
-            dispatch(getChainNationalSymbolThunk())
         }
         chainID in chainIDs
             ? setIsSupportChain(true)
@@ -64,8 +62,10 @@ export const Menu = () => {
             setSwapWay('rinkebyTestnet')
         } else setSwapWay(undefined)
 
-        if (leftChainId !== chainIDs.notSelected && rightChainId !== chainIDs.notSelected && leftChainId !== rightChainId)
+        if (leftChainId !== chainIDs.notSelected &&
+            rightChainId !== chainIDs.notSelected && leftChainId !== rightChainId) {
             dispatch(getTransactionFeeThunk(inputValue, rightChainId))
+        }
     }, [leftChainId, rightChainId])
 
     useEffect(() => {
@@ -98,6 +98,16 @@ export const Menu = () => {
         }
     }
     const onClickSwapper = () => {
+        dispatch(setTransactionFeeAC({
+            gasPrice: '',
+            gasRequired: 0,
+            hydroTokensToBeReceived: 0,
+            priceTimestamp: '',
+            transactionCostInHydro: 0,
+            transactionCostinEth: ''
+        }))
+        dispatch(setHydroBalanceAC(''))
+        dispatch(setHydroBalanceRightAC(''))
         const tempLeftId = leftChainId
         const tempRightId = rightChainId
         dispatch(setChainIDAC(tempRightId))
@@ -176,7 +186,7 @@ export const Menu = () => {
                           <div>
                             <div>gasPrice: {transactionFee.gasPrice}</div>
                             <div>gasRequired: {transactionFee.gasRequired}</div>
-                            <div>transactionCost: {transactionFee.transactionCostinEth} {chainNationalSymbol}</div>
+                            <div>transactionCost: {transactionFee.transactionCostinEth} {chainsNationalSymbols[leftChainId]}</div>
                             <div>transactionCostInHydro: {transactionFee.transactionCostInHydro} HYDRO</div>
                           </div>
                         }

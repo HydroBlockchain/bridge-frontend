@@ -2,9 +2,8 @@ import {chains} from '../assets/chains'
 import BepHydro from '../assets/abis/bephydro_copy.json'
 import {AbiItem} from 'web3-utils'
 import bridgeContract from '../assets/abis/bridgeContract.json'
-import {addressForWeb3, chainIDs, chainsNationalSymbols, hydroAddresses, swapContractAddresses} from '../common/common'
+import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from '../common/common'
 import {Contract} from 'web3-eth-contract'
-import {getChainNationalSymbolThunk} from '../redux/bridgeReducer'
 
 const Web3 = require('web3')
 
@@ -139,12 +138,6 @@ export const localAPI = {
         bridgeContractInstance.methods
             .swap(finalAmount)
     },
-    // here getting the national symbol of active chain
-    getChainNationalSymbol: async function (tokenContract: Contract): Promise<string> {
-        const symbol: number = await web3.eth.getChainId()
-        console.log(chainsNationalSymbols[symbol])
-        return chainsNationalSymbols[symbol]
-    }
 }
 
 declare let window: any // todo: maybe fix any

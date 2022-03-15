@@ -14,7 +14,6 @@ import {
 import cn from 'classnames'
 import {AppStoreType} from '../../../redux/store'
 import {RequestStatusType} from '../../../redux/appReducer'
-import binanceBNB from '../../../assets/images/chainSymbols/binanceBNB.png'
 
 const options =
     isTestChains
@@ -107,7 +106,8 @@ export const NetworkElement = (props: PropsType) => {
         <div className={isLightTheme ? `${s.item} ${s.lightTheme}` : `${s.item}`}>
             <div className={isLightTheme ? cn(s.circle, s.lightTheme) : cn(s.circle)}>
                 {
-                    props.chainPicture !== '' && <img src={props.chainPicture} alt="chainSymbol" className={s.chainSymbol}/>
+                    props.chainPicture !== '' &&
+                  <img src={props.chainPicture} alt="chainSymbol" className={s.chainSymbol}/>
                 }
             </div>
             <Select

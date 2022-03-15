@@ -43,7 +43,6 @@ let initialState = {
     swapping: false,
 
     transactionFee: {} as TransactionFeeType,
-    chainNationalSymbol: ''
 }
 
 export type bridgeStateType = typeof initialState
@@ -57,7 +56,6 @@ export const bridgeReducer = (state: bridgeStateType = initialState, action: Bri
         case 'BRIDGE/SET-HYDRO-BALANCE-RIGHT':
         case 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE':
         case 'BRIDGE/SET-TRANSACTION-FEE':
-        case 'BRIDGE/SET-CHAIN-NATIONAL-SYMBOL':
             return {...state, ...action.payload}
     }
     return state
@@ -71,15 +69,15 @@ const setHydroContractInstanceAC = (hydroContractInstance: Contract) => ({
     type: 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE',
     payload: {hydroContractInstance}
 } as const)
-const setHydroBalanceAC = (hydroBalance: string) => ({
+export const setHydroBalanceAC = (hydroBalance: string) => ({
     type: 'BRIDGE/SET-HYDRO-BALANCE',
     payload: {hydroBalance}
 } as const)
-const setHydroBalanceRightAC = (hydroBalanceRight: string) => ({
+export const setHydroBalanceRightAC = (hydroBalanceRight: string) => ({
     type: 'BRIDGE/SET-HYDRO-BALANCE-RIGHT',
     payload: {hydroBalanceRight}
 } as const)
-const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
+export const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
     type: 'BRIDGE/SET-TRANSACTION-FEE',
     payload: {transactionFee}
 })
@@ -205,12 +203,6 @@ export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState
     dispatch(setHydroContractInstanceAC(hydroContractInstance))
 }
 
-export const getChainNationalSymbolThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
-    const bridgeState = getState().bridge
-    const chainNationalSymbol = await localAPI.getChainNationalSymbol(bridgeState.hydroContractInstance)
-    dispatch(setChainNationalSymbol(chainNationalSymbol))
-}
-
 export type InitialStateType = typeof initialState
 
 export type BridgeActionTypes =
@@ -222,7 +214,6 @@ export type BridgeActionTypes =
     | ReturnType<typeof setHydroBalanceRightAC>
     | ReturnType<typeof setTransactionFeeAC>
     | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setChainNationalSymbol>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
