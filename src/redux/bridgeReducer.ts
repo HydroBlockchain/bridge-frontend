@@ -42,7 +42,8 @@ let initialState = {
     prev_hash: 0,
     swapping: false,
 
-    transactionFee: {} as TransactionFeeType
+    transactionFee: {} as TransactionFeeType,
+    chainNationalSymbol: ''
 }
 
 export type bridgeStateType = typeof initialState
@@ -80,6 +81,10 @@ const setHydroBalanceRightAC = (hydroBalanceRight: string) => ({
 const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
     type: 'BRIDGE/SET-TRANSACTION-FEE',
     payload: {transactionFee}
+})
+const setChainNationalSymbol = (chainNationalSymbol: string) => ({
+    type: 'BRIDGE/SET-TRANSACTION-FEE',
+    payload: {chainNationalSymbol}
 })
 
 //Thunks:
@@ -129,7 +134,8 @@ export const approveFundsThunk = (approvedAmount: string, leftChainId: number, w
         const hydraBalance = bridgeState.hydroBalance
         if (hydraBalance === '') console.error('approveFundsThunk', 'HydroBalance === ""')
         dispatch(setAppStatusAC('loading'))
-        await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, leftChainId, way)
+        const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance()
+        await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
         dispatch(setAppStatusAC('succeeded'))
     } else {
         console.error('approveFundsThunk', 'approvedAmount must be > 0')
@@ -196,6 +202,11 @@ export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedC
 export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState: () => AppStoreType) => {
     const hydroContractInstance = localAPI.createHydroContractInstance(getState().bridge.chainID)
     dispatch(setHydroContractInstanceAC(hydroContractInstance))
+}
+
+export const getChainNationalSymbolThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+    const bridgeState = getState().bridge
+    await localAPI.getChainNationalSymbol(bridgeState.hydroContractInstance)
 }
 
 export type InitialStateType = typeof initialState

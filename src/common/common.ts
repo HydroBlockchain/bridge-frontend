@@ -13,6 +13,14 @@ export enum chainIDs {
     coinExTest = 53,
 }
 
+export const chainsNationalSymbols: ChainsNationalSymbolsType = {
+    [chainIDs.eth]: 'ETH',
+    [chainIDs.bsc]: 'BNB',
+    [chainIDs.mumbaiTest]: 'MATIC',
+    [chainIDs.rinkebyTest]: 'ETH',
+    [chainIDs.coinExTest]: 'CETT'
+}
+
 export type RealizedChainsRightType =
     | chainIDs.eth
     | chainIDs.bsc
@@ -54,4 +62,8 @@ export const swapContractAddresses = {
 
 // for dark and light theme switch
 export const isLightTheme = window.matchMedia("(prefers-color-scheme:light)").matches
+
+type ChainsNationalSymbolsType = {
+    [key: number]: string
+}
 

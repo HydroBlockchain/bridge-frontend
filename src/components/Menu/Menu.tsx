@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     approveFundsThunk,
     connectToMetamaskThunk,
-    getHydroBalanceThunk,
+    getHydroBalanceThunk, getChainNationalSymbolThunk,
     getTransactionFeeThunk,
     InitialStateType,
     setChainIDAC, setHydroContractInstanceThunk, turnOnChainChangeMonitoringThunk
@@ -41,6 +41,7 @@ export const Menu = () => {
             // dispatch(getHydroBalanceThunk())
             dispatch(getHydroBalanceThunk(true, chainID, true))
             dispatch(setHydroContractInstanceThunk())
+            dispatch(getChainNationalSymbolThunk())
         }
         chainID in chainIDs
             ? setIsSupportChain(true)
