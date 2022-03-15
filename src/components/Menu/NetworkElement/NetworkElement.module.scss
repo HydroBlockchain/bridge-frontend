@@ -13,11 +13,18 @@
         border-radius: 15px;
         padding: 17px;
 
-        .tempCircle {
+        .circle {
             width: 50px;
             height: 50px;
             background: $menuColor;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .chainSymbol {
+                width: 38px;
+            }
         }
 
         .lightTheme {
@@ -27,6 +34,8 @@
         .select {
             background-color: #313647;
         }
+
+
     }
 
     .lightTheme {

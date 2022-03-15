@@ -1,7 +1,12 @@
+import binanceBNB from '../assets/images/chainSymbols/binanceBNB.png'
+import coinexCETT from '../assets/images/chainSymbols/coinexCett.png'
+import ethereumETH from '../assets/images/chainSymbols/ethereumETH.png'
+import polygonMatic from '../assets/images/chainSymbols/polygonMatic.png'
+
 // === IMPORTANT: ===
 // export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
 export const addressForWeb3 = 'http://127.0.0.1:3001'
-export const isTestChains = true
+export const isTestChains = false
 // === ===
 
 export enum chainIDs {
@@ -11,6 +16,15 @@ export enum chainIDs {
     mumbaiTest = 80001,
     rinkebyTest = 4,
     coinExTest = 53,
+}
+
+export const chainsPictures = {
+    [chainIDs.notSelected]: '',
+    [chainIDs.eth]: ethereumETH,
+    [chainIDs.bsc]: binanceBNB,
+    [chainIDs.mumbaiTest]: polygonMatic,
+    [chainIDs.rinkebyTest]: ethereumETH,
+    [chainIDs.coinExTest]: coinexCETT
 }
 
 export const chainsNationalSymbols: ChainsNationalSymbolsType = {
@@ -36,6 +50,7 @@ export const chainNamesForGetHydroBalance = {
     [chainIDs.coinExTest]: 'coinexTestNetwork',
 }
 
+
 export enum chainsNames {
     notSelected = 'Please click Connect Wallet and unlock you Metamask.',
     eth = 'Ethereum Mainnet',
@@ -48,7 +63,7 @@ export enum chainsNames {
 }
 
 export const hydroAddresses = {
-    forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01', // 0x946112efab61c3636cbd52de2e1392d7a75a6f01
+    forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
     forBsc: '0xf3DBB49999B25c9D6641a9423C7ad84168D00071',
     forTestNets: '0x9477B2d4442FCd35368c029a0016e6800437BAe2'
 }

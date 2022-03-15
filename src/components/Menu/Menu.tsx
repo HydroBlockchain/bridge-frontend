@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react'
 import s from './Menu.module.scss'
-import {NetworkElement} from "./NetworkElement/NetworkElement";
-import {useDispatch, useSelector} from "react-redux";
+import {NetworkElement} from './NetworkElement/NetworkElement'
+import {useDispatch, useSelector} from 'react-redux'
 import {
     approveFundsThunk,
     connectToMetamaskThunk,
@@ -10,12 +10,13 @@ import {
     InitialStateType,
     setChainIDAC, setHydroContractInstanceThunk, turnOnChainChangeMonitoringThunk
 } from '../../redux/bridgeReducer'
-import {AppStoreType} from "../../redux/store";
-import {Swapper} from "./Swapper/Swapper";
-import {chainIDs, isLightTheme} from "../../common/common";
-import {ConversionWayType} from "../../api/localAPI";
-import {RequestStatusType} from "../../redux/appReducer";
-import cn from "classnames";
+import {AppStoreType} from '../../redux/store'
+import {Swapper} from './Swapper/Swapper'
+import {chainIDs, chainsPictures, isLightTheme} from '../../common/common'
+import {ConversionWayType} from '../../api/localAPI'
+import {RequestStatusType} from '../../redux/appReducer'
+import cn from 'classnames'
+import binanceBNB from '../../assets/images/chainSymbols/binanceBNB.png'
 
 
 export const Menu = () => {
@@ -130,10 +131,13 @@ export const Menu = () => {
             <div className={isLightTheme ? `${s.menu} ${s.lightTheme}` : `${s.menu}`}>
                 <div className={s.selectNetwork}>
                     <NetworkElement text={'From'} isMain={true} state={leftChainId} setState={setLeftChainId}
-                                    isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                                    isDisabled={isChainsSelectorsAndAmountInputDisabled()}
+                                    chainPicture={chainsPictures[leftChainId]}
+                    />
                     <Swapper isDisable={isSwapperDisabled()} onClick={onClickSwapper}/>
                     <NetworkElement text={'To'} state={rightChainId} setState={setRightChainId}
-                                    isDisabled={isChainsSelectorsAndAmountInputDisabled()}/>
+                                    isDisabled={isChainsSelectorsAndAmountInputDisabled()}
+                                    chainPicture={chainsPictures[rightChainId]}/>
                 </div>
                 <div className={s.amount}>
                     <div className={s.headerAndBalance}>
@@ -181,11 +185,11 @@ export const Menu = () => {
                 <div className={s.buttonsBlock}>
                     <div>Amount Received</div>
                     <div className={isLightTheme ? cn(s.amountReceived, s.lightThemeAmount) : cn(s.amountReceived)}>
-                        {   leftChainId !== rightChainId
+                        {leftChainId !== rightChainId
+                            ? transactionFee.hydroTokensToBeReceived
                                 ? transactionFee.hydroTokensToBeReceived
-                                    ? transactionFee.hydroTokensToBeReceived
-                                    : '?'
                                 : '?'
+                            : '?'
                         }
                     </div>
                     {chainID === chainIDs.notSelected &&

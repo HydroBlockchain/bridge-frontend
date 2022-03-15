@@ -1,19 +1,20 @@
-import React, {useEffect} from "react";
-import s from "./NetworkElement.module.scss";
-import Select, {PropsValue, StylesConfig} from "react-select";
-import {useDispatch, useSelector} from "react-redux";
-import {changeNetworkThunk, InitialStateType} from "../../../redux/bridgeReducer";
-import {isTestChains, chainIDs, chainsNames, isLightTheme} from "../../../common/common";
+import React, {useEffect} from 'react'
+import s from './NetworkElement.module.scss'
+import Select, {PropsValue, StylesConfig} from 'react-select'
+import {useDispatch, useSelector} from 'react-redux'
+import {changeNetworkThunk, InitialStateType} from '../../../redux/bridgeReducer'
+import {isTestChains, chainIDs, chainsNames, isLightTheme} from '../../../common/common'
 import {
     backgroundColor,
     backgroundColorLight,
     menuColor,
     menuColorLight,
     swapperAndSwapButtonColor, swapperAndSwapButtonColorLight, textColor, textColorDisabled, textColorLight
-} from "../../../common/styles/variables";
-import cn from "classnames";
-import {AppStoreType} from "../../../redux/store";
-import {RequestStatusType} from "../../../redux/appReducer";
+} from '../../../common/styles/variables'
+import cn from 'classnames'
+import {AppStoreType} from '../../../redux/store'
+import {RequestStatusType} from '../../../redux/appReducer'
+import binanceBNB from '../../../assets/images/chainSymbols/binanceBNB.png'
 
 const options =
     isTestChains
@@ -29,8 +30,6 @@ const options =
 
 const selectByArrowColor = isLightTheme ? menuColorLight : menuColor
 const backgroundColorFinal = isLightTheme ? backgroundColorLight : backgroundColor
-
-
 
 export const NetworkElement = (props: PropsType) => {
     const {
@@ -49,8 +48,8 @@ export const NetworkElement = (props: PropsType) => {
         singleValue: base => ({
             ...base,
             color: appStatus === 'loading'
-                    ? textColorDisabled
-                    : isLightTheme ? textColorLight : textColor
+                ? textColorDisabled
+                : isLightTheme ? textColorLight : textColor
         }),
         menuList: base => ({
             ...base,
@@ -63,8 +62,8 @@ export const NetworkElement = (props: PropsType) => {
                 : isFocused
                     ? selectByArrowColor
                     : backgroundColorFinal,
-            color: isLightTheme ? textColorLight: textColor,
-            ":hover": {
+            color: isLightTheme ? textColorLight : textColor,
+            ':hover': {
                 ...base[':hover'],
                 backgroundColor: isLightTheme ? swapperAndSwapButtonColorLight : swapperAndSwapButtonColor,
                 color: 'white'
@@ -88,32 +87,35 @@ export const NetworkElement = (props: PropsType) => {
     useEffect(() => {
         //change network in Metamask
         if (props.isMain && props.state !== chainIDs.notSelected) dispatch(changeNetworkThunk(props.state))
-    },[props.state])
+    }, [props.state])
 
     const onChange = (option: PropsValue<Option | Option[]>) => {
-        props.setState((option as Option).value);
+        props.setState((option as Option).value)
     }
 
     const getValue = () => {
         if (options) {
-            return options.find((option) => option.value === props.state);
+            return options.find((option) => option.value === props.state)
         } else {
             return 0 as any // todo: fix any
         }
-    };
-
+    }
 
 
     return <div className={s.networkElement}>
         <span>{props.text}</span>
-        <div className={isLightTheme ? `${s.item} ${s.lightTheme}` : `${s.item}` }>
-            <div className={isLightTheme ? cn(s.tempCircle, s.lightTheme) : cn(s.tempCircle)}/>
+        <div className={isLightTheme ? `${s.item} ${s.lightTheme}` : `${s.item}`}>
+            <div className={isLightTheme ? cn(s.circle, s.lightTheme) : cn(s.circle)}>
+                {
+                    props.chainPicture !== '' && <img src={props.chainPicture} alt="chainSymbol" className={s.chainSymbol}/>
+                }
+            </div>
             <Select
                 options={options}
                 styles={selectStyles}
-                name={"select"}
+                name={'select'}
                 onChange={onChange}
-                placeholder={"Select Network"}
+                placeholder={'Select Network'}
                 value={getValue()}
                 isDisabled={props.isDisabled}
                 components={{
@@ -134,4 +136,5 @@ type PropsType = {
     state: number
     setState: (value: number) => void
     isDisabled: boolean
+    chainPicture: string
 }
