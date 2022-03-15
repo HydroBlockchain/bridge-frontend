@@ -25,7 +25,8 @@ export const Menu = () => {
         chainID,
         hydroBalance,
         hydroBalanceRight,
-        transactionFee
+        transactionFee,
+        chainNationalSymbol
     } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
 
@@ -138,8 +139,8 @@ export const Menu = () => {
                     <div className={s.headerAndBalance}>
                         <div className={s.amount}>
                             <div className={s.amountBody}>
-                                <div>Left HYDRO Balance: {hydroBalance === '' ? '?' : hydroBalance}</div>
-                                <div>Right HYDRO Balance: {hydroBalanceRight === '' ? '?' : hydroBalanceRight}</div>
+                                <div>Balance: {hydroBalance === '' ? '?' : `${hydroBalance} HYDRO`}</div>
+                                <div>Balance: {hydroBalanceRight === '' ? '?' : `${hydroBalanceRight} HYDRO`}</div>
                             </div>
                             <div className={s.amountHeader}>
                                 Amount
@@ -171,8 +172,8 @@ export const Menu = () => {
                           <div>
                             <div>gasPrice: {transactionFee.gasPrice}</div>
                             <div>gasRequired: {transactionFee.gasRequired}</div>
-                            <div>transactionCost: {transactionFee.transactionCostinEth}</div>
-                            <div>transactionCostInHydro: {transactionFee.transactionCostInHydro}</div>
+                            <div>transactionCost: {transactionFee.transactionCostinEth} {chainNationalSymbol}</div>
+                            <div>transactionCostInHydro: {transactionFee.transactionCostInHydro} HYDRO</div>
                           </div>
                         }
                     </div>

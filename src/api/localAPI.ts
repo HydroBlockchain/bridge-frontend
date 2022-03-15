@@ -142,6 +142,7 @@ export const localAPI = {
     // here getting the national symbol of active chain
     getChainNationalSymbol: async function (tokenContract: Contract): Promise<string> {
         const symbol: number = await web3.eth.getChainId()
+        console.log(chainsNationalSymbols[symbol])
         return chainsNationalSymbols[symbol]
     }
 }
