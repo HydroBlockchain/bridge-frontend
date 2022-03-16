@@ -5,8 +5,21 @@
     background-color: $backgroundColor;
 
     .blank {
-        //background-color: red;
         height: 4px;
+    }
+
+    .centerContainer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 54px);
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
     }
 }
 

@@ -1,15 +1,17 @@
-import React from 'react';
+import React from 'react'
 import './App.scss'
-import {ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {Menu} from "./components/Menu/Menu";
-import {Navbar} from "./components/Navbar/Navbar";
-import {LinearProgress} from "@mui/material";
-import {useSelector} from "react-redux";
-import {RequestStatusType} from "./redux/appReducer";
-import {AppStoreType} from "./redux/store";
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import {Menu} from './components/Menu/Menu'
+import {Navbar} from './components/Navbar/Navbar'
+import {LinearProgress} from '@mui/material'
+import {useSelector} from 'react-redux'
+import {RequestStatusType} from './redux/appReducer'
+import {AppStoreType} from './redux/store'
 import s from './App.module.scss'
-import {isLightTheme} from "./common/common";
+import sC from './common/styles/common.module.scss'
+import {isLightTheme} from './common/common'
+import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
@@ -17,8 +19,13 @@ function App() {
     return (
         <div className={isLightTheme ? `${s.app} ${s.lightTheme}` : `${s.app}`}>
             <Navbar/>
-            {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/> }
-            <Menu/>
+            {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/>}
+            <div className={s.centerContainer}>
+                <div className={s.container}>
+                    {/*<TotalSwapped />*/}
+                    <Menu/>
+                </div>
+            </div>
             {/*<ToastContainer
                 position="bottom-left"
                 autoClose={false}
@@ -28,7 +35,7 @@ function App() {
                 draggable
                 pauseOnHover/>*/}
         </div>
-    );
+    )
 }
 
-export default App;
+export default App

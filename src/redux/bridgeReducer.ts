@@ -56,9 +56,13 @@ export const bridgeReducer = (state: bridgeStateType = initialState, action: Bri
         case 'BRIDGE/SET-HYDRO-BALANCE-RIGHT':
         case 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE':
         case 'BRIDGE/SET-TRANSACTION-FEE':
+        case 'BRIDGE/SET-TOTAL-HYDRO-SWAPPED':
             return {...state, ...action.payload}
         case 'BRIDGE/SET-HYDRO-TOKENS-TO-BE-RECEIVED':
-            return {...state, transactionFee: {...state.transactionFee, hydroTokensToBeReceived: action.hydroTokensToBeReceived} }
+            return {
+                ...state,
+                transactionFee: {...state.transactionFee, hydroTokensToBeReceived: action.hydroTokensToBeReceived}
+            }
     }
     return state
 }
@@ -86,6 +90,10 @@ export const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
     type: 'BRIDGE/SET-TRANSACTION-FEE',
     payload: {transactionFee}
 } as const)
+export const setTotalHydroSwappedAC = (totalSwapped: string) => ({
+    type: 'BRIDGE/SET-TOTAL-HYDRO-SWAPPED',
+    payload: {totalSwapped}
+} as const)
 
 
 //Thunks:
@@ -103,7 +111,6 @@ export const connectToMetamaskThunk = (): AppThunk => async (dispatch) => {
         dispatch(setLoadingAC(false))
     }
     dispatch(setAppStatusAC('succeeded'))
-
 }
 
 export const changeNetworkThunk = (networkID: number): AppThunk => async (dispatch) => {
@@ -205,6 +212,13 @@ export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState
     dispatch(setHydroContractInstanceAC(hydroContractInstance))
 }
 
+export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+    const bridgeState = getState().bridge
+    const hydroContractInstance = bridgeState.hydroContractInstance
+    const totalHydroSwapped = await localAPI.getTotalHydroSwapped(hydroContractInstance)
+    dispatch(setTotalHydroSwappedAC(totalHydroSwapped))
+}
+
 export type InitialStateType = typeof initialState
 
 export type BridgeActionTypes =
@@ -217,6 +231,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setTransactionFeeAC>
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setHydroTokensToBeReceivedAC>
+    | ReturnType<typeof setTotalHydroSwappedAC>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>

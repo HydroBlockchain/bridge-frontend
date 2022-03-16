@@ -12,7 +12,7 @@ import {
     setHydroContractInstanceThunk,
     turnOnChainChangeMonitoringThunk,
     setTransactionFeeAC,
-    setHydroBalanceAC, setHydroBalanceRightAC, setHydroTokensToBeReceivedAC
+    setHydroBalanceAC, setHydroBalanceRightAC, setHydroTokensToBeReceivedAC, getTotalHydroSwappedThunk
 } from '../../redux/bridgeReducer'
 import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
@@ -42,6 +42,7 @@ export const Menu = () => {
         if (chainID !== chainIDs.notSelected) {
             dispatch(getHydroBalanceThunk(true, chainID, true))
             dispatch(setHydroContractInstanceThunk())
+            // dispatch(getTotalHydroSwappedThunk())
         }
         chainID in chainIDs
             ? setIsSupportChain(true)

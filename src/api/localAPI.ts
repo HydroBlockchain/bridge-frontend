@@ -104,15 +104,11 @@ export const localAPI = {
             return ''
         }
     },
-    // this for total hydro swapped
-    displayApprovedFund: async function (hydroContractInstance: Contract, hydroBalance: string, account: string, swapAddress: string): Promise<void> {
-        try {
-            const allowed_swap = await hydroContractInstance.methods.allowed(account, swapAddress).call()
-            const allowed_swapFromWei = this.fromWei(allowed_swap.toString(), 'ether')
-        } catch (error) {
-            console.error(error)
-        }
-        // const allowed = web3.utils.fromWei(allowed_swap.toString(), 'ether');
+    getTotalHydroSwapped: async function (hydroContractInstance: Contract): Promise<string> {
+        const totalSwapped = await hydroContractInstance.methods.totalAmountSwapped().call();
+        const totalSwappedFromWei = web3.utils.fromWei(totalSwapped.toString())
+        console.log('totalHydroSwapped', totalSwappedFromWei)
+        return totalSwappedFromWei
     },
     exchangeTokenChain: async function (hydroContractInstance: Contract,
                                         approvedAmount: string,
@@ -125,7 +121,6 @@ export const localAPI = {
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
             : web3.utils.toWei(approvedAmount)
-        // const finalAmount =  web3.utils.toWei(approvedAmount)
         await hydroContractInstance.methods
             .approve(swapContractAddresses[conversionWay], finalAmount)
             .send({from: account,})
