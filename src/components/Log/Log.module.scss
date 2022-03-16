@@ -1,0 +1,23 @@
+@import '../../common/styles/variables';
+
+.log {
+    margin-top: 15px;
+    background-color: $menuColor;
+    border-radius: 20px;
+    color: #ffffffb7;
+    width: 100%;
+    padding: 27.5px;
+    height: 200px;
+    overflow: auto;
+
+    div {
+        font-size: 10px;
+    }
+
+    .green {
+        color: green;
+    }
+    .red {
+        color: red;
+    }
+}

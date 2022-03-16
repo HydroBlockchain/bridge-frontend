@@ -12,6 +12,7 @@ import s from './App.module.scss'
 import sC from './common/styles/common.module.scss'
 import {isLightTheme} from './common/common'
 import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
+import { Log } from './components/Log/Log'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
@@ -24,6 +25,8 @@ function App() {
                 <div className={s.container}>
                     {/*<TotalSwapped />*/}
                     <Menu/>
+                    {/*<button>Show log</button>*/}
+                    <Log />
                 </div>
             </div>
             {/*<ToastContainer
