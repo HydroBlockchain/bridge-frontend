@@ -19,8 +19,29 @@
             width: 100%;
             max-width: 850px;
             margin: 0 auto;
+
+            .logShowHideButton {
+                margin-top: 15px;
+                cursor: pointer;
+
+                border-radius: 10px;
+                width: 100px;
+                height: 33px;
+                right: 11px;
+                top: 20%;
+                background: $menuColor;
+                color: $textColor;
+
+            }
+
+            .lightTheme {
+                background: $menuColorLight;
+                color: $textColorLight;
+            }
         }
     }
+
+
 }
 
 .lightTheme {

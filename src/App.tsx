@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './App.scss'
 import 'react-toastify/dist/ReactToastify.css'
 import {Menu} from './components/Menu/Menu'
@@ -11,20 +11,30 @@ import s from './App.module.scss'
 import {isLightTheme} from './common/common'
 import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
 import {Log} from './components/Log/Log'
+import cn from 'classnames'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
+    const [isLogHidden, setIsLogHidden] = useState(true)
+
+    const onShowHideLog = () => {
+        isLogHidden ? setIsLogHidden(false) : setIsLogHidden(true)
+    }
 
     return (
-        <div className={isLightTheme ? `${s.app} ${s.lightTheme}` : `${s.app}`}>
+        <div className={isLightTheme ? cn(s.app, s.lightTheme) : s.app}>
             <Navbar/>
             {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/>}
             <div className={s.centerContainer}>
                 <div className={s.container}>
                     {/*<TotalSwapped />*/}
                     <Menu/>
-                    {/*<button>Show log</button>*/}
-                    <Log />
+                    <button
+                        className={isLightTheme ? cn(s.logShowHideButton, s.lightTheme) : s.logShowHideButton}
+                        onClick={onShowHideLog}>
+                        {isLogHidden ? 'Show log' : 'Hide log'}
+                    </button>
+                    {!isLogHidden && <Log />}
                 </div>
             </div>
             {/*<ToastContainer
