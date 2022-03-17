@@ -1,10 +1,13 @@
-import {appReducer, AppStateType, setAppStatusAC} from "./appReducer";
+import {appReducer, AppStateType, RequestStatusType, setAppStatusAC} from './appReducer'
 
 let startState: AppStateType;
 
+const isTestNetsLS = localStorage.getItem('isTestNets')
 beforeEach(() => {
     startState = {
-        status: 'idle',
+        status: 'idle' as RequestStatusType,
+        isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
+        isSwapButtonDisabled: true
     }
 })
 

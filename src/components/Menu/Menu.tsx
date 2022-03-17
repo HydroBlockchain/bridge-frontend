@@ -29,7 +29,10 @@ export const Menu = () => {
         hydroBalanceRight,
         transactionFee,
     } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
+    // const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const isSwapButtonDisabled = useSelector<AppStoreType, boolean>(state => state.app.isSwapButtonDisabled)
+
 
     const [inputValue, setInputValue] = useState<string>('')
     const [isSupportedChain, setIsSupportChain] = useState(false) // if selected in Metamask chain is not supported in application
@@ -126,7 +129,7 @@ export const Menu = () => {
     }
 
     // Is buttons or elements disabled:
-    const isApproveSwapButtonsDisabled = () => {
+    const isApproveButtonDisabled = () => {
         return swapWay === undefined || Number(inputValue) <= 0 || leftChainId === rightChainId
             || (!transactionFee.hydroTokensToBeReceived) || appStatus === 'loading'
     }
@@ -219,14 +222,14 @@ export const Menu = () => {
                       >Connect Wallet</button>}
                     {chainID !== chainIDs.notSelected &&
                       <div>
-                        <button disabled={isApproveSwapButtonsDisabled()}
+                        <button disabled={isApproveButtonDisabled()}
                                 onClick={approveHandler}
                                 className={isLightTheme
                                     ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)
                                     : cn(s.connectSwapButtons, s.swapApproveButtons)}>Approve
                         </button>
                         <button onClick={swapHandler}
-                                disabled={isApproveSwapButtonsDisabled()}
+                                disabled={isSwapButtonDisabled}
                                 className={isLightTheme
                                     ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)
                                     : cn(s.connectSwapButtons, s.swapApproveButtons)}

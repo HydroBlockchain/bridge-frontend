@@ -1,12 +1,10 @@
 import {ThunkAction} from 'redux-thunk'
 import {AppStoreType} from './store'
 import {Contract} from 'web3-eth-contract'
-import {fromWei} from 'web3-utils'
 import {ChainIdType, ConversionWayType, localAPI} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
-import {setAppStatusAC} from './appReducer'
-import {logDOM} from '@testing-library/react'
+import {setAppStatusAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
 
 let initialState = {
@@ -154,12 +152,11 @@ export const swapApproveFundsThunk = (
             if (leftChainId !== 0) {
                 if (swapOrApprove === 'approve') {
                     await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                    dispatch(setSwapButtonDisabledAC(false))
                     dispatch(setLogMessageAC('approveFunds: success', 'success'))
-                }
-                else {
+                } else {
                     await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                 }
-
             }
 
         } else {
@@ -277,6 +274,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setHydroTokensToBeReceivedAC>
     | ReturnType<typeof setTotalHydroSwappedAC>
     | ReturnType<typeof setLogMessageAC>
+    | ReturnType<typeof setSwapButtonDisabledAC>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
