@@ -138,7 +138,11 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch)
 
 }
 
-export const approveFundsThunk = (approvedAmount: string, leftChainId: ChainIdType | 0, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+export const swapApproveFundsThunk = (
+    swapOrApprove: 'swap' | 'approve',
+    approvedAmount: string,
+    leftChainId: ChainIdType | 0,
+    way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     dispatch(setAppStatusAC('loading'))
     try {
         if (Number(approvedAmount) > 0) {
@@ -148,8 +152,14 @@ export const approveFundsThunk = (approvedAmount: string, leftChainId: ChainIdTy
             dispatch(setAppStatusAC('loading'))
             const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance()
             if (leftChainId !== 0) {
-                await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-                dispatch(setLogMessageAC('approveFunds: success', 'success'))
+                if (swapOrApprove === 'approve') {
+                    await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                    dispatch(setLogMessageAC('approveFunds: success', 'success'))
+                }
+                else {
+                    await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                }
+
             }
 
         } else {
@@ -209,6 +219,7 @@ export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedC
             dispatch(setAppStatusAC('loading'))
             await serverApi.getTransactionFee(amountOfHydro, chainNamesForGetHydroBalance[chainID] as ChainType)
                 .then(data => {
+                    console.log('getTransactionFee', data.data)
                     dispatch(setTransactionFeeAC(data.data))
                 })
                 .catch(e => {

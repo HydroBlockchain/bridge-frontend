@@ -3,7 +3,7 @@ import s from './Menu.module.scss'
 import {NetworkElement} from './NetworkElement/NetworkElement'
 import {useDispatch, useSelector} from 'react-redux'
 import {
-    approveFundsThunk,
+    swapApproveFundsThunk,
     connectToMetamaskThunk,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
@@ -94,9 +94,14 @@ export const Menu = () => {
         dispatch(connectToMetamaskThunk())
         dispatch(turnOnChainChangeMonitoringThunk())
     }
-    const exchangeHandler = () => {
+    const approveHandler = () => {
         if (swapWay !== undefined) {
-            dispatch(approveFundsThunk(inputValue, leftChainId, swapWay))
+            dispatch(swapApproveFundsThunk('approve',inputValue, leftChainId, swapWay))
+        }
+    }
+    const swapHandler = () => {
+        if (swapWay !== undefined) {
+            dispatch(swapApproveFundsThunk('swap',inputValue, leftChainId, swapWay))
         }
     }
     const onClickSwapper = () => {
@@ -121,7 +126,7 @@ export const Menu = () => {
     }
 
     // Is buttons or elements disabled:
-    const isSwapButtonDisabled = () => {
+    const isApproveSwapButtonsDisabled = () => {
         return swapWay === undefined || Number(inputValue) <= 0 || leftChainId === rightChainId
             || (!transactionFee.hydroTokensToBeReceived) || appStatus === 'loading'
     }
@@ -207,18 +212,28 @@ export const Menu = () => {
                     {chainID === chainIDs.notSelected &&
                       <button
                         className={isLightTheme
-                            ? cn(s.accentLight, s.connectSwapButton, s.lightTheme)
-                            : cn(s.accent, s.connectSwapButton)}
+                            ? cn(s.accentLight, s.connectSwapButtons, s.lightTheme)
+                            : cn(s.accent, s.connectSwapButtons)}
                         onClick={connectToMetamaskHandler}
                         disabled={isConnectWalletButtonDisabled()}
                       >Connect Wallet</button>}
                     {chainID !== chainIDs.notSelected &&
-                      <button onClick={exchangeHandler}
-                              disabled={isSwapButtonDisabled()}
-                              className={isLightTheme
-                                  ? cn(s.connectSwapButton, s.lightTheme)
-                                  : cn(s.connectSwapButton)}
-                      >Swap</button>}
+                      <div>
+                        <button disabled={isApproveSwapButtonsDisabled()}
+                                onClick={approveHandler}
+                                className={isLightTheme
+                                    ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)
+                                    : cn(s.connectSwapButtons, s.swapApproveButtons)}>Approve
+                        </button>
+                        <button onClick={swapHandler}
+                                disabled={isApproveSwapButtonsDisabled()}
+                                className={isLightTheme
+                                    ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)
+                                    : cn(s.connectSwapButtons, s.swapApproveButtons)}
+                        >Swap
+                        </button>
+                      </div>
+                    }
                 </div>
             </div>
         </div>

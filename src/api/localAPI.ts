@@ -96,7 +96,6 @@ export const localAPI = {
         return new web3.eth.Contract(bridgeContract as AbiItem[])
     },
     fromWei: function (weiBalance: string, ether = ''): string {
-        console.log(web3.utils.fromWei(weiBalance, ether))
         return web3.utils.fromWei(weiBalance, ether)
     },
     getHydroBalance: async function (hydroContractInstance: Contract): Promise<string> {
@@ -113,20 +112,17 @@ export const localAPI = {
     },
     getTotalHydroSwapped: async function (hydroContractInstance: Contract): Promise<string> {
         const totalSwapped = await hydroContractInstance.methods.totalAmountSwapped().call()
-        const totalSwappedFromWei = web3.utils.fromWei(totalSwapped.toString())
-        console.log('totalHydroSwapped', totalSwappedFromWei)
-        return totalSwappedFromWei
+        return web3.utils.fromWei(totalSwapped.toString())
     },
-    exchangeTokenChain: async function (hydroContractInstance: Contract,
-                                        approvedAmount: string,
-                                        leftChainId: ChainIdType,
-                                        conversionWay: ConversionWayType,
-                                        bridgeContractInstance: Contract): Promise<void> {
+    approveTokens: async function (hydroContractInstance: Contract,
+                                   approvedAmount: string,
+                                   leftChainId: ChainIdType,
+                                   conversionWay: ConversionWayType,
+                                   bridgeContractInstance: Contract): Promise<void> {
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
             : web3.utils.toWei(approvedAmount)
-
         await hydroContractInstance.methods
             .approve(swapContractAddresses[conversionWay], finalAmount) // there need to check approve or not
             .send({from: account,})
@@ -136,6 +132,17 @@ export const localAPI = {
                     console.log('hash', hash)
                 }
             })
+
+    },
+    swapTokens: async function (hydroContractInstance: Contract,
+                                   approvedAmount: string,
+                                   leftChainId: ChainIdType,
+                                   conversionWay: ConversionWayType,
+                                   bridgeContractInstance: Contract): Promise<void> {
+        const account = await this.getAccountAddress()
+        const finalAmount = leftChainId === chainIDs.mumbaiTest
+            ? approvedAmount
+            : web3.utils.toWei(approvedAmount)
         bridgeContractInstance.methods
             .swap(finalAmount)
             .send({from: account,})
@@ -152,6 +159,7 @@ export const localAPI = {
                 }
             })
     },
+
 }
 
 declare let window: any // todo: maybe fix any

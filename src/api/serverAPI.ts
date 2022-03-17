@@ -14,6 +14,7 @@ export const serverApi = {
         })
     },
     getTransactionFee(amountOfHydro: string, destinationChain: ChainType): Promise<GetTransactionFeeType> {
+        console.log('amountOfHydro', amountOfHydro, 'destinationChain', destinationChain)
         return instance.get('getSwapCostInHydroTokens', {
             params: {
                 amountOfHydro, destinationChain
