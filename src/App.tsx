@@ -3,9 +3,9 @@ import './App.scss'
 import 'react-toastify/dist/ReactToastify.css'
 import {Menu} from './components/Menu/Menu'
 import {Navbar} from './components/Navbar/Navbar'
-import {Checkbox, LinearProgress} from '@mui/material'
-import {useSelector} from 'react-redux'
-import {RequestStatusType} from './redux/appReducer'
+import {Checkbox, FormControlLabel, LinearProgress} from '@mui/material'
+import {useDispatch, useSelector} from 'react-redux'
+import {RequestStatusType, setIsTestNetsAC} from './redux/appReducer'
 import {AppStoreType} from './redux/store'
 import s from './App.module.scss'
 import {isLightTheme} from './common/common'
@@ -17,6 +17,10 @@ function App() {
     const isLogHiddenLS = localStorage.getItem('isLogHidden')
     const [isLogHidden, setIsLogHidden] = useState(isLogHiddenLS ? JSON.parse(isLogHiddenLS) : true)
 
+    const isTestNets = useSelector<AppStoreType, boolean>(state => state.app.isTestNets)
+
+    const dispatch = useDispatch()
+
     const onShowHideLog = () => {
         if (isLogHidden) {
             localStorage.setItem('isLogHidden', JSON.stringify(false))
@@ -24,6 +28,15 @@ function App() {
         } else {
             localStorage.setItem('isLogHidden', JSON.stringify(true))
             setIsLogHidden(true)
+        }
+    }
+    const onCheckBoxChange = () => {
+        if (isTestNets) {
+            localStorage.setItem('isTestNets', JSON.stringify(false))
+            dispatch(setIsTestNetsAC(false))
+        } else {
+            localStorage.setItem('isTestNets', JSON.stringify(true))
+            dispatch(setIsTestNetsAC(true))
         }
     }
 
@@ -41,8 +54,12 @@ function App() {
                             onClick={onShowHideLog}>
                             {isLogHidden ? 'Show log' : 'Hide log'}
                         </button>
-                       {/* <Checkbox isTestNetworks/>
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />*/}
+                        <FormControlLabel control={
+                            <Checkbox
+                                checked={isTestNets}
+                                onChange={onCheckBoxChange}/>
+                        } label="Test Nets"
+                          className={s.checkbox}/>
                     </div>
                     {!isLogHidden && <Log/>}
                 </div>

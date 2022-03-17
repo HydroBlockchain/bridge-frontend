@@ -3,7 +3,7 @@ import s from './NetworkElement.module.scss'
 import Select, {PropsValue, StylesConfig} from 'react-select'
 import {useDispatch, useSelector} from 'react-redux'
 import {changeNetworkThunk, InitialStateType} from '../../../redux/bridgeReducer'
-import {isTestChains, chainIDs, chainsNames, isLightTheme} from '../../../common/common'
+import {chainIDs, chainsNames, isLightTheme} from '../../../common/common'
 import {
     backgroundColor,
     backgroundColorLight,
@@ -15,22 +15,24 @@ import cn from 'classnames'
 import {AppStoreType} from '../../../redux/store'
 import {RequestStatusType} from '../../../redux/appReducer'
 
-const options =
-    isTestChains
-        ? [
-            {value: chainIDs.mumbaiTest, label: chainsNames.mumbaiTest},
-            {value: chainIDs.rinkebyTest, label: chainsNames.rinkebyTest},
-            {value: chainIDs.coinExTest, label: chainsNames.coinExTest},
-        ]
-        : [
-            {value: chainIDs.eth, label: chainsNames.eth},
-            {value: chainIDs.bsc, label: chainsNames.bsc},
-        ]
-
-const selectByArrowColor = isLightTheme ? menuColorLight : menuColor
-const backgroundColorFinal = isLightTheme ? backgroundColorLight : backgroundColor
-
 export const NetworkElement = (props: PropsType) => {
+    const isTestNets = useSelector<AppStoreType, boolean>(state => state.app.isTestNets)
+
+    const options =
+        isTestNets
+            ? [
+                {value: chainIDs.mumbaiTest, label: chainsNames.mumbaiTest},
+                {value: chainIDs.rinkebyTest, label: chainsNames.rinkebyTest},
+                {value: chainIDs.coinExTest, label: chainsNames.coinExTest},
+            ]
+            : [
+                {value: chainIDs.eth, label: chainsNames.eth},
+                {value: chainIDs.bsc, label: chainsNames.bsc},
+            ]
+
+    const selectByArrowColor = isLightTheme ? menuColorLight : menuColor
+    const backgroundColorFinal = isLightTheme ? backgroundColorLight : backgroundColor
+
     const {
         chainID
     } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
