@@ -8,166 +8,166 @@
     }
 }
 
-    .menu {
-        margin-top: 15px;
-        background-color: $menuColor;
-        border-radius: 20px;
-        color: #ffffffb7;
+.menu {
+    margin-top: 15px;
+    background-color: $menuColor;
+    border-radius: 20px;
+    color: #ffffffb7;
+    width: 100%;
+    padding: 27.5px;
+    height: 610px;
+
+    input, .amountReceived {
         width: 100%;
-        padding: 27.5px;
-        height: 610px;
+        background: $backgroundColor;
+        border: none;
+        height: 55px;
+        border-radius: 15px;
+        padding-left: 35px;
+        color: $textColor;
+    }
 
-        input, .amountReceived {
-            width: 100%;
-            background: $backgroundColor;
-            border: none;
-            height: 55px;
-            border-radius: 15px;
-            padding-left: 35px;
-            color: $textColor;
-        }
+    .lightTheme {
+        background: $backgroundColorLight;
+        color: $textColorLight;
+    }
 
-        .lightTheme {
-            background: $backgroundColorLight;
-            color: $textColorLight;
-        }
+    .amountReceived {
+        display: flex;
+        align-items: center;
+    }
 
-        .amountReceived {
-            display: flex;
-            align-items: center;
-        }
+    .selectNetwork {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .selectNetwork {
+    .amount {
+        width: 100%;
+
+        .headerAndBalance {
+            margin-top: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
+            width: inherit;
 
-        .amount {
-            width: 100%;
-
-            .headerAndBalance {
-                margin-top: 10px;
+            .amountBody {
+                width: inherit;
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .amountHeader {
                 width: inherit;
-
-                .amountBody {
-                    width: inherit;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 10px;
-                }
-
-                .amountHeader {
-                    width: inherit;
-                }
-
-
             }
 
-            .buttonIn {
-                width: 100%;
-                position: relative;
 
-                .lightThemeInput::placeholder {
-                    color: $textColorLight;
-                }
-
-                .darkThemeInput::placeholder {
-                    color: $textColor;
-                }
-
-                .disabledInputLight {
-                    background: $backgroundColorLight;
-                    color: $textColorDisabled;
-                }
-
-                .disabledInputDark {
-                    background: $backgroundColor;
-                    color: $textColorDisabled;
-
-                }
-
-                button {
-                    position: absolute;
-                    border-radius: 10px;
-                    width: 75px;
-                    height: 33px;
-                    right: 11px;
-                    top: 20%;
-                    background: $menuColor;
-                    color: $textColor;
-                    cursor: pointer;
-                    @include disabledButton;
-                }
-
-                .lightTheme {
-                    background: $menuColorLight;
-                    color: $textColorLight;
-                }
-
-                .lightThemeInput {
-                    background: $backgroundColorLight;
-                    color: $textColorLight;
-                }
-
-                .darkThemeInput {
-                    background: $backgroundColor;
-                    color: $textColor;
-                }
-            }
-
-            .transactionFee {
-                margin-top: 10px;
-                height: 100px;
-
-            }
         }
 
-        .buttonsBlock {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
+        .buttonIn {
+            width: 100%;
+            position: relative;
 
-            .connectSwapButton {
-                color: $backgroundColorLight;
-                border-radius: 15px;
-                height: 55px;
+            .lightThemeInput::placeholder {
+                color: $textColorLight;
+            }
+
+            .darkThemeInput::placeholder {
+                color: $textColor;
+            }
+
+            .disabledInputLight {
+                background: $backgroundColorLight;
+                color: $textColorDisabled;
+            }
+
+            .disabledInputDark {
+                background: $backgroundColor;
+                color: $textColorDisabled;
+
+            }
+
+            button {
+                position: absolute;
+                border-radius: 10px;
+                width: 75px;
+                height: 33px;
+                right: 11px;
+                top: 20%;
+                background: $menuColor;
+                color: $textColor;
                 cursor: pointer;
-                background: $buttonColor;
-                margin-top: 10px;
                 @include disabledButton;
             }
 
-            .accent {
-                border: 1px solid $accentColor;
-            }
-
-            .accentLight {
-                border: 3px solid $accentColorLight;
-            }
-
             .lightTheme {
-                background: $textColorLight;
-                color: $backgroundColorLight;
+                background: $menuColorLight;
+                color: $textColorLight;
             }
 
-            .lightThemeAmount {
+            .lightThemeInput {
                 background: $backgroundColorLight;
                 color: $textColorLight;
             }
 
+            .darkThemeInput {
+                background: $backgroundColor;
+                color: $textColor;
+            }
         }
 
+        .transactionFee {
+            margin-top: 10px;
+            height: 100px;
+
+        }
+    }
+
+    .buttonsBlock {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .connectSwapButton {
+            color: $backgroundColorLight;
+            border-radius: 15px;
+            height: 55px;
+            cursor: pointer;
+            background: $buttonColor;
+            margin-top: 10px;
+            @include disabledButton;
+        }
+
+        .accent {
+            border: 1px solid $accentColor;
+        }
+
+        .accentLight {
+            border: 3px solid $accentColorLight;
+        }
+
+        .lightTheme {
+            background: $textColorLight;
+            color: $backgroundColorLight;
+        }
+
+        .lightThemeAmount {
+            background: $backgroundColorLight;
+            color: $textColorLight;
+        }
 
     }
 
-    .lightTheme {
-        background-color: $menuColorLight;
-        color: $textColorLight;
-    }
+
+}
+
+.lightTheme {
+    background-color: $menuColorLight;
+    color: $textColorLight;
+}
 
 
 

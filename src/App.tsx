@@ -1,6 +1,5 @@
 import React from 'react'
 import './App.scss'
-import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {Menu} from './components/Menu/Menu'
 import {Navbar} from './components/Navbar/Navbar'
@@ -9,10 +8,9 @@ import {useSelector} from 'react-redux'
 import {RequestStatusType} from './redux/appReducer'
 import {AppStoreType} from './redux/store'
 import s from './App.module.scss'
-import sC from './common/styles/common.module.scss'
 import {isLightTheme} from './common/common'
 import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
-import { Log } from './components/Log/Log'
+import {Log} from './components/Log/Log'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)

@@ -1,12 +1,18 @@
 @import '../../common/styles/variables';
-    .totalSwapped {
-        background-color: $menuColor;
-        border-radius: 20px;
-        color: #ffffffb7;
-        width: 100%;
-        padding: 27.5px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+
+.totalSwapped {
+    background-color: $menuColor;
+    border-radius: 20px;
+    color: #ffffffb7;
+    width: 100%;
+    padding: 27.5px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightTheme {
+    background-color: $menuColorLight;
+    color: $textColorLight;
+}
