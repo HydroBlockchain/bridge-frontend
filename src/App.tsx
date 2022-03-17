@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.scss'
 import 'react-toastify/dist/ReactToastify.css'
 import {Menu} from './components/Menu/Menu'
@@ -15,10 +15,17 @@ import cn from 'classnames'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
-    const [isLogHidden, setIsLogHidden] = useState(true)
+    const isLogHiddenLS = localStorage.getItem('isLogHidden')
+    const [isLogHidden, setIsLogHidden] = useState(isLogHiddenLS ? JSON.parse(isLogHiddenLS) : true)
 
     const onShowHideLog = () => {
-        isLogHidden ? setIsLogHidden(false) : setIsLogHidden(true)
+        if (isLogHidden) {
+            localStorage.setItem('isLogHidden', JSON.stringify(false))
+            setIsLogHidden(false)
+        } else {
+            localStorage.setItem('isLogHidden', JSON.stringify(true))
+            setIsLogHidden(true)
+        }
     }
 
     return (
@@ -34,7 +41,7 @@ function App() {
                         onClick={onShowHideLog}>
                         {isLogHidden ? 'Show log' : 'Hide log'}
                     </button>
-                    {!isLogHidden && <Log />}
+                    {!isLogHidden && <Log/>}
                 </div>
             </div>
             {/*<ToastContainer
