@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import './App.scss'
 import 'react-toastify/dist/ReactToastify.css'
 import {Menu} from './components/Menu/Menu'
 import {Navbar} from './components/Navbar/Navbar'
-import {LinearProgress} from '@mui/material'
+import {Checkbox, LinearProgress} from '@mui/material'
 import {useSelector} from 'react-redux'
 import {RequestStatusType} from './redux/appReducer'
 import {AppStoreType} from './redux/store'
 import s from './App.module.scss'
 import {isLightTheme} from './common/common'
-import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
 import {Log} from './components/Log/Log'
 import cn from 'classnames'
 
@@ -36,11 +35,15 @@ function App() {
                 <div className={s.container}>
                     {/*<TotalSwapped />*/}
                     <Menu/>
-                    <button
-                        className={isLightTheme ? cn(s.logShowHideButton, s.lightTheme) : s.logShowHideButton}
-                        onClick={onShowHideLog}>
-                        {isLogHidden ? 'Show log' : 'Hide log'}
-                    </button>
+                    <div className={s.additionalSettings}>
+                        <button
+                            className={isLightTheme ? cn(s.logShowHideButton, s.lightTheme) : s.logShowHideButton}
+                            onClick={onShowHideLog}>
+                            {isLogHidden ? 'Show log' : 'Hide log'}
+                        </button>
+                       {/* <Checkbox isTestNetworks/>
+                        <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />*/}
+                    </div>
                     {!isLogHidden && <Log/>}
                 </div>
             </div>

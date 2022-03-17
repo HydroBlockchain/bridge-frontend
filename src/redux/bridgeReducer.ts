@@ -2,7 +2,7 @@ import {ThunkAction} from 'redux-thunk'
 import {AppStoreType} from './store'
 import {Contract} from 'web3-eth-contract'
 import {fromWei} from 'web3-utils'
-import {ConversionWayType, localAPI} from '../api/localAPI'
+import {ChainIdType, ConversionWayType, localAPI} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
 import {setAppStatusAC} from './appReducer'
@@ -138,7 +138,7 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch)
 
 }
 
-export const approveFundsThunk = (approvedAmount: string, leftChainId: number, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+export const approveFundsThunk = (approvedAmount: string, leftChainId: ChainIdType | 0, way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     dispatch(setAppStatusAC('loading'))
     try {
         if (Number(approvedAmount) > 0) {
@@ -147,8 +147,11 @@ export const approveFundsThunk = (approvedAmount: string, leftChainId: number, w
             const hydraBalance = bridgeState.hydroBalance
             dispatch(setAppStatusAC('loading'))
             const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance()
-            await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-            dispatch(setLogMessageAC('approveFunds: success', 'success'))
+            if (leftChainId !== 0) {
+                await localAPI.exchangeTokenChain(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                dispatch(setLogMessageAC('approveFunds: success', 'success'))
+            }
+
         } else {
             console.error('approveFundsThunk', 'approvedAmount must be > 0')
         }

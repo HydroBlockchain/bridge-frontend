@@ -2,8 +2,15 @@ import {chains} from '../assets/chains'
 import BepHydro from '../assets/abis/bephydro_copy.json'
 import {AbiItem} from 'web3-utils'
 import bridgeContract from '../assets/abis/bridgeContract.json'
-import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from '../common/common'
+import {
+    addressForWeb3,
+    chainIDs,
+    chainNamesForGetHydroBalance,
+    hydroAddresses,
+    swapContractAddresses
+} from '../common/common'
 import {Contract} from 'web3-eth-contract'
+import {ChainType, serverApi} from './serverAPI'
 
 const Web3 = require('web3')
 
@@ -105,33 +112,45 @@ export const localAPI = {
         }
     },
     getTotalHydroSwapped: async function (hydroContractInstance: Contract): Promise<string> {
-        const totalSwapped = await hydroContractInstance.methods.totalAmountSwapped().call();
+        const totalSwapped = await hydroContractInstance.methods.totalAmountSwapped().call()
         const totalSwappedFromWei = web3.utils.fromWei(totalSwapped.toString())
         console.log('totalHydroSwapped', totalSwappedFromWei)
         return totalSwappedFromWei
     },
     exchangeTokenChain: async function (hydroContractInstance: Contract,
                                         approvedAmount: string,
-                                        leftChainId: number,
+                                        leftChainId: ChainIdType,
                                         conversionWay: ConversionWayType,
                                         bridgeContractInstance: Contract): Promise<void> {
         const account = await this.getAccountAddress()
-        console.log('hydroContractInstance', hydroContractInstance)
-        console.log('conversionWay', conversionWay)
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
             : web3.utils.toWei(approvedAmount)
+
         await hydroContractInstance.methods
-            .approve(swapContractAddresses[conversionWay], finalAmount)
+            .approve(swapContractAddresses[conversionWay], finalAmount) // there need to check approve or not
             .send({from: account,})
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {
                     // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
-                    console.log('on transactionHash')
+                    console.log('hash', hash)
                 }
             })
         bridgeContractInstance.methods
             .swap(finalAmount)
+            .send({from: account,})
+            .on('transactionHash', async (hash: string) => {
+                if (hash !== null) {
+                    // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
+                    //here need to call transactionDetails and put inside hash
+                    const response = await serverApi.transactionDetails(
+                        hash, chainNamesForGetHydroBalance[leftChainId] as ChainType
+                    )
+                    console.log(response)
+
+
+                }
+            })
     },
 }
 
@@ -147,3 +166,4 @@ type connectToMetamaskReturnType = {
     account: string
     chainID: number
 }
+export type ChainIdType = 1 | 56 | 80001 | 4 | 53

@@ -19,10 +19,29 @@ export const serverApi = {
                 amountOfHydro, destinationChain
             }
         })
+    },
+    transactionDetails(TransactionHash: string, chainName: ChainType): Promise<GetTransactionDetailsResponseType> {
+        return instance.get('transactionDetails', {
+            params: {
+                TransactionHash, chainName
+            }
+        })
     }
 }
 
-export type ChainType = 'ethereum' | 'binanceMainnet' | 'polygonTestnet' | 'rinkebyTestnet' | 'coinexTestNetwork'
+type GetTransactionDetailsResponseType = {
+    data: {
+        amountDeposited: number,
+        depositor: string
+    }
+}
+export type ChainType =
+    | 'ethereum'
+    | 'binanceMainnet'
+    | 'polygonTestnet'
+    | 'rinkebyTestnet'
+    | 'coinexTestNetwork'
+    | 'rinkeby'
 type GetHydroBalanceResponseType = {
     data: {
         tokenBalance: string
