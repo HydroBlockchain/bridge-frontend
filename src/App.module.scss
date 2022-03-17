@@ -41,6 +41,11 @@
 
             .checkbox {
                 padding-left: 15px;
+                color: $textColor;
+            }
+
+            .checkboxLight {
+                color: $textColorLight;
             }
         }
     }

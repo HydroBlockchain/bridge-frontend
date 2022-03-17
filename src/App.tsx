@@ -57,9 +57,11 @@ function App() {
                         <FormControlLabel control={
                             <Checkbox
                                 checked={isTestNets}
-                                onChange={onCheckBoxChange}/>
+                                onChange={onCheckBoxChange}
+                                color="default"
+                            />
                         } label="Test Nets"
-                          className={s.checkbox}/>
+                          className={isLightTheme ? cn(s.checkbox, s.checkboxLight) : cn(s.checkbox)}/>
                     </div>
                     {!isLogHidden && <Log/>}
                 </div>
