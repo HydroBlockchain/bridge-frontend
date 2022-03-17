@@ -1,25 +1,28 @@
 {
   "files": {
-    "main.css": "/hydro-bridge-ui/static/css/main.88a9d211.chunk.css",
-    "main.js": "/hydro-bridge-ui/static/js/main.6da90988.chunk.js",
-    "main.js.map": "/hydro-bridge-ui/static/js/main.6da90988.chunk.js.map",
+    "main.css": "/hydro-bridge-ui/static/css/main.c0b12c2f.chunk.css",
+    "main.js": "/hydro-bridge-ui/static/js/main.d8297b07.chunk.js",
+    "main.js.map": "/hydro-bridge-ui/static/js/main.d8297b07.chunk.js.map",
     "runtime-main.js": "/hydro-bridge-ui/static/js/runtime-main.0aaa4512.js",
     "runtime-main.js.map": "/hydro-bridge-ui/static/js/runtime-main.0aaa4512.js.map",
-    "static/css/2.a50f78b6.chunk.css": "/hydro-bridge-ui/static/css/2.a50f78b6.chunk.css",
-    "static/js/2.1d25b4b8.chunk.js": "/hydro-bridge-ui/static/js/2.1d25b4b8.chunk.js",
-    "static/js/2.1d25b4b8.chunk.js.map": "/hydro-bridge-ui/static/js/2.1d25b4b8.chunk.js.map",
+    "static/css/2.a08119d7.chunk.css": "/hydro-bridge-ui/static/css/2.a08119d7.chunk.css",
+    "static/js/2.7c34b4ca.chunk.js": "/hydro-bridge-ui/static/js/2.7c34b4ca.chunk.js",
+    "static/js/2.7c34b4ca.chunk.js.map": "/hydro-bridge-ui/static/js/2.7c34b4ca.chunk.js.map",
     "index.html": "/hydro-bridge-ui/index.html",
-    "static/css/2.a50f78b6.chunk.css.map": "/hydro-bridge-ui/static/css/2.a50f78b6.chunk.css.map",
-    "static/css/main.88a9d211.chunk.css.map": "/hydro-bridge-ui/static/css/main.88a9d211.chunk.css.map",
-    "static/js/2.1d25b4b8.chunk.js.LICENSE.txt": "/hydro-bridge-ui/static/js/2.1d25b4b8.chunk.js.LICENSE.txt",
-    "static/media/hydro-drop.1d4559b5.png": "/hydro-bridge-ui/static/media/hydro-drop.1d4559b5.png",
-    "static/media/hydrobridge.32f9f1a5.svg": "/hydro-bridge-ui/static/media/hydrobridge.32f9f1a5.svg"
+    "static/css/2.a08119d7.chunk.css.map": "/hydro-bridge-ui/static/css/2.a08119d7.chunk.css.map",
+    "static/css/main.c0b12c2f.chunk.css.map": "/hydro-bridge-ui/static/css/main.c0b12c2f.chunk.css.map",
+    "static/js/2.7c34b4ca.chunk.js.LICENSE.txt": "/hydro-bridge-ui/static/js/2.7c34b4ca.chunk.js.LICENSE.txt",
+    "static/media/coinexCett.edfdab3b.png": "/hydro-bridge-ui/static/media/coinexCett.edfdab3b.png",
+    "static/media/ethereumETH.8c54d27a.png": "/hydro-bridge-ui/static/media/ethereumETH.8c54d27a.png",
+    "static/media/hydrobridge.c1acaea4.svg": "/hydro-bridge-ui/static/media/hydrobridge.c1acaea4.svg",
+    "static/media/hydrobridge_light.5aaad4b7.svg": "/hydro-bridge-ui/static/media/hydrobridge_light.5aaad4b7.svg",
+    "static/media/polygonMatic.1140771b.png": "/hydro-bridge-ui/static/media/polygonMatic.1140771b.png"
   },
   "entrypoints": [
     "static/js/runtime-main.0aaa4512.js",
-    "static/css/2.a50f78b6.chunk.css",
-    "static/js/2.1d25b4b8.chunk.js",
-    "static/css/main.88a9d211.chunk.css",
-    "static/js/main.6da90988.chunk.js"
+    "static/css/2.a08119d7.chunk.css",
+    "static/js/2.7c34b4ca.chunk.js",
+    "static/css/main.c0b12c2f.chunk.css",
+    "static/js/main.d8297b07.chunk.js"
   ]
 }
