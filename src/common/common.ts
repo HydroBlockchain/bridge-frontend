@@ -36,11 +36,11 @@ export const chainsNationalSymbols: ChainsNationalSymbolsType = {
 }
 
 export type RealizedChainsRightType =
-    | chainIDs.eth
-    | chainIDs.bsc
-    | chainIDs.mumbaiTest
-    | chainIDs.rinkebyTest
-    | chainIDs.coinExTest
+    | 1
+    | 56
+    | 80001
+    | 4
+    | 53
 
 export const chainNamesForGetHydroBalance = {
     [chainIDs.eth]: 'ethereum',

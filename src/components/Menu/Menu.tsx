@@ -3,22 +3,29 @@ import s from './Menu.module.scss'
 import {NetworkElement} from './NetworkElement/NetworkElement'
 import {useDispatch, useSelector} from 'react-redux'
 import {
-    swapApproveFundsThunk,
+    BridgeInitialStateType,
     connectToMetamaskThunk,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
-    InitialStateType,
+    setAccountAC,
     setChainIDAC,
+    setHydroBalanceAC,
+    setHydroBalanceRightAC,
     setHydroContractInstanceThunk,
-    turnOnChainChangeMonitoringThunk,
+    setHydroTokensToBeReceivedAC,
     setTransactionFeeAC,
-    setHydroBalanceAC, setHydroBalanceRightAC, setHydroTokensToBeReceivedAC, getTotalHydroSwappedThunk
+    swapApproveFundsThunk,
+    turnOnChainChangeMonitoringThunk
 } from '../../redux/bridgeReducer'
 import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
 import {chainIDs, chainsNationalSymbols, chainsPictures, isLightTheme} from '../../common/common'
 import {ConversionWayType} from '../../api/localAPI'
-import {RequestStatusType} from '../../redux/appReducer'
+import {
+    AppStateType,
+    RequestStatusType,
+    setIsSupportedChainAC, setIsSupportedCheckedAC
+} from '../../redux/appReducer'
 import cn from 'classnames'
 
 export const Menu = () => {
@@ -28,29 +35,37 @@ export const Menu = () => {
         hydroBalance,
         hydroBalanceRight,
         transactionFee,
-    } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
-    // const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    } = useSelector<AppStoreType, BridgeInitialStateType>(state => state.bridge)
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const isSwapButtonDisabled = useSelector<AppStoreType, boolean>(state => state.app.isSwapButtonDisabled)
-
+    const {
+        isSwapButtonDisabled,
+        isTestNets,
+        isSupportedChain,
+        isSupportedChecked
+    } = useSelector<AppStoreType, AppStateType>(state => state.app)
 
     const [inputValue, setInputValue] = useState<string>('')
-    const [isSupportedChain, setIsSupportChain] = useState(false) // if selected in Metamask chain is not supported in application
     const [leftChainId, setLeftChainId] = useState(chainIDs.notSelected)
     const [rightChainId, setRightChainId] = useState(chainIDs.notSelected)
     const [swapWay, setSwapWay] = useState<undefined | ConversionWayType>(undefined)
 
+    const checkIsChainIdSupported = (chainID: chainIDs) => {
+        const chainIDsActive = isTestNets
+            ? [chainIDs.notSelected, chainIDs.mumbaiTest, chainIDs.rinkebyTest, chainIDs.coinExTest]
+            : [chainIDs.notSelected, chainIDs.eth, chainIDs.bsc]
+        return chainIDsActive.includes(chainID);
+    }
+
     useEffect(() => {
-        setLeftChainId(chainID)
-        if (chainID !== chainIDs.notSelected) {
+        if (checkIsChainIdSupported(chainID)) setLeftChainId(chainID)
+        if (chainID !== chainIDs.notSelected && checkIsChainIdSupported(chainID)) {
+            console.log('enter here')
             dispatch(getHydroBalanceThunk(true, chainID, true))
             dispatch(setHydroContractInstanceThunk())
             // dispatch(getTotalHydroSwappedThunk())
         }
-        chainID in chainIDs
-            ? setIsSupportChain(true)
-            : setIsSupportChain(false)
-    }, [chainID])
+        dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
+    }, [chainID,isSupportedChain])
 
     useEffect(() => {
         // for swap conversion way
@@ -78,6 +93,24 @@ export const Menu = () => {
         }
     }, [rightChainId])
 
+    // if checkbox of isTestNets changing then zero all values of menu
+    useEffect(() => {
+        setLeftChainId(chainIDs.notSelected)
+        setRightChainId(chainIDs.notSelected)
+        // dispatch(setAccountAC(''))
+        // dispatch(setChainIDAC(chainIDs.notSelected))
+        dispatch(setHydroBalanceAC(''))
+        dispatch(setHydroBalanceRightAC(''))
+        setInputValue('')
+        dispatch(setTransactionFeeAC({
+            gasPrice: '',
+            gasRequired: 0,
+            hydroTokensToBeReceived: 0,
+            priceTimestamp: '',
+            transactionCostInHydro: 0,
+            transactionCostinEth: ''
+        }))
+    }, [isTestNets])
 
     let timeoutId: ReturnType<typeof setTimeout>
     useEffect(() => {
@@ -99,12 +132,12 @@ export const Menu = () => {
     }
     const approveHandler = () => {
         if (swapWay !== undefined) {
-            dispatch(swapApproveFundsThunk('approve',inputValue, leftChainId, swapWay))
+            dispatch(swapApproveFundsThunk('approve', inputValue, leftChainId, swapWay))
         }
     }
     const swapHandler = () => {
         if (swapWay !== undefined) {
-            dispatch(swapApproveFundsThunk('swap',inputValue, leftChainId, swapWay))
+            dispatch(swapApproveFundsThunk('swap', inputValue, leftChainId, swapWay))
         }
     }
     const onClickSwapper = () => {

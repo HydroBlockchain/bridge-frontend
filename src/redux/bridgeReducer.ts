@@ -22,7 +22,7 @@ let initialState = {
 
 export type bridgeStateType = typeof initialState
 
-export const bridgeReducer = (state: bridgeStateType = initialState, action: BridgeActionTypes): InitialStateType => {
+export const bridgeReducer = (state: bridgeStateType = initialState, action: BridgeActionTypes): BridgeInitialStateType => {
     switch (action.type) {
         case 'BRIDGE/SET-NETWORK-ID':
         case 'BRIDGE/SET-LOADING':
@@ -53,7 +53,7 @@ export const setHydroTokensToBeReceivedAC = (hydroTokensToBeReceived: number) =>
 }
 export const setChainIDAC = (chainID: number) => ({type: 'BRIDGE/SET-NETWORK-ID', payload: {chainID}} as const)
 const setLoadingAC = (loading: boolean) => ({type: 'BRIDGE/SET-LOADING', payload: {loading}} as const)
-const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
+export const setAccountAC = (account: string) => ({type: 'BRIDGE/SET-ACCOUNT', payload: {account}} as const)
 const setHydroContractInstanceAC = (hydroContractInstance: Contract) => ({
     type: 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE',
     payload: {hydroContractInstance}
@@ -260,7 +260,7 @@ export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getSta
     }
 }
 
-export type InitialStateType = typeof initialState
+export type BridgeInitialStateType = typeof initialState
 
 export type BridgeActionTypes =
     | ReturnType<typeof setChainIDAC>

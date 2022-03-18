@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import s from './NetworkElement.module.scss'
 import Select, {PropsValue, StylesConfig} from 'react-select'
 import {useDispatch, useSelector} from 'react-redux'
-import {changeNetworkThunk, InitialStateType} from '../../../redux/bridgeReducer'
+import {changeNetworkThunk, BridgeInitialStateType} from '../../../redux/bridgeReducer'
 import {chainIDs, chainsNames, isLightTheme} from '../../../common/common'
 import {
     backgroundColor,
@@ -35,7 +35,7 @@ export const NetworkElement = (props: PropsType) => {
 
     const {
         chainID
-    } = useSelector<AppStoreType, InitialStateType>(state => state.bridge)
+    } = useSelector<AppStoreType, BridgeInitialStateType>(state => state.bridge)
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
 
     const selectStyles: StylesConfig = {
@@ -96,12 +96,12 @@ export const NetworkElement = (props: PropsType) => {
 
     const getValue = () => {
         if (options) {
-            return options.find((option) => option.value === props.state)
+            return props.state ? options.find((option) => option.value === props.state) : null
         } else {
             return 0 as any // todo: fix any
         }
     }
-
+       // const selectValue = props.state ? options.find((option) => option.value === props.state) : null
 
     return <div className={s.networkElement}>
         <span>{props.text}</span>

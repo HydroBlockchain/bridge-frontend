@@ -1,8 +1,15 @@
+import {chainIDs} from '../common/common'
+import {ThunkAction} from 'redux-thunk'
+import {AppStoreType} from './store'
+import {BridgeActionTypes} from './bridgeReducer'
+
 const isTestNetsLS = localStorage.getItem('isTestNets')
 let initialState = {
     status: 'idle' as RequestStatusType,
     isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
-    isSwapButtonDisabled: true
+    isSwapButtonDisabled: true,
+    isSupportedChain: false,
+    isSupportedChecked: false
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {
@@ -10,6 +17,8 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
         case 'APP/SET-STATUS':
         case 'APP/SET-IS-TEST-NETS':
         case 'APP/SET-IS-SWAP-BUTTON-DISABLED':
+        case 'APP/SET-IS-SUPPORTED-CHAIN':
+        case 'APP/SET-IS-SUPPORTED-CHECKED':
             return {...state, ...action.payload}
         default:
             return {...state}
@@ -22,6 +31,15 @@ export const setSwapButtonDisabledAC = (isSwapButtonDisabled: boolean) => ({
     type: 'APP/SET-IS-SWAP-BUTTON-DISABLED',
     payload: {isSwapButtonDisabled}
 } as const)
+// if selected in Metamask chain is not supported in application
+export const setIsSupportedChainAC = (isSupportedChain: boolean) => ({
+    type: 'APP/SET-IS-SUPPORTED-CHAIN',
+    payload: {isSupportedChain}
+} as const)
+export const setIsSupportedCheckedAC = (isSupportedChecked: boolean) => ({
+    type: 'APP/SET-IS-SUPPORTED-CHECKED',
+    payload: {isSupportedChecked}
+})
 
 // Types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -30,3 +48,7 @@ type ActionsType =
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setIsTestNetsAC>
     | ReturnType<typeof setSwapButtonDisabledAC>
+    | ReturnType<typeof setIsSupportedChainAC>
+    | ReturnType<typeof setIsSupportedCheckedAC>
+
+type AppThunk = ThunkAction<void, AppStoreType, unknown, ActionsType>
