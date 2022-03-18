@@ -24,7 +24,7 @@ import {ConversionWayType} from '../../api/localAPI'
 import {
     AppStateType,
     RequestStatusType,
-    setIsSupportedChainAC, setIsSupportedCheckedAC
+    setIsSupportedChainAC
 } from '../../redux/appReducer'
 import cn from 'classnames'
 
@@ -57,15 +57,16 @@ export const Menu = () => {
     }
 
     useEffect(() => {
-        if (checkIsChainIdSupported(chainID)) setLeftChainId(chainID)
+        // if (checkIsChainIdSupported(chainID)) setLeftChainId(chainID)
         if (chainID !== chainIDs.notSelected && checkIsChainIdSupported(chainID)) {
-            console.log('enter here')
             dispatch(getHydroBalanceThunk(true, chainID, true))
             dispatch(setHydroContractInstanceThunk())
+            setLeftChainId(chainID)
+            // console.log('leftChainId', chainID)
             // dispatch(getTotalHydroSwappedThunk())
         }
         dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
-    }, [chainID,isSupportedChain])
+    }, [chainID, isTestNets])
 
     useEffect(() => {
         // for swap conversion way
@@ -95,10 +96,8 @@ export const Menu = () => {
 
     // if checkbox of isTestNets changing then zero all values of menu
     useEffect(() => {
-        setLeftChainId(chainIDs.notSelected)
+        !checkIsChainIdSupported(chainID) && setLeftChainId(chainIDs.notSelected)
         setRightChainId(chainIDs.notSelected)
-        // dispatch(setAccountAC(''))
-        // dispatch(setChainIDAC(chainIDs.notSelected))
         dispatch(setHydroBalanceAC(''))
         dispatch(setHydroBalanceRightAC(''))
         setInputValue('')

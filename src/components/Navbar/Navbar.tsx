@@ -16,8 +16,6 @@ export const Navbar = () => {
     const {chainID, account} = useSelector<AppStoreType, BridgeInitialStateType>(state => state.bridge)
     const {isSupportedChain, isTestNets} = useSelector<AppStoreType, AppStateType>(state => state.app)
 
-    useEffect(()=> {},[isTestNets, isSupportedChain])
-
     const statusNetwork = (chainID: number) => {
         if (!isSupportedChain) return 'Metamask network is not supported.'
         else {
