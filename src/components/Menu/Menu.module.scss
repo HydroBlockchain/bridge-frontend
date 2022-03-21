@@ -15,7 +15,12 @@
     color: #ffffffb7;
     width: 100%;
     padding: 27.5px;
-    height: 610px;
+    height: 700px;
+
+    .headerTransactions {
+        text-align: center;
+        color: $headerTransactionLightColor;
+    }
 
     input, .amountReceived {
         width: 100%;
@@ -41,6 +46,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-top: 34px;
     }
 
     .amount {
@@ -120,7 +126,17 @@
         .transactionFee {
             margin-top: 10px;
             height: 100px;
+            padding-bottom: 10px;
+            //border: 1px solid red;
 
+            .feesBlock {
+                padding-top: 12px;
+                //display: flex;
+                //div {
+                //    display: flex;
+                //
+                //}
+            }
         }
     }
 

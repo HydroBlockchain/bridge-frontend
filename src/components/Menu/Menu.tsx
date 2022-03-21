@@ -7,7 +7,6 @@ import {
     connectToMetamaskThunk,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
-    setAccountAC,
     setChainIDAC,
     setHydroBalanceAC,
     setHydroBalanceRightAC,
@@ -21,11 +20,7 @@ import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
 import {chainIDs, chainsNationalSymbols, chainsPictures, isLightTheme} from '../../common/common'
 import {ConversionWayType} from '../../api/localAPI'
-import {
-    AppStateType,
-    RequestStatusType,
-    setIsSupportedChainAC
-} from '../../redux/appReducer'
+import {AppStateType, RequestStatusType, setIsSupportedChainAC} from '../../redux/appReducer'
 import cn from 'classnames'
 
 export const Menu = () => {
@@ -177,6 +172,7 @@ export const Menu = () => {
     return (
         <div className={s.menuContainer}>
             <div className={isLightTheme ? `${s.menu} ${s.lightTheme}` : `${s.menu}`}>
+                <div className={s.headerTransactions}>Transaction details</div>
                 <div className={s.selectNetwork}>
                     <NetworkElement text={'From'} isMain={true} state={leftChainId} setState={setLeftChainId}
                                     isDisabled={isChainsSelectorsAndAmountInputDisabled()}
@@ -218,7 +214,7 @@ export const Menu = () => {
                         </button>
                     </div>
                     <div className={s.transactionFee}>
-                        <b>Transaction fee:</b>
+                        <b className={s.headerTransactions}>Transaction Fees</b>
                         {(!transactionFee.gasPrice || leftChainId === rightChainId) && <span> ?</span>}
                         {(transactionFee.gasPrice && leftChainId !== rightChainId) &&
                           <div>
@@ -228,6 +224,7 @@ export const Menu = () => {
                             <div>transactionCostInHydro: {transactionFee.transactionCostInHydro} HYDRO</div>
                           </div>
                         }
+
                     </div>
                 </div>
                 <div className={s.buttonsBlock}>

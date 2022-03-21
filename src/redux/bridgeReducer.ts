@@ -150,6 +150,7 @@ export const swapApproveFundsThunk = (
             dispatch(setAppStatusAC('loading'))
             const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance()
             if (leftChainId !== 0) {
+                // localAPI.contractAllowance(hydroContractInstance, )
                 if (swapOrApprove === 'approve') {
                     await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                     dispatch(setSwapButtonDisabledAC(false))

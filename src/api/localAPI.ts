@@ -119,6 +119,9 @@ export const localAPI = {
                                    leftChainId: ChainIdType,
                                    conversionWay: ConversionWayType,
                                    bridgeContractInstance: Contract): Promise<void> {
+        console.log('localAPI leftChainId', leftChainId,
+            'conversionWay', conversionWay,
+            'swapContractAddresses[conversionWay]', swapContractAddresses[conversionWay])
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -135,10 +138,10 @@ export const localAPI = {
 
     },
     swapTokens: async function (hydroContractInstance: Contract,
-                                   approvedAmount: string,
-                                   leftChainId: ChainIdType,
-                                   conversionWay: ConversionWayType,
-                                   bridgeContractInstance: Contract): Promise<void> {
+                                approvedAmount: string,
+                                leftChainId: ChainIdType,
+                                conversionWay: ConversionWayType,
+                                bridgeContractInstance: Contract): Promise<void> {
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -156,7 +159,22 @@ export const localAPI = {
                 }
             })
     },
-
+    /*
+    * example:
+    * https://rinkeby.etherscan.io/address/0x9477b2d4442fcd35368c029a0016e6800437bae2#readContract
+    * owner - address of Metamask Account: string
+    * spender - bridge contract:
+    * */
+    contractAllowance: function (contract: Contract, owner: string, spender: string): number {
+        /// @dev This function makes it easy to read the `allowed[]` map
+        /// @param _owner The address of the account that owns the token
+        /// @param _spender The address of the account able to transfer the tokens
+        /// @return Amount of remaining tokens of _owner that _spender is allowed
+        /// to spend
+        const result = contract.methods.allowance(owner, spender)
+        console.log('localAPI.contractAllowance result', result)
+        return result
+    }
 }
 
 declare let window: any // todo: maybe fix any
