@@ -15,7 +15,7 @@
     color: #ffffffb7;
     width: 100%;
     padding: 27.5px;
-    height: 700px;
+    height: 800px;
 
     .headerTransactions {
         text-align: center;
@@ -30,6 +30,7 @@
         border-radius: 15px;
         padding-left: 35px;
         color: $textColor;
+        margin-top: 5px;
     }
 
     .lightTheme {
@@ -51,6 +52,7 @@
 
     .amount {
         width: 100%;
+        //border: 1px solid red;
 
         .headerAndBalance {
             margin-top: 10px;
@@ -63,7 +65,7 @@
                 width: inherit;
                 display: flex;
                 justify-content: space-between;
-                margin-bottom: 10px;
+                margin-bottom: 25px;
             }
 
             .amountHeader {
@@ -136,12 +138,21 @@
                 //    display: flex;
                 //
                 //}
+                //display: flex;
+                //flex-direction: column;
+                //justify-content: space-between;
+                //align-items: s;
+                .feesElement {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 15px;
+                }
             }
         }
     }
 
     .buttonsBlock {
-        margin-top: 10px;
+        margin-top: 80px;
         display: flex;
         flex-direction: column;
 

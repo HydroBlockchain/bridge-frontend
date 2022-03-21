@@ -47,7 +47,7 @@ export const Menu = () => {
         const chainIDsActive = isTestNets
             ? [chainIDs.notSelected, chainIDs.mumbaiTest, chainIDs.rinkebyTest, chainIDs.coinExTest]
             : [chainIDs.notSelected, chainIDs.eth, chainIDs.bsc]
-        return chainIDsActive.includes(chainID);
+        return chainIDsActive.includes(chainID)
     }
 
     useEffect(() => {
@@ -215,16 +215,29 @@ export const Menu = () => {
                     </div>
                     <div className={s.transactionFee}>
                         <b className={s.headerTransactions}>Transaction Fees</b>
-                        {(!transactionFee.gasPrice || leftChainId === rightChainId) && <span> ?</span>}
+                        {(!transactionFee.gasPrice || leftChainId === rightChainId) && <span/>}
                         {(transactionFee.gasPrice && leftChainId !== rightChainId) &&
                           <div>
-                            <div>gasPrice: {transactionFee.gasPrice}</div>
-                            <div>gasRequired: {transactionFee.gasRequired}</div>
-                            <div>transactionCost: {transactionFee.transactionCostinEth} {chainsNationalSymbols[leftChainId]}</div>
-                            <div>transactionCostInHydro: {transactionFee.transactionCostInHydro} HYDRO</div>
+                            <div className={s.feesBlock}>
+                              <div className={s.feesElement}>
+                                <div>Gas Price:</div>
+                                <div>{transactionFee.gasPrice}</div>
+                              </div>
+                              <div className={s.feesElement}>
+                                <div>Gas Required:</div>
+                                <div>{transactionFee.gasRequired}</div>
+                              </div>
+                              <div className={s.feesElement}>
+                                <div>Transaction Cost:</div>
+                                <div>{transactionFee.transactionCostinEth} {chainsNationalSymbols[leftChainId]}</div>
+                              </div>
+                              <div className={s.feesElement}>
+                                <div>Transaction Cost (hydro):</div>
+                                <div>{transactionFee.transactionCostInHydro}</div>
+                              </div>
+                            </div>
                           </div>
                         }
-
                     </div>
                 </div>
                 <div className={s.buttonsBlock}>
@@ -244,21 +257,21 @@ export const Menu = () => {
                             : cn(s.accent, s.connectSwapButtons)}
                         onClick={connectToMetamaskHandler}
                         disabled={isConnectWalletButtonDisabled()}
-                      >Connect Wallet</button>}
+                      >CONNECT WALLET</button>}
                     {chainID !== chainIDs.notSelected &&
                       <div>
                         <button disabled={isApproveButtonDisabled()}
                                 onClick={approveHandler}
                                 className={isLightTheme
                                     ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)
-                                    : cn(s.connectSwapButtons, s.swapApproveButtons)}>Approve
+                                    : cn(s.connectSwapButtons, s.swapApproveButtons)}>APPROVE
                         </button>
                         <button onClick={swapHandler}
                                 disabled={isSwapButtonDisabled}
                                 className={isLightTheme
                                     ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)
                                     : cn(s.connectSwapButtons, s.swapApproveButtons)}
-                        >Swap
+                        >SWAP
                         </button>
                       </div>
                     }
