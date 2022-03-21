@@ -153,9 +153,6 @@ export const localAPI = {
                     const response = await serverApi.transactionDetails(
                         hash, chainNamesForGetHydroBalance[leftChainId] as ChainType
                     )
-                    console.log(response)
-
-
                 }
             })
     },

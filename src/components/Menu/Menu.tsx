@@ -41,7 +41,6 @@ export const Menu = () => {
         isSwapButtonDisabled,
         isTestNets,
         isSupportedChain,
-        isSupportedChecked
     } = useSelector<AppStoreType, AppStateType>(state => state.app)
 
     const [inputValue, setInputValue] = useState<string>('')
@@ -57,13 +56,10 @@ export const Menu = () => {
     }
 
     useEffect(() => {
-        // if (checkIsChainIdSupported(chainID)) setLeftChainId(chainID)
         if (chainID !== chainIDs.notSelected && checkIsChainIdSupported(chainID)) {
             dispatch(getHydroBalanceThunk(true, chainID, true))
             dispatch(setHydroContractInstanceThunk())
             setLeftChainId(chainID)
-            // console.log('leftChainId', chainID)
-            // dispatch(getTotalHydroSwappedThunk())
         }
         dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
     }, [chainID, isTestNets])

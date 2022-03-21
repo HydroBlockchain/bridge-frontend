@@ -216,7 +216,6 @@ export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedC
             dispatch(setAppStatusAC('loading'))
             await serverApi.getTransactionFee(amountOfHydro, chainNamesForGetHydroBalance[chainID] as ChainType)
                 .then(data => {
-                    console.log('getTransactionFee', data.data)
                     dispatch(setTransactionFeeAC(data.data))
                 })
                 .catch(e => {

@@ -9,7 +9,6 @@ let initialState = {
     isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
     isSwapButtonDisabled: true,
     isSupportedChain: false,
-    isSupportedChecked: false
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {

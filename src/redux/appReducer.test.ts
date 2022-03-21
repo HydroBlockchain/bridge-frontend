@@ -7,7 +7,8 @@ beforeEach(() => {
     startState = {
         status: 'idle' as RequestStatusType,
         isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
-        isSwapButtonDisabled: true
+        isSwapButtonDisabled: true,
+        isSupportedChain: false,
     }
 })
 
