@@ -129,19 +129,10 @@
             margin-top: 10px;
             height: 100px;
             padding-bottom: 10px;
-            //border: 1px solid red;
 
             .feesBlock {
                 padding-top: 12px;
-                //display: flex;
-                //div {
-                //    display: flex;
-                //
-                //}
-                //display: flex;
-                //flex-direction: column;
-                //justify-content: space-between;
-                //align-items: s;
+
                 .feesElement {
                     display: flex;
                     justify-content: space-between;
@@ -162,7 +153,7 @@
             height: 55px;
             cursor: pointer;
             background: $buttonColor;
-            margin-top: 10px;
+            margin-top: 20px;
             @include disabledButton;
         }
 
