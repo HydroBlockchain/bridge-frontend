@@ -17,7 +17,8 @@ let initialState = {
     totalSwapped: '0',
     chainID: chainIDs.notSelected,
     transactionFee: {} as TransactionFeeType,
-    log: [] as Array<LogType>
+    log: [] as Array<LogType>,
+    leftNativeBalance: ''
 }
 
 export type bridgeStateType = typeof initialState
@@ -32,6 +33,7 @@ export const bridgeReducer = (state: bridgeStateType = initialState, action: Bri
         case 'BRIDGE/SET-HYDRO-CONTRACT-INSTANCE':
         case 'BRIDGE/SET-TRANSACTION-FEE':
         case 'BRIDGE/SET-TOTAL-HYDRO-SWAPPED':
+        case 'BRIDGE/SET-LEFT-NATIVE-BALANCE':
             return {...state, ...action.payload}
         case 'BRIDGE/SET-HYDRO-TOKENS-TO-BE-RECEIVED':
             return {
@@ -76,6 +78,10 @@ export const setTotalHydroSwappedAC = (totalSwapped: string) => ({
 } as const)
 export const setLogMessageAC = (message: string, messageType: MessageType) => ({
     type: 'BRIDGE/SET-LOG-MESSAGE', message, messageType
+} as const)
+const setLeftNativeBalanceAC = (leftNativeBalance: string) => ({
+    type: 'BRIDGE/SET-LEFT-NATIVE-BALANCE',
+    payload: {leftNativeBalance}
 } as const)
 
 //Thunks:
@@ -136,13 +142,15 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch)
 
 }
 
-export const checkPreviousApprove = () => {
-    // if this return non zero umount // user will receive nonzero amount then amount to be input for swap
+export const checkPreviousApprove = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+    // if this return nonzero umount // user will receive nonzero amount then amount to be input for swap
     // that should be less or equal to return amount
     // then user does not need to call approve
 
 
     // else user need to call approve
+
+    // localAPI.contractAllowance(contract: Contract, owner: string, spender: string)
 }
 
 export const swapApproveFundsThunk = (
@@ -269,6 +277,17 @@ export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getSta
     }
 }
 
+export const getBalance = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+    try {
+        const address = await localAPI.getAccountAddress()
+        const balance = await localAPI.getBalance(address)
+        console.log('balance',balance)
+        dispatch(setLeftNativeBalanceAC(balance))
+    } catch {
+        console.log('balance error')
+    }
+}
+
 export type BridgeInitialStateType = typeof initialState
 
 export type BridgeActionTypes =
@@ -284,6 +303,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setTotalHydroSwappedAC>
     | ReturnType<typeof setLogMessageAC>
     | ReturnType<typeof setSwapButtonDisabledAC>
+    | ReturnType<typeof setLeftNativeBalanceAC>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>

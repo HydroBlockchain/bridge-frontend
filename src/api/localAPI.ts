@@ -174,6 +174,11 @@ export const localAPI = {
         const result = contract.methods.allowance(owner, spender)
         console.log('localAPI.contractAllowance result', result)
         return result
+    },
+    getBalance: async function (address: string) {
+        // let accounts = await web3.eth.getAccounts();
+        const balance = await web3.eth.getBalance(address)
+        return web3.utils.fromWei(balance)
     }
 }
 

@@ -112,6 +112,7 @@ export const NetworkElement = (props: PropsType) => {
                   <img src={props.chainPicture} alt="chainSymbol" className={s.chainSymbol}/>
                 }
             </div>
+
             <Select
                 options={options}
                 styles={selectStyles}

@@ -4,6 +4,6 @@ import {isLightTheme} from '../../common/common'
 
 export const TotalSwapped = () => {
     return <div className={isLightTheme ? `${s.totalSwapped} ${s.lightTheme}` : `${s.totalSwapped}`}>
-        Total Hydro Swapped: 0
+        Total Hydro Swapped: ?
     </div>
 }

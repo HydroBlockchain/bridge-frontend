@@ -34,6 +34,13 @@ export const serverApi = {
             }
         })
     },*/
+    performSwap(TransactionHash: string, sourceChainName: ChainType, destinationChainName: ChainType) {
+        return instance.get('performSwapForTransaction', {
+            params: {
+                TransactionHash, sourceChainName, destinationChainName
+            }
+        })
+    }
 }
 
 type GetTransactionDetailsResponseType = {

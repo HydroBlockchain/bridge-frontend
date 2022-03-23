@@ -4,7 +4,7 @@ import {NetworkElement} from './NetworkElement/NetworkElement'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     BridgeInitialStateType,
-    connectToMetamaskThunk,
+    connectToMetamaskThunk, getBalance,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
     setChainIDAC,
@@ -30,6 +30,7 @@ export const Menu = () => {
         hydroBalance,
         hydroBalanceRight,
         transactionFee,
+        leftNativeBalance
     } = useSelector<AppStoreType, BridgeInitialStateType>(state => state.bridge)
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const {
@@ -57,6 +58,7 @@ export const Menu = () => {
             setLeftChainId(chainID)
         }
         dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
+        dispatch(getBalance())
     }, [chainID, isTestNets])
 
     useEffect(() => {
@@ -77,11 +79,13 @@ export const Menu = () => {
             rightChainId !== chainIDs.notSelected && leftChainId !== rightChainId) {
             dispatch(getTransactionFeeThunk(inputValue, rightChainId))
         }
+
     }, [leftChainId, rightChainId])
 
     useEffect(() => {
         if (rightChainId !== chainIDs.notSelected) {
             dispatch(getHydroBalanceThunk(true, rightChainId))
+            dispatch(getBalance())
         }
     }, [rightChainId])
 
@@ -187,8 +191,11 @@ export const Menu = () => {
                     <div className={s.headerAndBalance}>
                         <div className={s.amount}>
                             <div className={s.amountBody}>
-                                <div>Balance: {hydroBalance === '' ? '?' : `${hydroBalance} HYDRO`}</div>
-                                <div>Balance: {hydroBalanceRight === '' ? '?' : `${hydroBalanceRight} HYDRO`}</div>
+                                <div>
+                                    <div>Balance HYDRO: {hydroBalance === '' ? '?' : `${hydroBalance}`}</div>
+                                    <div>Balance: {leftNativeBalance} {chainsNationalSymbols[leftChainId]}</div>
+                                </div>
+                                <div>Balance HYDRO: {hydroBalanceRight === '' ? '?' : `${hydroBalanceRight}`}</div>
                             </div>
                             <div className={s.amountHeader}>
                                 Amount
