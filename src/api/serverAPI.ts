@@ -26,7 +26,14 @@ export const serverApi = {
                 TransactionHash, chainName
             }
         })
-    }
+    },
+    /*getTransactionHash() {
+        return instance.get('getSwapCostInHydroTokens', {
+            params: {
+                amountOfHydro, destinationChain
+            }
+        })
+    },*/
 }
 
 type GetTransactionDetailsResponseType = {

@@ -136,6 +136,15 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch)
 
 }
 
+export const checkPreviousApprove = () => {
+    // if this return non zero umount // user will receive nonzero amount then amount to be input for swap
+    // that should be less or equal to return amount
+    // then user does not need to call approve
+
+
+    // else user need to call approve
+}
+
 export const swapApproveFundsThunk = (
     swapOrApprove: 'swap' | 'approve',
     approvedAmount: string,
@@ -155,7 +164,7 @@ export const swapApproveFundsThunk = (
                     await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                     dispatch(setSwapButtonDisabledAC(false))
                     dispatch(setLogMessageAC('approveFunds: success', 'success'))
-                } else {
+                } else { // swap
                     await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                 }
             }

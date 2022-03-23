@@ -11,6 +11,7 @@ import s from './App.module.scss'
 import {isLightTheme} from './common/common'
 import {Log} from './components/Log/Log'
 import cn from 'classnames'
+import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
@@ -46,7 +47,7 @@ function App() {
             {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/>}
             <div className={s.centerContainer}>
                 <div className={s.container}>
-                    {/*<TotalSwapped />*/}
+                    <TotalSwapped />
                     <Menu/>
                     <div className={s.additionalSettings}>
                         <button

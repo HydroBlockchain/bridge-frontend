@@ -119,7 +119,7 @@ export const localAPI = {
                                    leftChainId: ChainIdType,
                                    conversionWay: ConversionWayType,
                                    bridgeContractInstance: Contract): Promise<void> {
-        console.log('localAPI leftChainId', leftChainId,
+        console.log('approveTokens leftChainId', leftChainId,
             'conversionWay', conversionWay,
             'swapContractAddresses[conversionWay]', swapContractAddresses[conversionWay])
         const account = await this.getAccountAddress()
