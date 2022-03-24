@@ -9,7 +9,8 @@ let initialState = {
     isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
     isSwapButtonDisabled: true,
     isSupportedChain: false,
-    isSwapperClicked: false // this is for solve async problem with native balance after swapping
+    isSwapperClicked: false, // this is for solve async problem with native balance after swapping
+    errorMessage: ''
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {
@@ -19,6 +20,7 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
         case 'APP/SET-IS-SWAP-BUTTON-DISABLED':
         case 'APP/SET-IS-SUPPORTED-CHAIN':
         case 'APP/SET-IS-SWAPPER-CLICKED':
+        case 'APP/SET-ERROR-MESSAGE':
             return {...state, ...action.payload}
         default:
             return {...state}
@@ -40,6 +42,10 @@ export const setIsSwapperClickedAC = (isSwapperClicked: boolean) => ({
     type: 'APP/SET-IS-SWAPPER-CLICKED',
     payload: {isSwapperClicked}
 } as const)
+export const setErrorMessageAC = (errorMessage: string) => ({
+    type: 'APP/SET-ERROR-MESSAGE',
+    payload: {errorMessage}
+})
 
 // Types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -50,5 +56,6 @@ type ActionsType =
     | ReturnType<typeof setSwapButtonDisabledAC>
     | ReturnType<typeof setIsSupportedChainAC>
     | ReturnType<typeof setIsSwapperClickedAC>
+    | ReturnType<typeof setErrorMessageAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, ActionsType>

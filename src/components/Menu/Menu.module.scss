@@ -66,6 +66,16 @@
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 25px;
+
+                .nativeBalance {
+                    position: relative;
+
+                    .nativeBalanceError {
+                        color: red;
+                        position: absolute;
+                        font-size: 12px;
+                    }
+                }
             }
 
             .amountHeader {

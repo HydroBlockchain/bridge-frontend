@@ -20,7 +20,13 @@ import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
 import {chainIDs, chainsNationalSymbols, chainsPictures, isLightTheme} from '../../common/common'
 import {ConversionWayType} from '../../api/localAPI'
-import {AppStateType, RequestStatusType, setIsSupportedChainAC, setIsSwapperClickedAC} from '../../redux/appReducer'
+import {
+    AppStateType,
+    RequestStatusType,
+    setErrorMessageAC,
+    setIsSupportedChainAC,
+    setIsSwapperClickedAC
+} from '../../redux/appReducer'
 import cn from 'classnames'
 
 export const Menu = () => {
@@ -37,7 +43,8 @@ export const Menu = () => {
         isSwapButtonDisabled,
         isTestNets,
         isSupportedChain,
-        isSwapperClicked // this is for solve async problem with native balance after swapping
+        isSwapperClicked, // this is for solve async problem with native balance after swapping
+        errorMessage
     } = useSelector<AppStoreType, AppStateType>(state => state.app)
 
     const [inputValue, setInputValue] = useState<string>('')
@@ -119,6 +126,12 @@ export const Menu = () => {
         }
     }, [inputValue])
 
+    useEffect(() => { // for error message
+        transactionFee.transactionCostinEth > leftNativeBalance
+            ? dispatch(setErrorMessageAC('Insufficient funds'))
+            : dispatch(setErrorMessageAC(''))
+    }, [leftNativeBalance, transactionFee.transactionCostinEth])
+
     // Handlers:
     const connectToMetamaskHandler = () => {
         dispatch(connectToMetamaskThunk())
@@ -159,8 +172,11 @@ export const Menu = () => {
 
     // Is buttons or elements disabled:
     const isApproveButtonDisabled = () => {
-        return swapWay === undefined || Number(inputValue) <= 0 || leftChainId === rightChainId
-            || (!transactionFee.hydroTokensToBeReceived) || appStatus === 'loading'
+        return swapWay === undefined
+            || Number(inputValue) <= 0 || leftChainId === rightChainId
+            || (!transactionFee.hydroTokensToBeReceived)
+            || appStatus === 'loading'
+            || errorMessage !== ''
     }
     const isMaxButtonDisabled = () => {
         return hydroBalance === '' || appStatus === 'loading'
@@ -195,7 +211,10 @@ export const Menu = () => {
                             <div className={s.amountBody}>
                                 <div>
                                     <div>Balance HYDRO: {hydroBalance === '' ? '?' : `${hydroBalance}`}</div>
-                                    <div>Balance: {leftNativeBalance} {chainsNationalSymbols[leftChainId]}</div>
+                                    <div className={s.nativeBalance}>
+                                        Balance: {leftNativeBalance !== '' ? leftNativeBalance : '?'} {chainsNationalSymbols[leftChainId]}
+                                        <div className={s.nativeBalanceError}>{errorMessage ? errorMessage : ''}</div>
+                                    </div>
                                 </div>
                                 <div>Balance HYDRO: {hydroBalanceRight === '' ? '?' : `${hydroBalanceRight}`}</div>
                             </div>

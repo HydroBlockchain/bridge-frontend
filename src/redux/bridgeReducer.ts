@@ -129,6 +129,7 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
 //turn on monitoring if chain in metamask changed
 export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     const isSwapperClicked = getState().app.isSwapperClicked
+    const chainID = getState().bridge.chainID
     try {
         dispatch(setLogMessageAC('turnOnChainChangeMonitoring: success', 'success'))
         window.ethereum.on('chainChanged', async function () {
@@ -139,11 +140,6 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch,
 
             const newChainID = await localAPI.getChainID()
             dispatch(setChainIDAC(newChainID))
-            /*console.log('isSwapperClicked', isSwapperClicked)
-            if (isSwapperClicked) {
-                console.log('getNativeBalance plan B')
-                dispatch(getNativeBalanceThunk())
-            }*/
             dispatch(getNativeBalanceThunk())
             dispatch(setAppStatusAC('succeeded'))
         })
@@ -273,8 +269,6 @@ export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState
         dispatch(setAppStatusAC('succeeded'))
     }
 }
-
-
 
 export const getNativeBalanceThunk = (): AppThunk => async (dispatch) => {
     try {
