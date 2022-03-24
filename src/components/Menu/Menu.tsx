@@ -59,7 +59,7 @@ export const Menu = () => {
             setLeftChainId(chainID)
         }
         dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
-        // if (!isSwapperClicked) dispatch(getNativeBalanceThunk())а
+        if (!isSwapperClicked) dispatch(getNativeBalanceThunk())
     }, [chainID, isTestNets])
 
     useEffect(() => {
@@ -86,7 +86,6 @@ export const Menu = () => {
     useEffect(() => {
         if (rightChainId !== chainIDs.notSelected) {
             dispatch(getHydroBalanceThunk(true, rightChainId))
-            // dispatch(getNativeBalance())
         }
     }, [rightChainId])
 
