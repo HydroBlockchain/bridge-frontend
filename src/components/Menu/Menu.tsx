@@ -4,7 +4,7 @@ import {NetworkElement} from './NetworkElement/NetworkElement'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     BridgeInitialStateType,
-    connectToMetamaskThunk, getBalance,
+    connectToMetamaskThunk, getNativeBalance,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
     setChainIDAC,
@@ -14,7 +14,7 @@ import {
     setHydroTokensToBeReceivedAC,
     setTransactionFeeAC,
     swapApproveFundsThunk,
-    turnOnChainChangeMonitoringThunk
+    turnOnChainChangeMonitoringThunk, setLeftNativeBalanceAC
 } from '../../redux/bridgeReducer'
 import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
@@ -58,7 +58,7 @@ export const Menu = () => {
             setLeftChainId(chainID)
         }
         dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
-        dispatch(getBalance())
+        dispatch(getNativeBalance())
     }, [chainID, isTestNets])
 
     useEffect(() => {
@@ -85,7 +85,7 @@ export const Menu = () => {
     useEffect(() => {
         if (rightChainId !== chainIDs.notSelected) {
             dispatch(getHydroBalanceThunk(true, rightChainId))
-            dispatch(getBalance())
+            dispatch(getNativeBalance())
         }
     }, [rightChainId])
 
@@ -135,6 +135,7 @@ export const Menu = () => {
         }
     }
     const onClickSwapper = () => {
+        dispatch(setLeftNativeBalanceAC('?'))
         dispatch(setTransactionFeeAC({
             gasPrice: '',
             gasRequired: 0,

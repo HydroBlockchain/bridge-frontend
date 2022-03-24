@@ -18,7 +18,11 @@ let initialState = {
     chainID: chainIDs.notSelected,
     transactionFee: {} as TransactionFeeType,
     log: [] as Array<LogType>,
-    leftNativeBalance: ''
+    leftNativeBalance: '',
+    totalHydroSwapped: {
+        totalValueSwappedOnTestnet: '',
+        totalValueSwappedOnMainnet: '',
+    } as TotalHydroSwappedType
 }
 
 export type bridgeStateType = typeof initialState
@@ -72,16 +76,16 @@ export const setTransactionFeeAC = (transactionFee: TransactionFeeType) => ({
     type: 'BRIDGE/SET-TRANSACTION-FEE',
     payload: {transactionFee}
 } as const)
-export const setTotalHydroSwappedAC = (totalSwapped: string) => ({
-    type: 'BRIDGE/SET-TOTAL-HYDRO-SWAPPED',
-    payload: {totalSwapped}
-} as const)
 export const setLogMessageAC = (message: string, messageType: MessageType) => ({
     type: 'BRIDGE/SET-LOG-MESSAGE', message, messageType
 } as const)
-const setLeftNativeBalanceAC = (leftNativeBalance: string) => ({
+export const setLeftNativeBalanceAC = (leftNativeBalance: string) => ({
     type: 'BRIDGE/SET-LEFT-NATIVE-BALANCE',
     payload: {leftNativeBalance}
+} as const)
+export const setTotalHydroSwappedAC = (totalHydroSwapped: TotalHydroSwappedType) => ({
+    type: 'BRIDGE/SET-TOTAL-HYDRO-SWAPPED',
+    payload: {totalHydroSwapped}
 } as const)
 
 //Thunks:
@@ -151,6 +155,7 @@ export const checkPreviousApprove = (): AppThunk => async (dispatch, getState: (
     // else user need to call approve
 
     // localAPI.contractAllowance(contract: Contract, owner: string, spender: string)
+
 }
 
 export const swapApproveFundsThunk = (
@@ -262,22 +267,9 @@ export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState
     }
 }
 
-export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
-    try {
-        dispatch(setAppStatusAC('loading'))
-        const bridgeState = getState().bridge
-        const hydroContractInstance = bridgeState.hydroContractInstance
-        const totalHydroSwapped = await localAPI.getTotalHydroSwapped(hydroContractInstance)
-        dispatch(setTotalHydroSwappedAC(totalHydroSwapped))
-        dispatch(setLogMessageAC('getTotalHydroSwapped: success', 'success'))
-    } catch {
-        dispatch(setLogMessageAC('getTotalHydroSwapped: error', 'error'))
-    } finally {
-        dispatch(setAppStatusAC('succeeded'))
-    }
-}
 
-export const getBalance = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+
+export const getNativeBalance = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     try {
         const address = await localAPI.getAccountAddress()
         const balance = await localAPI.getBalance(address)
@@ -287,6 +279,25 @@ export const getBalance = (): AppThunk => async (dispatch, getState: () => AppSt
         console.log('balance error')
     }
 }
+
+export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+    try {
+        dispatch(setAppStatusAC('loading'))
+        const bridgeState = getState().bridge
+        const data = await serverApi.getTotalHydroSwapped()
+        console.log(data.data.totalValueSwappedOnMainnet, data.data.totalValueSwappedOnTestnet)
+        dispatch(setTotalHydroSwappedAC({
+            totalValueSwappedOnTestnet: data.data.totalValueSwappedOnTestnet,
+            totalValueSwappedOnMainnet: data.data.totalValueSwappedOnMainnet,
+        }))
+        dispatch(setLogMessageAC('getTotalHydroSwapped: success', 'success'))
+    } catch {
+        dispatch(setLogMessageAC('getTotalHydroSwapped: error', 'error'))
+    } finally {
+        dispatch(setAppStatusAC('succeeded'))
+    }
+}
+
 
 export type BridgeInitialStateType = typeof initialState
 
@@ -304,6 +315,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setLogMessageAC>
     | ReturnType<typeof setSwapButtonDisabledAC>
     | ReturnType<typeof setLeftNativeBalanceAC>
+    | ReturnType<typeof setTotalHydroSwappedAC>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
@@ -313,5 +325,9 @@ declare let window: any // todo: maybe fix any
 type MessageType = 'success' | 'error'
 export type LogType = {
     id: string, message: string, messageType: MessageType
+}
+export type TotalHydroSwappedType = {
+    totalValueSwappedOnTestnet: string
+    totalValueSwappedOnMainnet: string
 }
 

@@ -110,10 +110,6 @@ export const localAPI = {
             return ''
         }
     },
-    getTotalHydroSwapped: async function (hydroContractInstance: Contract): Promise<string> {
-        const totalSwapped = await hydroContractInstance.methods.totalAmountSwapped().call()
-        return web3.utils.fromWei(totalSwapped.toString())
-    },
     approveTokens: async function (hydroContractInstance: Contract,
                                    approvedAmount: string,
                                    leftChainId: ChainIdType,

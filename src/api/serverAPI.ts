@@ -27,22 +27,31 @@ export const serverApi = {
             }
         })
     },
-    /*getTransactionHash() {
-        return instance.get('getSwapCostInHydroTokens', {
-            params: {
-                amountOfHydro, destinationChain
-            }
-        })
-    },*/
     performSwap(TransactionHash: string, sourceChainName: ChainType, destinationChainName: ChainType) {
         return instance.get('performSwapForTransaction', {
             params: {
                 TransactionHash, sourceChainName, destinationChainName
             }
         })
+    },
+    getTotalHydroSwapped(): Promise<GetTotalHydroSwappedResponseType> {
+        return instance.get('getTotalHydroSwapped')
     }
 }
 
+
+type SwappedChainType = {
+    chainName: string
+    swappedAmount: string
+}
+type GetTotalHydroSwappedResponseType = {
+    data: {
+        totalValueSwappedOnTestnet: string
+        totalValueSwappedOnMainnet: string
+        testnet: Array<SwappedChainType>
+        mainnet: Array<SwappedChainType>
+    }
+}
 type GetTransactionDetailsResponseType = {
     data: {
         amountDeposited: number,
