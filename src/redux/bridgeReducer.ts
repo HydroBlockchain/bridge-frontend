@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract'
 import {ChainIdType, ConversionWayType, localAPI} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
-import {setAppStatusAC, setSwapButtonDisabledAC} from './appReducer'
+import {setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
 
 let initialState = {
@@ -127,7 +127,8 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
 }
 
 //turn on monitoring if chain in metamask changed
-export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch) => {
+export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+    const isSwapperClicked = getState().app.isSwapperClicked
     try {
         dispatch(setLogMessageAC('turnOnChainChangeMonitoring: success', 'success'))
         window.ethereum.on('chainChanged', async function () {
@@ -138,6 +139,12 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch)
 
             const newChainID = await localAPI.getChainID()
             dispatch(setChainIDAC(newChainID))
+            /*console.log('isSwapperClicked', isSwapperClicked)
+            if (isSwapperClicked) {
+                console.log('getNativeBalance plan B')
+                dispatch(getNativeBalanceThunk())
+            }*/
+            dispatch(getNativeBalanceThunk())
             dispatch(setAppStatusAC('succeeded'))
         })
     } catch {
@@ -269,12 +276,12 @@ export const setHydroContractInstanceThunk = (): AppThunk => (dispatch, getState
 
 
 
-export const getNativeBalance = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+export const getNativeBalanceThunk = (): AppThunk => async (dispatch) => {
     try {
         const address = await localAPI.getAccountAddress()
         const balance = await localAPI.getBalance(address)
-        console.log('balance',balance)
         dispatch(setLeftNativeBalanceAC(balance))
+        dispatch(setIsSwapperClickedAC(false))
     } catch {
         console.log('balance error')
     }
@@ -285,7 +292,6 @@ export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getSta
         dispatch(setAppStatusAC('loading'))
         const bridgeState = getState().bridge
         const data = await serverApi.getTotalHydroSwapped()
-        console.log(data.data.totalValueSwappedOnMainnet, data.data.totalValueSwappedOnTestnet)
         dispatch(setTotalHydroSwappedAC({
             totalValueSwappedOnTestnet: data.data.totalValueSwappedOnTestnet,
             totalValueSwappedOnMainnet: data.data.totalValueSwappedOnMainnet,
@@ -316,6 +322,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setSwapButtonDisabledAC>
     | ReturnType<typeof setLeftNativeBalanceAC>
     | ReturnType<typeof setTotalHydroSwappedAC>
+    | ReturnType<typeof setIsSwapperClickedAC>
 
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>

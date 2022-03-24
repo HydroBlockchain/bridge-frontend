@@ -9,6 +9,7 @@ let initialState = {
     isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
     isSwapButtonDisabled: true,
     isSupportedChain: false,
+    isSwapperClicked: false // this is for solve async problem with native balance after swapping
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {
@@ -17,6 +18,7 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
         case 'APP/SET-IS-TEST-NETS':
         case 'APP/SET-IS-SWAP-BUTTON-DISABLED':
         case 'APP/SET-IS-SUPPORTED-CHAIN':
+        case 'APP/SET-IS-SWAPPER-CLICKED':
             return {...state, ...action.payload}
         default:
             return {...state}
@@ -34,7 +36,10 @@ export const setIsSupportedChainAC = (isSupportedChain: boolean) => ({
     type: 'APP/SET-IS-SUPPORTED-CHAIN',
     payload: {isSupportedChain}
 } as const)
-
+export const setIsSwapperClickedAC = (isSwapperClicked: boolean) => ({
+    type: 'APP/SET-IS-SWAPPER-CLICKED',
+    payload: {isSwapperClicked}
+} as const)
 
 // Types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -44,5 +49,6 @@ type ActionsType =
     | ReturnType<typeof setIsTestNetsAC>
     | ReturnType<typeof setSwapButtonDisabledAC>
     | ReturnType<typeof setIsSupportedChainAC>
+    | ReturnType<typeof setIsSwapperClickedAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, ActionsType>

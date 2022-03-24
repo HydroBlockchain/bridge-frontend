@@ -4,7 +4,7 @@ import {NetworkElement} from './NetworkElement/NetworkElement'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     BridgeInitialStateType,
-    connectToMetamaskThunk, getNativeBalance,
+    connectToMetamaskThunk, getNativeBalanceThunk,
     getHydroBalanceThunk,
     getTransactionFeeThunk,
     setChainIDAC,
@@ -20,7 +20,7 @@ import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
 import {chainIDs, chainsNationalSymbols, chainsPictures, isLightTheme} from '../../common/common'
 import {ConversionWayType} from '../../api/localAPI'
-import {AppStateType, RequestStatusType, setIsSupportedChainAC} from '../../redux/appReducer'
+import {AppStateType, RequestStatusType, setIsSupportedChainAC, setIsSwapperClickedAC} from '../../redux/appReducer'
 import cn from 'classnames'
 
 export const Menu = () => {
@@ -37,6 +37,7 @@ export const Menu = () => {
         isSwapButtonDisabled,
         isTestNets,
         isSupportedChain,
+        isSwapperClicked // this is for solve async problem with native balance after swapping
     } = useSelector<AppStoreType, AppStateType>(state => state.app)
 
     const [inputValue, setInputValue] = useState<string>('')
@@ -58,7 +59,7 @@ export const Menu = () => {
             setLeftChainId(chainID)
         }
         dispatch(setIsSupportedChainAC(checkIsChainIdSupported(chainID)))
-        dispatch(getNativeBalance())
+        // if (!isSwapperClicked) dispatch(getNativeBalanceThunk())а
     }, [chainID, isTestNets])
 
     useEffect(() => {
@@ -85,7 +86,7 @@ export const Menu = () => {
     useEffect(() => {
         if (rightChainId !== chainIDs.notSelected) {
             dispatch(getHydroBalanceThunk(true, rightChainId))
-            dispatch(getNativeBalance())
+            // dispatch(getNativeBalance())
         }
     }, [rightChainId])
 
@@ -135,6 +136,7 @@ export const Menu = () => {
         }
     }
     const onClickSwapper = () => {
+        dispatch(setIsSwapperClickedAC(true)) // this is for solve async problem with native balance after swapping
         dispatch(setLeftNativeBalanceAC('?'))
         dispatch(setTransactionFeeAC({
             gasPrice: '',
