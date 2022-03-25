@@ -10,7 +10,8 @@ let initialState = {
     isSwapButtonDisabled: true,
     isSupportedChain: false,
     isSwapperClicked: false, // this is for solve async problem with native balance after swapping
-    errorMessage: ''
+    errorMessage: '',
+    hydroBalanceErrorMessage: ''
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {
@@ -21,6 +22,7 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
         case 'APP/SET-IS-SUPPORTED-CHAIN':
         case 'APP/SET-IS-SWAPPER-CLICKED':
         case 'APP/SET-ERROR-MESSAGE':
+        case 'APP/SET-HYDRO-BALANCE-ERROR-MESSAGE':
             return {...state, ...action.payload}
         default:
             return {...state}
@@ -45,7 +47,11 @@ export const setIsSwapperClickedAC = (isSwapperClicked: boolean) => ({
 export const setErrorMessageAC = (errorMessage: string) => ({
     type: 'APP/SET-ERROR-MESSAGE',
     payload: {errorMessage}
-})
+} as const)
+export const setHydroBalanceErrorMessageAC = (hydroBalanceErrorMessage: string) => ({
+    type: 'APP/SET-HYDRO-BALANCE-ERROR-MESSAGE',
+    payload: {hydroBalanceErrorMessage}
+} as const)
 
 // Types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -57,5 +63,6 @@ type ActionsType =
     | ReturnType<typeof setIsSupportedChainAC>
     | ReturnType<typeof setIsSwapperClickedAC>
     | ReturnType<typeof setErrorMessageAC>
+    | ReturnType<typeof setHydroBalanceErrorMessageAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, ActionsType>

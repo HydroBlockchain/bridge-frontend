@@ -23,7 +23,7 @@ import {ConversionWayType} from '../../api/localAPI'
 import {
     AppStateType,
     RequestStatusType,
-    setErrorMessageAC,
+    setErrorMessageAC, setHydroBalanceErrorMessageAC,
     setIsSupportedChainAC,
     setIsSwapperClickedAC
 } from '../../redux/appReducer'
@@ -44,7 +44,8 @@ export const Menu = () => {
         isTestNets,
         isSupportedChain,
         isSwapperClicked, // this is for solve async problem with native balance after swapping
-        errorMessage
+        errorMessage,
+        hydroBalanceErrorMessage
     } = useSelector<AppStoreType, AppStateType>(state => state.app)
 
     const [inputValue, setInputValue] = useState<string>('')
@@ -87,7 +88,6 @@ export const Menu = () => {
             rightChainId !== chainIDs.notSelected && leftChainId !== rightChainId) {
             dispatch(getTransactionFeeThunk(inputValue, rightChainId))
         }
-
     }, [leftChainId, rightChainId])
 
     useEffect(() => {
@@ -127,10 +127,18 @@ export const Menu = () => {
     }, [inputValue])
 
     useEffect(() => { // for error message
-        transactionFee.transactionCostinEth > leftNativeBalance
+        Number(transactionFee.transactionCostinEth) > Number(leftNativeBalance)
             ? dispatch(setErrorMessageAC('Insufficient funds'))
             : dispatch(setErrorMessageAC(''))
-    }, [leftNativeBalance, transactionFee.transactionCostinEth])
+        Number(transactionFee.transactionCostInHydro) > Number(hydroBalance)
+            ? dispatch(setHydroBalanceErrorMessageAC('Insufficient funds'))
+            : dispatch(setHydroBalanceErrorMessageAC(''))
+    }, [
+        leftNativeBalance,
+        transactionFee.transactionCostinEth,
+        hydroBalance,
+        transactionFee.transactionCostInHydro
+    ])
 
     // Handlers:
     const connectToMetamaskHandler = () => {
@@ -210,7 +218,10 @@ export const Menu = () => {
                         <div className={s.amount}>
                             <div className={s.amountBody}>
                                 <div>
-                                    <div>Balance HYDRO: {hydroBalance === '' ? '?' : `${hydroBalance}`}</div>
+                                    <div className={s.hydroBalance}>
+                                        Balance HYDRO: {hydroBalance === '' ? '?' : `${hydroBalance}`}
+                                        <div className={s.hydroBalanceError}>{hydroBalanceErrorMessage ? hydroBalanceErrorMessage : ''}</div>
+                                    </div>
                                     <div className={s.nativeBalance}>
                                         Balance: {leftNativeBalance !== '' ? leftNativeBalance : '?'} {chainsNationalSymbols[leftChainId]}
                                         <div className={s.nativeBalanceError}>{errorMessage ? errorMessage : ''}</div>
