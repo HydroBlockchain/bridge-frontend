@@ -185,6 +185,7 @@ export const Menu = () => {
             || (!transactionFee.hydroTokensToBeReceived)
             || appStatus === 'loading'
             || errorMessage !== ''
+            || hydroBalanceErrorMessage !== ''
     }
     const isMaxButtonDisabled = () => {
         return hydroBalance === '' || appStatus === 'loading'
