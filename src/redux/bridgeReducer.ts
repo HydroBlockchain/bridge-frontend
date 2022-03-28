@@ -172,14 +172,11 @@ export const swapApproveFundsThunk = (
             const hydroContractInstance = bridgeState.hydroContractInstance
             const hydraBalance = bridgeState.hydroBalance
             dispatch(setAppStatusAC('loading'))
-            const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance()
-            if (leftChainId !== 0) {
-                // localAPI.contractAllowance(hydroContractInstance, )
+            if (leftChainId !== 0) { // if left chainId selected
+                const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance(way)
                 if (swapOrApprove === 'approve') {
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
-                    console.log('ammount', amount)
-                    // add analyzing if amount zero or not
-                    if (amount === 0) {
+                    if (amount === 0) { //analyzing if amount zero or not
                         await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                         dispatch(setSwapButtonDisabledAC(false))
                         dispatch(setLogMessageAC('approveFunds: success', 'success'))

@@ -76,11 +76,11 @@ export const Menu = () => {
             setSwapWay('eth2bsc')
         } else if (leftChainId === chainIDs.bsc && rightChainId === chainIDs.eth) {
             setSwapWay('bsc2eth')
-        } else if (rightChainId === chainIDs.coinExTest) {
+        } else if (leftChainId === chainIDs.coinExTest) {
             setSwapWay('coinexSmartChainTestnet')
-        } else if (rightChainId === chainIDs.mumbaiTest) {
+        } else if (leftChainId === chainIDs.mumbaiTest) {
             setSwapWay('mumbaiTestnet')
-        } else if (rightChainId === chainIDs.rinkebyTest) {
+        } else if (leftChainId === chainIDs.rinkebyTest) {
             setSwapWay('rinkebyTestnet')
         } else setSwapWay(undefined)
 

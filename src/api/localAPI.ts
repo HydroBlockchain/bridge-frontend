@@ -92,8 +92,8 @@ export const localAPI = {
         }
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
-    getBridgeContractInstance: (): Contract => {
-        return new web3.eth.Contract(bridgeContract as AbiItem[])
+    getBridgeContractInstance: (way: ConversionWayType): Contract => {
+        return new web3.eth.Contract(bridgeContract as AbiItem[], swapContractAddresses[way])
     },
     fromWei: function (weiBalance: string, ether = ''): string {
         return web3.utils.fromWei(weiBalance, ether)
@@ -138,11 +138,14 @@ export const localAPI = {
                                 leftChainId: ChainIdType,
                                 conversionWay: ConversionWayType,
                                 bridgeContractInstance: Contract): Promise<void> {
+        console.log('swapTokens enter')
+        console.log('hydroContractInstance', hydroContractInstance)
+        console.log('bridgeContractInstance', bridgeContractInstance)
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
             : web3.utils.toWei(approvedAmount)
-        bridgeContractInstance.methods
+        await bridgeContractInstance.methods
             .swap(finalAmount)
             .send({from: account,})
             .on('transactionHash', async (hash: string) => {
@@ -154,6 +157,7 @@ export const localAPI = {
                     )
                 }
             })
+
     },
     /*
     * example:
@@ -191,4 +195,4 @@ type connectToMetamaskReturnType = {
     account: string
     chainID: number
 }
-export type ChainIdType = 1 | 56 | 80001 | 4 | 53
+export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest
