@@ -115,9 +115,9 @@ export const localAPI = {
                                    leftChainId: ChainIdType,
                                    conversionWay: ConversionWayType,
                                    bridgeContractInstance: Contract): Promise<void> {
-        console.log('approveTokens leftChainId', leftChainId,
+        /*console.log('approveTokens leftChainId', leftChainId,
             'conversionWay', conversionWay,
-            'swapContractAddresses[conversionWay]', swapContractAddresses[conversionWay])
+            'swapContractAddresses[conversionWay]', swapContractAddresses[conversionWay])*/
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -161,15 +161,16 @@ export const localAPI = {
     * owner - address of Metamask Account: string
     * spender - bridge contract:
     * */
-    contractAllowance: function (contract: Contract, owner: string, spender: string): number {
+    contractAllowance: async function (contract: Contract, conversionWay: ConversionWayType): Promise<number> {
         /// @dev This function makes it easy to read the `allowed[]` map
         /// @param _owner The address of the account that owns the token
         /// @param _spender The address of the account able to transfer the tokens
         /// @return Amount of remaining tokens of _owner that _spender is allowed
         /// to spend
-        const result = contract.methods.allowance(owner, spender)
-        console.log('localAPI.contractAllowance result', result)
-        return result
+        const owner = await this.getAccountAddress()
+        const spender = swapContractAddresses[conversionWay]
+        const result = await contract.methods.allowance(owner, spender).call()
+        return web3.utils.fromWei(result)
     },
     getBalance: async function (address: string) {
         // let accounts = await web3.eth.getAccounts();

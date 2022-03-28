@@ -154,7 +154,6 @@ export const checkPreviousApprove = (): AppThunk => async (dispatch, getState: (
     // that should be less or equal to return amount
     // then user does not need to call approve
 
-
     // else user need to call approve
 
     // localAPI.contractAllowance(contract: Contract, owner: string, spender: string)
@@ -177,9 +176,26 @@ export const swapApproveFundsThunk = (
             if (leftChainId !== 0) {
                 // localAPI.contractAllowance(hydroContractInstance, )
                 if (swapOrApprove === 'approve') {
-                    await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-                    dispatch(setSwapButtonDisabledAC(false))
-                    dispatch(setLogMessageAC('approveFunds: success', 'success'))
+                    const amount = await localAPI.contractAllowance(hydroContractInstance, way)
+                    console.log('ammount', amount)
+                    // add analyzing if amount zero or not
+                    if (amount === 0) {
+                        await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                        dispatch(setSwapButtonDisabledAC(false))
+                        dispatch(setLogMessageAC('approveFunds: success', 'success'))
+                    } else {
+                        // notify user that he has previously approved some amount
+                        // will show user a message
+                        try {
+                            await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
+                            await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                            dispatch(setSwapButtonDisabledAC(false))
+                        }
+                        catch {
+                            console.log('localAPI.approveTokens mistake')
+                        }
+                    }
+
                 } else { // swap
                     await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                 }
