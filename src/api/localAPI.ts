@@ -2,15 +2,9 @@ import {chains} from '../assets/chains'
 import BepHydro from '../assets/abis/bephydro_copy.json'
 import {AbiItem} from 'web3-utils'
 import bridgeContract from '../assets/abis/bridgeContract.json'
-import {
-    addressForWeb3,
-    chainIDs,
-    chainNamesForGetHydroBalance,
-    hydroAddresses,
-    swapContractAddresses
-} from '../common/common'
+import {addressForWeb3, chainIDs, chainNamesForGetHydroBalance, hydroAddresses, swapContractAddresses} from '../common/common'
 import {Contract} from 'web3-eth-contract'
-import {ChainType, serverApi} from './serverAPI'
+import {serverApi} from './serverAPI'
 
 const Web3 = require('web3')
 
@@ -144,6 +138,7 @@ export const localAPI = {
         console.log('swapTokens enter')
         console.log('hydroContractInstance', hydroContractInstance)
         console.log('bridgeContractInstance', bridgeContractInstance)
+        let hashOutput;
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -151,16 +146,41 @@ export const localAPI = {
         await bridgeContractInstance.methods
             .swap(finalAmount)
             .send({from: account,})
-            .on('transactionHash', async (hash: string) => {
+            /*.on('transactionHash', async (hash: string) => {
                 if (hash !== null) {
+                    hashOutput = hash
+                    // serverApi.performSwap(hash, chainNamesForGetHydroBalance[leftChainId], chainIDs[rightChainId])
+                    try {
+                        const answer = await serverApi.performSwap(hash, 'rinkebyTestnet', 'coinexTestNetwork')
+                        console.log('answer',answer)
+                    }
+                    catch (e) {
+
+                    }
                     // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
                     //here need to call transactionDetails and put inside hash
                     // const response = await serverApi.transactionDetails(
                     //     hash, chainNamesForGetHydroBalance[leftChainId] as ChainType
                     // )
                 }
+            })*/
+            // todo: fix typing
+            .on('receipt', async (hash: any) => {
+                console.log('hash', hash)
+                if (hash !== null) {
+                    hashOutput = hash.transactionHash
+                    try {
+                        const answer = await serverApi.performSwap(hash, 'rinkebyTestnet', 'coinexTestNetwork')
+                        console.log('answer',answer)
+                    }
+                    catch (e) {
+                        console.error('swapTokens error ')
+                        console.log('e', e)
+                    }
+                }
             })
 
+        return hashOutput
     },
     /*
     * example:
@@ -199,3 +219,27 @@ type connectToMetamaskReturnType = {
     chainID: number
 }
 export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest
+
+type ReceiptedType = {
+
+    transactionHash: string
+    transactionIndex: number,
+    blockHash: string
+    blockNumber: 3,
+    contractAddress: string
+    cumulativeGasUsed: 314159,
+    gasUsed: 30234,
+    events: {
+        MyEvent: {
+            returnValues: {
+                myIndexedParam: 20,
+                myOtherIndexedParam: string
+                myNonIndexParam: 'My String'
+            },
+            raw: {
+                data: string
+                topics: ['0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7', '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385']
+            },
+        }
+    }
+}
