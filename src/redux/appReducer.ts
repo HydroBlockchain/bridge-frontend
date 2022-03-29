@@ -7,7 +7,7 @@ const isTestNetsLS = localStorage.getItem('isTestNets')
 let initialState = {
     status: 'idle' as RequestStatusType,
     isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,
-    isSwapButtonDisabled: false,
+    isSwapButtonDisabled: true,
     isSupportedChain: false,
     isSwapperClicked: false, // this is for solve async problem with native balance after swapping
     errorMessage: '',

@@ -93,6 +93,7 @@ export const localAPI = {
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
     getBridgeContractInstance: (way: ConversionWayType): Contract => {
+        console.log('swapContractAddresses[way]',swapContractAddresses[way])
         return new web3.eth.Contract(bridgeContract as AbiItem[], swapContractAddresses[way])
     },
     fromWei: function (weiBalance: string, ether = ''): string {
@@ -118,6 +119,7 @@ export const localAPI = {
         /*console.log('approveTokens leftChainId', leftChainId,
             'conversionWay', conversionWay,
             'swapContractAddresses[conversionWay]', swapContractAddresses[conversionWay])*/
+        let outputHash = ''
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -129,9 +131,10 @@ export const localAPI = {
                 if (hash !== null) {
                     // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
                     console.log('hash', hash)
+                    finalAmount !== '0' ? outputHash = hash : outputHash = ''
                 }
             })
-
+        console.log('outputHash', outputHash)
     },
     swapTokens: async function (hydroContractInstance: Contract,
                                 approvedAmount: string,
@@ -152,9 +155,9 @@ export const localAPI = {
                 if (hash !== null) {
                     // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
                     //here need to call transactionDetails and put inside hash
-                    const response = await serverApi.transactionDetails(
-                        hash, chainNamesForGetHydroBalance[leftChainId] as ChainType
-                    )
+                    // const response = await serverApi.transactionDetails(
+                    //     hash, chainNamesForGetHydroBalance[leftChainId] as ChainType
+                    // )
                 }
             })
 
