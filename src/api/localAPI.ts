@@ -166,7 +166,7 @@ export const localAPI = {
                 }
             })*/
             // todo: fix typing
-            .on('receipt', async (hash: any) => {
+            .on('receipt', async (hash: ReceiptedType) => {
                 console.log('hash', hash)
                 if (hash !== null) {
                     hashOutput = hash.transactionHash
@@ -225,25 +225,24 @@ type connectToMetamaskReturnType = {
 }
 export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest
 
-type ReceiptedType = {
-
+export type ReceiptedType = {
     transactionHash: string
     transactionIndex: number,
     blockHash: string
-    blockNumber: 3,
+    blockNumber: number
     contractAddress: string
-    cumulativeGasUsed: 314159,
-    gasUsed: 30234,
+    cumulativeGasUsed: number
+    gasUsed: number
     events: {
         MyEvent: {
             returnValues: {
-                myIndexedParam: 20,
+                myIndexedParam: number
                 myOtherIndexedParam: string
-                myNonIndexParam: 'My String'
+                myNonIndexParam: string
             },
             raw: {
                 data: string
-                topics: ['0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7', '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385']
+                topics: Array<string>
             },
         }
     }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {ReceiptedType} from './localAPI'
 
 const instance = axios.create({
     baseURL: 'http://localhost:3000/api/1.0.0/',
@@ -27,7 +28,7 @@ export const serverApi = {
             }
         })
     },
-    performSwap(TransactionHash: string, sourceChainName: ChainType, destinationChainName: ChainType) {
+    performSwap(TransactionHash: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType) {
         return instance.get('performSwapForTransaction', {
             params: {
                 TransactionHash, sourceChainName, destinationChainName
