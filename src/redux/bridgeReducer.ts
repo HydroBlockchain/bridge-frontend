@@ -164,6 +164,7 @@ export const swapApproveFundsThunk = (
     swapOrApprove: 'swap' | 'approve',
     approvedAmount: string,
     leftChainId: ChainIdType | 0,
+    rightChainId: ChainIdType | 0,
     way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     dispatch(setAppStatusAC('loading'))
     try {
@@ -194,7 +195,7 @@ export const swapApproveFundsThunk = (
                     }
 
                 } else { // swap
-                    await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                    if (rightChainId !== 0) await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
                     // await serverApi.performSwap(TransactionHash, sourceChainName, destinationChainName)
                 }
             }

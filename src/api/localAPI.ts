@@ -4,7 +4,7 @@ import {AbiItem} from 'web3-utils'
 import bridgeContract from '../assets/abis/bridgeContract.json'
 import {addressForWeb3, chainIDs, chainNamesForGetHydroBalance, hydroAddresses, swapContractAddresses} from '../common/common'
 import {Contract} from 'web3-eth-contract'
-import {serverApi} from './serverAPI'
+import {ChainType, serverApi} from './serverAPI'
 
 const Web3 = require('web3')
 
@@ -133,6 +133,7 @@ export const localAPI = {
     swapTokens: async function (hydroContractInstance: Contract,
                                 approvedAmount: string,
                                 leftChainId: ChainIdType,
+                                rightChainId: ChainIdType,
                                 conversionWay: ConversionWayType,
                                 bridgeContractInstance: Contract): Promise<void> {
         console.log('swapTokens enter')
@@ -170,7 +171,11 @@ export const localAPI = {
                 if (hash !== null) {
                     hashOutput = hash.transactionHash
                     try {
-                        const answer = await serverApi.performSwap(hash, 'rinkebyTestnet', 'coinexTestNetwork')
+                        const letChainName = chainNamesForGetHydroBalance[leftChainId]
+                        const rightChainName = chainNamesForGetHydroBalance[rightChainId]
+                        console.log('letChainName', letChainName)
+                        console.log('rightChainName', rightChainName)
+                        const answer = await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
                         console.log('answer',answer)
                     }
                     catch (e) {

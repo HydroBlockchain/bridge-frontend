@@ -147,12 +147,12 @@ export const Menu = () => {
     }
     const approveHandler = () => {
         if (swapWay !== undefined) {
-            dispatch(swapApproveFundsThunk('approve', inputValue, leftChainId, swapWay))
+            dispatch(swapApproveFundsThunk('approve', inputValue, leftChainId, rightChainId, swapWay))
         }
     }
     const swapHandler = () => {
         if (swapWay !== undefined) {
-            dispatch(swapApproveFundsThunk('swap', inputValue, leftChainId, swapWay))
+            dispatch(swapApproveFundsThunk('swap', inputValue, leftChainId, rightChainId, swapWay))
         }
     }
     const onClickSwapper = () => {
