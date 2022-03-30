@@ -28,7 +28,9 @@ export const serverApi = {
             }
         })
     },
-    performSwap(TransactionHash: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType) {
+    performSwap(TransactionHashInput: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType) {
+        const TransactionHash = TransactionHashInput.transactionHash
+        console.log('performSwap TransactionHash', TransactionHash)
         return instance.get('performSwapForTransaction', {
             params: {
                 TransactionHash, sourceChainName, destinationChainName
@@ -82,5 +84,8 @@ export type TransactionFeeType = {
 type GetTransactionFeeType = {
     data: TransactionFeeType
 }
-
+type performSwapType = {
+    explorerLink: string
+    transactionHash: string
+}
 

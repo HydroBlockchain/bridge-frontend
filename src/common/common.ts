@@ -70,10 +70,11 @@ export const hydroAddresses = {
 export const swapContractAddresses = {
     eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
     bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95',
-    coinexSmartChainTestnet: '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
-    mumbaiTestnet: '0x55656EEBCA47E834894de45408cBD4484c52518B',
-    // rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
-    rinkebyTestnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
+    // coinexSmartChainTestnet: '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
+    coinexSmartChainTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
+    mumbaiTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
+    rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
+    // rinkebyTestnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
 }
 
 // for dark and light theme switch
