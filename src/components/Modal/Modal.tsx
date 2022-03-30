@@ -8,13 +8,13 @@ export const Modal = () => {
     const dispatch = useDispatch()
 
     const {modalShow, transactionStatus, transactionHash, explorerLink} = useSelector<AppStoreType, ModalStateType>(state => state.modal)
+    modalShow && console.log('Modal transaction', transactionStatus, transactionHash, explorerLink)
 
     if (!modalShow) return null
 
     const onClose = () => {
         dispatch(setModalShowAC(false))
     }
-
 
     return <div className={s.modalBackground}>
         <div className={s.swapModal}>

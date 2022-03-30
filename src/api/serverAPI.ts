@@ -31,11 +31,13 @@ export const serverApi = {
     performSwap(TransactionHashInput: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType): Promise<PerformSwapType> {
         const TransactionHash = TransactionHashInput.transactionHash
         console.log('performSwap TransactionHash', TransactionHash)
-        return instance.get('performSwapForTransaction', {
+        const answer = instance.get('performSwapForTransaction', {
             params: {
                 TransactionHash, sourceChainName, destinationChainName
             }
         })
+        console.log('performSwap answer', answer)
+        return answer
     },
     getTotalHydroSwapped(): Promise<GetTotalHydroSwappedResponseType> {
         return instance.get('getTotalHydroSwapped')

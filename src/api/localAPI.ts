@@ -153,18 +153,15 @@ export const localAPI = {
             .swap(finalAmount)
             .send({from: account,})
             .on('receipt', async (hash: ReceiptedType) => {
-                console.log('hash', hash)
                 if (hash !== null) {
                     try {
                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
-                        console.log('letChainName', letChainName)
-                        console.log('rightChainName', rightChainName)
                         const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-                        console.log('answer',serverAnswer)
                         returnValues.transactionStatus = 'Your transaction complete successfully.'
                         returnValues.explorerLink = serverAnswer.data.explorerLink
                         returnValues.transactionHash = serverAnswer.data.transactionHash
+                        console.log('returnValues',returnValues)
                     }
                     catch (e) {
                         console.error('swapTokens error ')

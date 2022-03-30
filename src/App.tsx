@@ -16,12 +16,10 @@ import {Modal} from './components/Modal/Modal'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const isTestNets = useSelector<AppStoreType, boolean>(state => state.app.isTestNets)
 
     const isLogHiddenLS = localStorage.getItem('isLogHidden')
     const [isLogHidden, setIsLogHidden] = useState(isLogHiddenLS ? JSON.parse(isLogHiddenLS) : true)
-
-    const isTestNets = useSelector<AppStoreType, boolean>(state => state.app.isTestNets)
-    console.log('isTestNets',isTestNets)
 
     const dispatch = useDispatch()
 
@@ -35,8 +33,6 @@ function App() {
         }
     }
     const onCheckBoxChange = () => {
-        console.log('isTestNets', isTestNets)
-        debugger
         if (isTestNets) {
             localStorage.setItem('isTestNets', JSON.stringify(false))
             dispatch(setIsTestNetsAC(false))
@@ -45,7 +41,6 @@ function App() {
             dispatch(setIsTestNetsAC(true))
         }
     }
-
     return (
         <div className={isLightTheme ? cn(s.app, s.lightTheme) : s.app}>
             <Modal/>
