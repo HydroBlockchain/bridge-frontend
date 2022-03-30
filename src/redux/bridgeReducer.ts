@@ -6,6 +6,7 @@ import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '.
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
 import {setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
+import {setModalShowAC, setTransactionResultAC} from './modalReducer'
 
 let initialState = {
     account: '',
@@ -149,6 +150,7 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch,
 
 }
 
+//todo: this function
 export const checkPreviousApprove = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
     // if this return nonzero umount // user will receive nonzero amount then amount to be input for swap
     // that should be less or equal to return amount
@@ -177,7 +179,7 @@ export const swapApproveFundsThunk = (
                 const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance(way)
                 if (swapOrApprove === 'approve') {
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
-                    // if user call the amount that less or equal to this amount, then it can call the swap directly
+                    // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
                     // if else
                     if (amount === 0) {
                         await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
@@ -197,8 +199,17 @@ export const swapApproveFundsThunk = (
                     }
 
                 } else { // swap
-                    if (rightChainId !== 0) await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
-                    // await serverApi.performSwap(TransactionHash, sourceChainName, destinationChainName)
+                    if (rightChainId !== 0) {
+                        try {
+                            const serverAnswer = await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
+                            dispatch(setTransactionResultAC(serverAnswer.transactionStatus, serverAnswer.explorerLink, serverAnswer.transactionHash))
+                            dispatch(setModalShowAC(true))
+                        }
+                        catch (e) {
+                            dispatch(setTransactionResultAC('swapTokens error', '?', '?'))
+                            dispatch(setModalShowAC(true))
+                        }
+                    }
                 }
             }
 
@@ -319,8 +330,7 @@ export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getSta
 export type BridgeInitialStateType = typeof initialState
 
 export type BridgeActionTypes =
-    | ReturnType<typeof setChainIDAC>
-    | ReturnType<typeof setLoadingAC>
+    | ReturnType<typeof setChainIDAC> | ReturnType<typeof setLoadingAC>
     | ReturnType<typeof setAccountAC>
     | ReturnType<typeof setHydroContractInstanceAC>
     | ReturnType<typeof setHydroBalanceAC>
@@ -334,7 +344,8 @@ export type BridgeActionTypes =
     | ReturnType<typeof setLeftNativeBalanceAC>
     | ReturnType<typeof setTotalHydroSwappedAC>
     | ReturnType<typeof setIsSwapperClickedAC>
-
+    | ReturnType<typeof setModalShowAC>
+    | ReturnType<typeof setTransactionResultAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 

@@ -15,5 +15,11 @@
     .swapModal{
         background-color: #F9F9FE;
         border-radius: 2px;
+        display: flex;
+        flex-direction: column;
+        padding: 50px;
+        button {
+            cursor: pointer;
+        }
     }
 }

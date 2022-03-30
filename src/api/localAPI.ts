@@ -135,11 +135,16 @@ export const localAPI = {
                                 leftChainId: ChainIdType,
                                 rightChainId: ChainIdType,
                                 conversionWay: ConversionWayType,
-                                bridgeContractInstance: Contract): Promise<void> {
+                                bridgeContractInstance: Contract): Promise<ReturnSwapTokensType> {
         console.log('swapTokens enter')
         console.log('hydroContractInstance', hydroContractInstance)
         console.log('bridgeContractInstance', bridgeContractInstance)
-        let hashOutput;
+        let returnValues = {
+            transactionStatus: '',
+            explorerLink: '',
+            transactionHash: ''
+        }
+
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -147,45 +152,31 @@ export const localAPI = {
         await bridgeContractInstance.methods
             .swap(finalAmount)
             .send({from: account,})
-            /*.on('transactionHash', async (hash: string) => {
-                if (hash !== null) {
-                    hashOutput = hash
-                    // serverApi.performSwap(hash, chainNamesForGetHydroBalance[leftChainId], chainIDs[rightChainId])
-                    try {
-                        const answer = await serverApi.performSwap(hash, 'rinkebyTestnet', 'coinexTestNetwork')
-                        console.log('answer',answer)
-                    }
-                    catch (e) {
-
-                    }
-                    // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
-                    //here need to call transactionDetails and put inside hash
-                    // const response = await serverApi.transactionDetails(
-                    //     hash, chainNamesForGetHydroBalance[leftChainId] as ChainType
-                    // )
-                }
-            })*/
-            // todo: fix typing
             .on('receipt', async (hash: ReceiptedType) => {
                 console.log('hash', hash)
                 if (hash !== null) {
-                    hashOutput = hash.transactionHash
                     try {
                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
                         console.log('letChainName', letChainName)
                         console.log('rightChainName', rightChainName)
-                        const answer = await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-                        console.log('answer',answer)
+                        const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
+                        console.log('answer',serverAnswer)
+                        returnValues.transactionStatus = 'Your transaction complete successfully.'
+                        returnValues.explorerLink = serverAnswer.data.explorerLink
+                        returnValues.transactionHash = serverAnswer.data.transactionHash
                     }
                     catch (e) {
                         console.error('swapTokens error ')
                         console.log('e', e)
+                        returnValues.transactionStatus = 'Your transaction complete with error.'
+                        returnValues.explorerLink = '?'
+                        returnValues.transactionHash = '?'
                     }
                 }
             })
 
-        return hashOutput
+        return returnValues
     },
     /*
     * example:
@@ -246,4 +237,10 @@ export type ReceiptedType = {
             },
         }
     }
+}
+
+type ReturnSwapTokensType = {
+    transactionStatus: string
+    explorerLink: string
+    transactionHash: string
 }

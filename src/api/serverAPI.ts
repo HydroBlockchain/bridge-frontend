@@ -28,7 +28,7 @@ export const serverApi = {
             }
         })
     },
-    performSwap(TransactionHashInput: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType) {
+    performSwap(TransactionHashInput: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType): Promise<PerformSwapType> {
         const TransactionHash = TransactionHashInput.transactionHash
         console.log('performSwap TransactionHash', TransactionHash)
         return instance.get('performSwapForTransaction', {
@@ -61,6 +61,12 @@ type GetTransactionDetailsResponseType = {
         depositor: string
     }
 }
+type PerformSwapType = {
+    data: {
+        explorerLink: string
+        transactionHash: string
+    }
+}
 export type ChainType =
     | 'ethereum'
     | 'binanceMainnet'
@@ -84,8 +90,5 @@ export type TransactionFeeType = {
 type GetTransactionFeeType = {
     data: TransactionFeeType
 }
-type performSwapType = {
-    explorerLink: string
-    transactionHash: string
-}
+
 

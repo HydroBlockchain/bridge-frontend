@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react'
 import Identicon from "identicon.js";
 import bridgeLogo from '../../assets/images/hydrobridge.svg';
 import bridgeLogoLight from '../../assets/images/hydrobridge_light.svg';

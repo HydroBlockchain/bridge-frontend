@@ -191,7 +191,7 @@ export const Menu = () => {
         return hydroBalance === '' || appStatus === 'loading'
     }
     const isConnectWalletButtonDisabled = () => {
-        return !isSupportedChain || appStatus === 'loading'
+        return appStatus === 'loading'
     }
     const isSwapperDisabled = () => {
         return rightChainId === chainIDs.notSelected || leftChainId === rightChainId || appStatus === 'loading'
