@@ -73,8 +73,7 @@ export const swapContractAddresses = {
     // coinexSmartChainTestnet: '0x57C48d9c0829D4244521d4E112eA539A3D391F1a',
     coinexSmartChainTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
     mumbaiTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
-    rinkebyTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
-    // rinkebyTestnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
+    rinkebyTestnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
 }
 
 // for dark and light theme switch
