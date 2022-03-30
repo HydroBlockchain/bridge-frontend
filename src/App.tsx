@@ -12,9 +12,12 @@ import {isLightTheme} from './common/common'
 import {Log} from './components/Log/Log'
 import cn from 'classnames'
 import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
+import {Modal} from './components/Modal/Modal'
 
 function App() {
-    const status = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status)
+    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const modalShowHide = useSelector<AppStoreType, boolean>(state => state.app.modalShowHide)
+
     const isLogHiddenLS = localStorage.getItem('isLogHidden')
     const [isLogHidden, setIsLogHidden] = useState(isLogHiddenLS ? JSON.parse(isLogHiddenLS) : true)
 
@@ -43,6 +46,7 @@ function App() {
 
     return (
         <div className={isLightTheme ? cn(s.app, s.lightTheme) : s.app}>
+            <Modal modalShowHide={modalShowHide}/>
             <Navbar/>
             {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/>}
             <div className={s.centerContainer}>
@@ -67,14 +71,6 @@ function App() {
                     {!isLogHidden && <Log/>}
                 </div>
             </div>
-            {/*<ToastContainer
-                position="bottom-left"
-                autoClose={false}
-                hideProgressBar={false}
-                newestOnTop={false}
-                rtl={false}
-                draggable
-                pauseOnHover/>*/}
         </div>
     )
 }
