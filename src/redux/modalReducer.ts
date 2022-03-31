@@ -2,7 +2,7 @@ let initialState = {
     modalShow: false,
     transactionStatus: '?',
     explorerLink: '?',
-    transactionHash: '?'
+    transactionHash: '?',
 }
 
 export const modalReducer = (state: ModalStateType = initialState, action: ActionsType): ModalStateType => {

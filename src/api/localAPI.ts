@@ -109,9 +109,6 @@ export const localAPI = {
                                    leftChainId: ChainIdType,
                                    conversionWay: ConversionWayType,
                                    bridgeContractInstance: Contract): Promise<void> {
-        /*console.log('approveTokens leftChainId', leftChainId,
-            'conversionWay', conversionWay,
-            'swapContractAddresses[conversionWay]', swapContractAddresses[conversionWay])*/
         let outputHash = ''
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
@@ -146,8 +143,8 @@ export const localAPI = {
                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
                         return serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-                            .then ((serverAnswer)=>{
-                                console.log('serverAnswer.data', serverAnswer.data)
+                            .then((serverAnswer) => {
+                                console.log('localAPI.swapTokens serverAnswer.data', serverAnswer.data)
                                 return serverAnswer.data
                             })
                     } catch (e) {

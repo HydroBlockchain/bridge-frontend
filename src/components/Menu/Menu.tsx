@@ -28,6 +28,7 @@ import {
     setIsSwapperClickedAC
 } from '../../redux/appReducer'
 import cn from 'classnames'
+import {ModalStateType, setModalShowAC} from '../../redux/modalReducer'
 
 export const Menu = () => {
     const dispatch = useDispatch()
@@ -47,6 +48,7 @@ export const Menu = () => {
         errorMessage,
         hydroBalanceErrorMessage
     } = useSelector<AppStoreType, AppStateType>(state => state.app)
+    const modalState = useSelector<AppStoreType, ModalStateType>(state => state.modal)
 
     const [inputValue, setInputValue] = useState<string>('')
     const [leftChainId, setLeftChainId] = useState(chainIDs.notSelected)
@@ -139,6 +141,13 @@ export const Menu = () => {
         hydroBalance,
         transactionFee.transactionCostInHydro
     ])
+
+    useEffect(() => {
+        if (modalState.explorerLink !== '?' && modalState.explorerLink !== '') {
+            console.log('modalState.explorerLink', modalState.explorerLink)
+            dispatch(setModalShowAC(true))
+        }
+    },[modalState.explorerLink])
 
     // Handlers:
     const connectToMetamaskHandler = () => {
