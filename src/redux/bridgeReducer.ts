@@ -202,8 +202,8 @@ export const swapApproveFundsThunk = (
                     if (rightChainId !== 0) {
                         try {
                             const serverAnswer = await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
-                            console.log('bridgeReducer serverAnswer',serverAnswer)
-                            dispatch(setTransactionResultAC(serverAnswer.transactionStatus, serverAnswer.explorerLink, serverAnswer.transactionHash))
+                            console.log('bridgeReducer serverAnswer.data',serverAnswer.data)
+                            dispatch(setTransactionResultAC(serverAnswer.data.explorerLink, serverAnswer.data.explorerLink, serverAnswer.data.transactionHash))
                             dispatch(setModalShowAC(true))
                         }
                         catch (e) {

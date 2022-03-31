@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ReceiptedType} from './localAPI'
+import {localAPI, ReceiptedType} from './localAPI'
 
 const instance = axios.create({
     baseURL: 'http://localhost:3000/api/1.0.0/',
@@ -29,13 +29,14 @@ export const serverApi = {
         })
     },
     performSwap(TransactionHashInput: ReceiptedType, sourceChainName: ChainType, destinationChainName: ChainType): Promise<PerformSwapType> {
+
         const TransactionHash = TransactionHashInput.transactionHash
-        console.log('performSwap TransactionHash', TransactionHash)
         const answer = instance.get('performSwapForTransaction', {
             params: {
                 TransactionHash, sourceChainName, destinationChainName
             }
         })
+        // const serverAnswer = await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
         console.log('performSwap answer', answer)
         return answer
     },

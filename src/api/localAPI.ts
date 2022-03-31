@@ -87,7 +87,6 @@ export const localAPI = {
         return new web3.eth.Contract(BepHydro as AbiItem[], hydroAddress)
     },
     getBridgeContractInstance: (way: ConversionWayType): Contract => {
-        console.log('swapContractAddresses[way]',swapContractAddresses[way])
         return new web3.eth.Contract(bridgeContract as AbiItem[], swapContractAddresses[way])
     },
     fromWei: function (weiBalance: string, ether = ''): string {
@@ -124,11 +123,9 @@ export const localAPI = {
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {
                     // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
-                    console.log('hash', hash)
                     finalAmount !== '0' ? outputHash = hash : outputHash = ''
                 }
             })
-        console.log('outputHash', outputHash)
     },
     swapTokens: async function (hydroContractInstance: Contract,
                                 approvedAmount: string,
@@ -136,9 +133,6 @@ export const localAPI = {
                                 rightChainId: ChainIdType,
                                 conversionWay: ConversionWayType,
                                 bridgeContractInstance: Contract): Promise<ReturnSwapTokensType> {
-        console.log('swapTokens enter')
-        console.log('hydroContractInstance', hydroContractInstance)
-        console.log('bridgeContractInstance', bridgeContractInstance)
         let returnValues = {
             transactionStatus: '',
             explorerLink: '',
@@ -149,7 +143,7 @@ export const localAPI = {
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
             : web3.utils.toWei(approvedAmount)
-        await bridgeContractInstance.methods
+        return bridgeContractInstance.methods
             .swap(finalAmount)
             .send({from: account,})
             .on('receipt', async (hash: ReceiptedType) => {
@@ -158,22 +152,26 @@ export const localAPI = {
                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
                         const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-                        returnValues.transactionStatus = 'Your transaction complete successfully.'
-                        returnValues.explorerLink = serverAnswer.data.explorerLink
-                        returnValues.transactionHash = serverAnswer.data.transactionHash
-                        console.log('returnValues',returnValues)
-                    }
-                    catch (e) {
+                        console.log('localAPI.swapTokens serverAnswer.data', serverAnswer.data)
+                        return serverAnswer.data
+                        // returnValues.transactionStatus = 'Your transaction complete successfully.'
+                        // returnValues.explorerLink = serverAnswer.data.explorerLink
+                        // returnValues.transactionHash = serverAnswer.data.transactionHash
+                        // console.log('returnValues',returnValues)
+                        // return returnValues
+                    } catch (e) {
                         console.error('swapTokens error ')
                         console.log('e', e)
-                        returnValues.transactionStatus = 'Your transaction complete with error.'
-                        returnValues.explorerLink = '?'
-                        returnValues.transactionHash = '?'
+                        // returnValues.transactionStatus = 'Your transaction complete with error.'
+                        // returnValues.explorerLink = '?'
+                        // returnValues.transactionHash = '?'
+                        // return ''
                     }
                 }
             })
-
-        return returnValues
+        // need to await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
+        // console.log('returnValuesOut',returnValues)
+        // return returnValues
     },
     /*
     * example:
@@ -237,7 +235,9 @@ export type ReceiptedType = {
 }
 
 type ReturnSwapTokensType = {
-    transactionStatus: string
-    explorerLink: string
-    transactionHash: string
+    data: {
+        transactionStatus: string
+        explorerLink: string
+        transactionHash: string
+    }
 }
