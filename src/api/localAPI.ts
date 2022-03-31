@@ -133,12 +133,6 @@ export const localAPI = {
                                 rightChainId: ChainIdType,
                                 conversionWay: ConversionWayType,
                                 bridgeContractInstance: Contract): Promise<ReturnSwapTokensType> {
-        let returnValues = {
-            transactionStatus: '',
-            explorerLink: '',
-            transactionHash: ''
-        }
-
         const account = await this.getAccountAddress()
         const finalAmount = leftChainId === chainIDs.mumbaiTest
             ? approvedAmount
@@ -151,21 +145,14 @@ export const localAPI = {
                     try {
                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
-                        const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-                        console.log('localAPI.swapTokens serverAnswer.data', serverAnswer.data)
-                        return serverAnswer.data
-                        // returnValues.transactionStatus = 'Your transaction complete successfully.'
-                        // returnValues.explorerLink = serverAnswer.data.explorerLink
-                        // returnValues.transactionHash = serverAnswer.data.transactionHash
-                        // console.log('returnValues',returnValues)
-                        // return returnValues
+                        return serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
+                            .then ((serverAnswer)=>{
+                                console.log('serverAnswer.data', serverAnswer.data)
+                                return serverAnswer.data
+                            })
                     } catch (e) {
                         console.error('swapTokens error ')
                         console.log('e', e)
-                        // returnValues.transactionStatus = 'Your transaction complete with error.'
-                        // returnValues.explorerLink = '?'
-                        // returnValues.transactionHash = '?'
-                        // return ''
                     }
                 }
             })
