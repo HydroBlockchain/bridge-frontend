@@ -14,6 +14,7 @@ import cn from 'classnames'
 import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
 import {ModalTransaction} from './components/ModalTransaction/ModalTransaction'
 import {ModalApprove} from './components/ModalApprove'
+import {ModalSwap} from './components/ModalSwap'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
@@ -46,6 +47,7 @@ function App() {
         <div className={isLightTheme ? cn(s.app, s.lightTheme) : s.app}>
             <ModalTransaction/>
             <ModalApprove />
+            <ModalSwap/>
             <Navbar/>
             {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/>}
             <div className={s.centerContainer}>

@@ -6,7 +6,7 @@ import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '.
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
 import {setIsAmountInputDisabledAC, setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
-import {setModalApproveShowAC, setModalTransactionShowAC, setTransactionResultAC} from './modalReducer'
+import {setModalApproveShowAC, setModalSwapShowAC, setModalTransactionShowAC, setTransactionResultAC} from './modalReducer'
 
 let initialState = {
     account: '',
@@ -220,6 +220,7 @@ export const swapApproveFundsThunk = (
                     if (rightChainId !== 0) {
                         dispatch(setAppStatusAC('loading'))
                         dispatch(setSwapButtonDisabledAC(true))
+                        dispatch(setModalSwapShowAC(true))
 
                         const account = await localAPI.getAccountAddress()
                         const finalAmount = leftChainId === chainIDs.mumbaiTest
@@ -241,6 +242,7 @@ export const swapApproveFundsThunk = (
                                         dispatch(setTransactionResultAC('swapTokens error', '?', '?'))
                                     }
                                     finally {
+                                        dispatch(setModalSwapShowAC(false))
                                         dispatch(setAppStatusAC('succeeded'))
                                         dispatch(setApproveButtonDisabledAC(false))
                                         dispatch(setIsAmountInputDisabledAC(false))
@@ -387,6 +389,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setApproveButtonDisabledAC>
     | ReturnType<typeof setIsAmountInputDisabledAC>
     | ReturnType<typeof setModalApproveShowAC>
+    | ReturnType<typeof setModalSwapShowAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 

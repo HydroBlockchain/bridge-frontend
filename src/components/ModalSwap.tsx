@@ -4,16 +4,16 @@ import {useSelector} from 'react-redux'
 import {AppStoreType} from '../redux/store'
 import {ModalStateType} from '../redux/modalReducer'
 
-export const ModalApprove = () => {
+export const ModalSwap = () => {
 
-    const {modalApproveShow} = useSelector<AppStoreType, ModalStateType>(state => state.modal)
+    const {modalSwapShow} = useSelector<AppStoreType, ModalStateType>(state => state.modal)
 
-    if (!modalApproveShow) return null
+    if (!modalSwapShow) return null
 
     return(
         <CommonModal>
             <div>
-                Please Approve you transaction in the Metamask 1 or 2 times and wait...
+                Please wait while Swap is complete...
             </div>
         </CommonModal>
     )
