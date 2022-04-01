@@ -1,7 +1,7 @@
 import {ThunkAction} from 'redux-thunk'
 import {AppStoreType} from './store'
 import {Contract} from 'web3-eth-contract'
-import {ChainIdType, ConversionWayType, localAPI} from '../api/localAPI'
+import {ChainIdType, ConversionWayType, localAPI, ReceiptedType} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
 import {setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
@@ -192,24 +192,42 @@ export const swapApproveFundsThunk = (
                             await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                             dispatch(setSwapButtonDisabledAC(false))
-                        }
-                        catch {
+                        } catch {
                             console.log('localAPI.approveTokens mistake')
+                        }
+                        finally {
+                            dispatch(setAppStatusAC('succeeded'))
                         }
                     }
 
                 } else { // swap
                     if (rightChainId !== 0) {
-                        try {
-                            const serverAnswer = await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
-                            console.log('bridgeReducer serverAnswer.data',serverAnswer.data)
-                            dispatch(setTransactionResultAC(serverAnswer.data.explorerLink, serverAnswer.data.explorerLink, serverAnswer.data.transactionHash))
-                            //
-                        }
-                        catch (e) {
-                            // dispatch(setTransactionResultAC('swapTokens error', '?', '?'))
-                            // dispatch(setModalShowAC(true))
-                        }
+                        dispatch(setAppStatusAC('loading'))
+
+                        const account = await localAPI.getAccountAddress()
+                        const finalAmount = leftChainId === chainIDs.mumbaiTest
+                            ? approvedAmount
+                            : localAPI.toWei(approvedAmount)
+                        bridgeContractInstance.methods
+                            .swap(finalAmount)
+                            .send({from: account,})
+                            .on('receipt', async (hash: ReceiptedType) => {
+                                if (hash !== null) {
+                                    try {
+                                        const letChainName = chainNamesForGetHydroBalance[leftChainId]
+                                        const rightChainName = chainNamesForGetHydroBalance[rightChainId]
+                                        const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, rightChainName as ChainType)
+                                        dispatch(setTransactionResultAC('Transaction complete successful', serverAnswer.data.explorerLink, serverAnswer.data.transactionHash))
+                                    } catch (e) {
+                                        console.error('swapTokens error ')
+                                        console.log('e', e)
+                                        dispatch(setTransactionResultAC('swapTokens error', '?', '?'))
+                                    }
+                                    finally {
+                                        dispatch(setAppStatusAC('succeeded'))
+                                    }
+                                }
+                            })
                     }
                 }
             }
@@ -220,7 +238,7 @@ export const swapApproveFundsThunk = (
     } catch {
         dispatch(setLogMessageAC('approveFunds: error', 'error'))
     } finally {
-        dispatch(setAppStatusAC('succeeded'))
+        // dispatch(setAppStatusAC('succeeded'))
     }
 }
 

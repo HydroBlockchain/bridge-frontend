@@ -37,7 +37,6 @@ export const serverApi = {
             }
         })
         // const serverAnswer = await localAPI.swapTokens(hydroContractInstance, approvedAmount, leftChainId, rightChainId, way, bridgeContractInstance)
-        console.log('performSwap answer', answer)
         return answer
     },
     getTotalHydroSwapped(): Promise<GetTotalHydroSwappedResponseType> {

@@ -92,6 +92,9 @@ export const localAPI = {
     fromWei: function (weiBalance: string, ether = ''): string {
         return web3.utils.fromWei(weiBalance, ether)
     },
+    toWei: function (approvedAmount: string): string {
+        return web3.utils.toWei(approvedAmount)
+    },
     getHydroBalance: async function (hydroContractInstance: Contract): Promise<string> {
         let address
         address = await this.getAccountAddress()
@@ -119,43 +122,9 @@ export const localAPI = {
             .send({from: account,})
             .on('transactionHash', (hash: string) => {
                 if (hash !== null) {
-                    // toast(<a href={this.state.network_Explorer + hash} target="blank">View transaction.</a>);
                     finalAmount !== '0' ? outputHash = hash : outputHash = ''
                 }
             })
-    },
-    swapTokens: async function (hydroContractInstance: Contract,
-                                approvedAmount: string,
-                                leftChainId: ChainIdType,
-                                rightChainId: ChainIdType,
-                                conversionWay: ConversionWayType,
-                                bridgeContractInstance: Contract): Promise<ReturnSwapTokensType> {
-        const account = await this.getAccountAddress()
-        const finalAmount = leftChainId === chainIDs.mumbaiTest
-            ? approvedAmount
-            : web3.utils.toWei(approvedAmount)
-        return bridgeContractInstance.methods
-            .swap(finalAmount)
-            .send({from: account,})
-            .on('receipt', async (hash: ReceiptedType) => {
-                if (hash !== null) {
-                    try {
-                        const letChainName = chainNamesForGetHydroBalance[leftChainId]
-                        const rightChainName = chainNamesForGetHydroBalance[rightChainId]
-                        return serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-                            .then((serverAnswer) => {
-                                console.log('localAPI.swapTokens serverAnswer.data', serverAnswer.data)
-                                return serverAnswer.data
-                            })
-                    } catch (e) {
-                        console.error('swapTokens error ')
-                        console.log('e', e)
-                    }
-                }
-            })
-        // need to await serverApi.performSwap(hash, letChainName as ChainType, 'coinexTestNetwork')
-        // console.log('returnValuesOut',returnValues)
-        // return returnValues
     },
     /*
     * example:

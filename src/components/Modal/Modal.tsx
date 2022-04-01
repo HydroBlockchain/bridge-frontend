@@ -19,8 +19,8 @@ export const Modal = () => {
     return <div className={s.modalBackground}>
         <div className={s.swapModal}>
             <div>{transactionStatus}</div>
-            <div>Explorer link: {transactionHash}</div>
-            <div>Transaction hash: {explorerLink}</div>
+            <div>Explorer link: {explorerLink}</div>
+            <div>Transaction hash: {transactionHash}</div>
             <button onClick={onClose}>Approve and close</button>
         </div>
     </div>
