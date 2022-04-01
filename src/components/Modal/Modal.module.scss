@@ -11,15 +11,22 @@
     justify-content: center;
     align-items: center;
     z-index: 1;
+    color: $textColor;
 
     .swapModal{
-        background-color: #F9F9FE;
-        border-radius: 2px;
+        background-color: $backgroundColor;
         display: flex;
         flex-direction: column;
         padding: 50px;
+        border-radius: 10px;
         button {
+            color: $backgroundColorLight;
+            border-radius: 15px;
+            height: 55px;
+            width: 200px;
             cursor: pointer;
+            background: $buttonColor;
+            margin-top: 20px;
         }
     }
 }

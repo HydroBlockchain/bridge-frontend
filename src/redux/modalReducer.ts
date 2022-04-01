@@ -1,5 +1,5 @@
 let initialState = {
-    modalShow: false,
+    modalShow: true,
     transactionStatus: '?',
     explorerLink: '?',
     transactionHash: '?',

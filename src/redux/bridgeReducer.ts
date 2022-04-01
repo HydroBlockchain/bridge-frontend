@@ -181,11 +181,22 @@ export const swapApproveFundsThunk = (
                 if (swapOrApprove === 'approve') {
                     dispatch(setIsAmountInputDisabledAC(true))
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
+                    console.log('amount', amount)
                     // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
                     // dispatch(setSwapButtonDisabledAC(false))
                     if (amount === 0) {
-                        await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-                        dispatch(setLogMessageAC('approveFunds: success', 'success'))
+                        try {
+                            await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                            dispatch(setLogMessageAC('approveFunds: success', 'success'))
+                        }
+                        catch {
+                            console.log('localAPI.approveTokens mistake')
+                        }
+                        finally {
+                            dispatch(setAppStatusAC('succeeded'))
+                            dispatch(setApproveButtonDisabledAC(true))
+                            dispatch(setSwapButtonDisabledAC(false))
+                        }
                     } else {
                         // notify user that he has previously approved some amount
                         // will show user a message
