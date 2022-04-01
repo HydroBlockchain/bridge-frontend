@@ -7,6 +7,7 @@ let initialState = {
     isTestNets: isTestNetsLS ? JSON.parse(isTestNetsLS) : false,//true
     isSwapButtonDisabled: true,
     isApproveButtonDisabled: false,
+    isAmountInputDisabled: false,
     isSupportedChain: false,
     isSwapperClicked: false, // this is for solve async problem with native balance after swapping
     errorMessage: '',
@@ -23,6 +24,7 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
         case 'APP/SET-ERROR-MESSAGE':
         case 'APP/SET-HYDRO-BALANCE-ERROR-MESSAGE':
         case 'APP/SET-IS-APPROVE-BUTTON-DISABLED':
+        case 'APP/SET-IS-AMOUNT-INPUT-DISABLED':
             return {...state, ...action.payload}
         default:
             return {...state}
@@ -33,6 +35,7 @@ export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-ST
 export const setIsTestNetsAC = (isTestNets: boolean) => ({type: 'APP/SET-IS-TEST-NETS', payload: {isTestNets}} as const)
 export const setSwapButtonDisabledAC = (isSwapButtonDisabled: boolean) => ({type: 'APP/SET-IS-SWAP-BUTTON-DISABLED', payload: {isSwapButtonDisabled}} as const)
 export const setApproveButtonDisabledAC = (isApproveButtonDisabled: boolean) => ({type: 'APP/SET-IS-APPROVE-BUTTON-DISABLED', payload: {isApproveButtonDisabled}} as const)
+export const setIsAmountInputDisabledAC = (isAmountInputDisabled: boolean) => ({type: 'APP/SET-IS-AMOUNT-INPUT-DISABLED', payload: {isAmountInputDisabled}} as const)
 // if selected in Metamask chain is not supported in application:
 export const setIsSupportedChainAC = (isSupportedChain: boolean) => ({type: 'APP/SET-IS-SUPPORTED-CHAIN', payload: {isSupportedChain}} as const)
 export const setIsSwapperClickedAC = (isSwapperClicked: boolean) => ({type: 'APP/SET-IS-SWAPPER-CLICKED', payload: {isSwapperClicked}} as const)
@@ -51,4 +54,5 @@ type ActionsType =
     | ReturnType<typeof setIsSwapperClickedAC>
     | ReturnType<typeof setErrorMessageAC>
     | ReturnType<typeof setHydroBalanceErrorMessageAC>
+    | ReturnType<typeof setIsAmountInputDisabledAC>
 type AppThunk = ThunkAction<void, AppStoreType, unknown, ActionsType>

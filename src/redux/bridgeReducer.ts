@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract'
 import {ChainIdType, ConversionWayType, localAPI, ReceiptedType} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
-import {setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
+import {setIsAmountInputDisabledAC, setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
 import {setModalShowAC, setTransactionResultAC} from './modalReducer'
 
@@ -175,9 +175,11 @@ export const swapApproveFundsThunk = (
             const hydroContractInstance = bridgeState.hydroContractInstance
             const hydraBalance = bridgeState.hydroBalance
             dispatch(setAppStatusAC('loading'))
+            // dispatch()
             if (leftChainId !== 0) { // if left chainId selected
                 const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance(way)
                 if (swapOrApprove === 'approve') {
+                    dispatch(setIsAmountInputDisabledAC(true))
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
                     // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
                     // dispatch(setSwapButtonDisabledAC(false))
@@ -204,6 +206,7 @@ export const swapApproveFundsThunk = (
                     if (rightChainId !== 0) {
                         dispatch(setAppStatusAC('loading'))
                         dispatch(setSwapButtonDisabledAC(true))
+
                         const account = await localAPI.getAccountAddress()
                         const finalAmount = leftChainId === chainIDs.mumbaiTest
                             ? approvedAmount
@@ -226,6 +229,7 @@ export const swapApproveFundsThunk = (
                                     finally {
                                         dispatch(setAppStatusAC('succeeded'))
                                         dispatch(setApproveButtonDisabledAC(false))
+                                        dispatch(setIsAmountInputDisabledAC(false))
                                     }
                                 }
                             })
@@ -367,6 +371,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setModalShowAC>
     | ReturnType<typeof setTransactionResultAC>
     | ReturnType<typeof setApproveButtonDisabledAC>
+    | ReturnType<typeof setIsAmountInputDisabledAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 

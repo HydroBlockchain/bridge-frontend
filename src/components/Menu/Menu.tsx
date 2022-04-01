@@ -43,10 +43,11 @@ export const Menu = () => {
     const {
         isSwapButtonDisabled,
         isApproveButtonDisabled,
+        isAmountInputDisabled,
         isTestNets,
         isSwapperClicked, // this is for solve async problem with native balance after swapping
         errorMessage,
-        hydroBalanceErrorMessage
+        hydroBalanceErrorMessage,
     } = useSelector<AppStoreType, AppStateType>(state => state.app)
     const modalState = useSelector<AppStoreType, ModalStateType>(state => state.modal)
 
@@ -248,7 +249,7 @@ export const Menu = () => {
                     <div className={s.buttonIn}>
                         <input type="text" placeholder={'Enter amount'} value={inputValue}
                                onChange={(e) => setInputValue(e.currentTarget.value)}
-                               disabled={isChainsSelectorsAndAmountInputDisabled()}
+                               disabled={isChainsSelectorsAndAmountInputDisabled() || isAmountInputDisabled}
                                className={
                                    isLightTheme
                                        ? isChainsSelectorsAndAmountInputDisabled()
