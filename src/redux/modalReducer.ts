@@ -1,5 +1,6 @@
 let initialState = {
-    modalShow: false,
+    modalTransactionShow: false,
+    modalApproveShow: false,
     transactionStatus: '?',
     explorerLink: '?',
     transactionHash: '?',
@@ -7,7 +8,8 @@ let initialState = {
 
 export const modalReducer = (state: ModalStateType = initialState, action: ActionsType): ModalStateType => {
     switch (action.type) {
-        case 'MODAL/SET-MODAL-SHOW':
+        case 'MODAL/SET-MODAL-TRANSACTION-SHOW':
+        case 'MODAL/SET-MODAL-APPROVE-SHOW':
         case 'MODAL/SET-TRANSACTION-RESULT':
             return {...state, ...action.payload}
         default:
@@ -15,13 +17,16 @@ export const modalReducer = (state: ModalStateType = initialState, action: Actio
     }
 }
 
-export const setModalShowAC = (modalShow: boolean) => ({type: 'MODAL/SET-MODAL-SHOW', payload: {modalShow}} as const)
+export const setModalTransactionShowAC = (modalTransactionShow: boolean) => ({type: 'MODAL/SET-MODAL-TRANSACTION-SHOW', payload: {modalTransactionShow}} as const)
+export const setModalApproveShowAC = (modalApproveShow: boolean) => ({type: 'MODAL/SET-MODAL-APPROVE-SHOW', payload: {modalApproveShow}} as const)
 export const setTransactionResultAC = (transactionStatus: string, explorerLink: string, transactionHash: string) => ({
     type: 'MODAL/SET-TRANSACTION-RESULT', payload: {transactionStatus, explorerLink, transactionHash}
 } as const)
 
+
 // types
 export type ModalStateType = typeof initialState
 type ActionsType =
-    | ReturnType<typeof setModalShowAC>
+    | ReturnType<typeof setModalTransactionShowAC>
+    | ReturnType<typeof setModalApproveShowAC>
     | ReturnType<typeof setTransactionResultAC>

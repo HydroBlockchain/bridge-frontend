@@ -1,0 +1,11 @@
+@import '../../common/styles/variables';
+
+.button {
+    color: $backgroundColorLight;
+    border-radius: 15px;
+    height: 55px;
+    width: 200px;
+    cursor: pointer;
+    background: $buttonColor;
+    margin-top: 20px;
+}

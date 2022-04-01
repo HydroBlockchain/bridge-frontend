@@ -28,7 +28,7 @@ import {
     setIsSwapperClickedAC
 } from '../../redux/appReducer'
 import cn from 'classnames'
-import {ModalStateType, setModalShowAC} from '../../redux/modalReducer'
+import {ModalStateType, setModalTransactionShowAC} from '../../redux/modalReducer'
 
 export const Menu = () => {
     const dispatch = useDispatch()
@@ -146,7 +146,7 @@ export const Menu = () => {
     useEffect(() => {
         if (modalState.explorerLink !== '?' && modalState.explorerLink !== '') {
             console.log('modalState.explorerLink', modalState.explorerLink)
-            dispatch(setModalShowAC(true))
+            dispatch(setModalTransactionShowAC(true))
         }
     },[modalState.explorerLink])
 

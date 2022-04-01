@@ -1,4 +1,4 @@
-@import '../../common/styles/variables';
+@import '../styles/variables';
 
 .modalBackground {
     display: flex;
@@ -19,20 +19,6 @@
         flex-direction: column;
         padding: 50px;
         border-radius: 10px;
-
-        button {
-            color: $backgroundColorLight;
-            border-radius: 15px;
-            height: 55px;
-            width: 200px;
-            cursor: pointer;
-            background: $buttonColor;
-            margin-top: 20px;
-        }
-
-        .buttonLight {
-            background: $textColorLight;
-        }
     }
 
     .swapModalLight {
