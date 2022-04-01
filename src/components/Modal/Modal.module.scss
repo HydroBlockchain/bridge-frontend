@@ -13,12 +13,13 @@
     z-index: 1;
     color: $textColor;
 
-    .swapModal{
+    .swapModal {
         background-color: $backgroundColor;
         display: flex;
         flex-direction: column;
         padding: 50px;
         border-radius: 10px;
+
         button {
             color: $backgroundColorLight;
             border-radius: 15px;
@@ -28,5 +29,14 @@
             background: $buttonColor;
             margin-top: 20px;
         }
+
+        .buttonLight {
+            background: $textColorLight;
+        }
+    }
+
+    .swapModalLight {
+        background-color: $menuColorLight;
+        color: $textColorLight;
     }
 }

@@ -3,6 +3,8 @@ import s from './Modal.module.scss'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppStoreType} from '../../redux/store'
 import {ModalStateType, setModalShowAC} from '../../redux/modalReducer'
+import {isLightTheme} from '../../common/common'
+import cn from 'classnames'
 
 export const Modal = () => {
     const dispatch = useDispatch()
@@ -17,11 +19,11 @@ export const Modal = () => {
     }
 
     return <div className={s.modalBackground}>
-        <div className={s.swapModal}>
+        <div className={isLightTheme ? cn(s.swapModal, s.swapModalLight) : s.swapModal}>
             <div>{transactionStatus}</div>
             <div>Explorer link: {explorerLink}</div>
             <div>Transaction hash: {transactionHash}</div>
-            <button onClick={onClose}>Approve and close</button>
+            <button onClick={onClose} className={isLightTheme ? s.buttonLight : ''}>Approve and close</button>
         </div>
     </div>
 }

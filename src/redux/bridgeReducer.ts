@@ -231,7 +231,7 @@ export const swapApproveFundsThunk = (
                                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
                                         const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, rightChainName as ChainType)
-                                        dispatch(setTransactionResultAC('Transaction complete successful', serverAnswer.data.explorerLink, serverAnswer.data.transactionHash))
+                                        dispatch(setTransactionResultAC('Transaction complete successful!', serverAnswer.data.explorerLink, serverAnswer.data.transactionHash))
                                     } catch (e) {
                                         console.error('swapTokens error ')
                                         console.log('e', e)
