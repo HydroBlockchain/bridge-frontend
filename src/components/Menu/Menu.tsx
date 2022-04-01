@@ -252,15 +252,15 @@ export const Menu = () => {
                                disabled={isChainsSelectorsAndAmountInputDisabled() || isAmountInputDisabled}
                                className={
                                    isLightTheme
-                                       ? isChainsSelectorsAndAmountInputDisabled()
+                                       ? isChainsSelectorsAndAmountInputDisabled() || isAmountInputDisabled
                                            ? s.disabledInputLight
                                            : s.lightThemeInput
-                                       : isChainsSelectorsAndAmountInputDisabled()
+                                       : isChainsSelectorsAndAmountInputDisabled() || isAmountInputDisabled
                                            ? s.disabledInputDark
                                            : s.darkThemeInput
                                }
                         />
-                        <button onClick={maxHandler} disabled={isMaxButtonDisabled()}
+                        <button onClick={maxHandler} disabled={isMaxButtonDisabled() || isAmountInputDisabled}
                                 className={isLightTheme ? s.lightTheme : ''}>MAX
                         </button>
                     </div>
