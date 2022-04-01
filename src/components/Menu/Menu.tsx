@@ -42,8 +42,8 @@ export const Menu = () => {
     const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const {
         isSwapButtonDisabled,
+        isApproveButtonDisabled,
         isTestNets,
-        isSupportedChain,
         isSwapperClicked, // this is for solve async problem with native balance after swapping
         errorMessage,
         hydroBalanceErrorMessage
@@ -188,13 +188,14 @@ export const Menu = () => {
     }
 
     // Is buttons or elements disabled:
-    const isApproveButtonDisabled = () => {
+    const isApproveButtonDisabledCondition = () => {
         return swapWay === undefined
             || Number(inputValue) <= 0 || leftChainId === rightChainId
             || (!transactionFee.hydroTokensToBeReceived)
             || appStatus === 'loading'
             || errorMessage !== ''
             || hydroBalanceErrorMessage !== ''
+            || isApproveButtonDisabled
     }
     const isMaxButtonDisabled = () => {
         return hydroBalance === '' || appStatus === 'loading'
@@ -309,7 +310,7 @@ export const Menu = () => {
                       >CONNECT WALLET</button>}
                     {chainID !== chainIDs.notSelected &&
                       <div>
-                        <button disabled={isApproveButtonDisabled()}
+                        <button disabled={isApproveButtonDisabledCondition()}
                                 onClick={approveHandler}
                                 className={isLightTheme
                                     ? cn(s.connectSwapButtons, s.swapApproveButtons, s.lightTheme)

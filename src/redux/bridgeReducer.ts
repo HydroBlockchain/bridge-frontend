@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract'
 import {ChainIdType, ConversionWayType, localAPI, ReceiptedType} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
-import {setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
+import {setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
 import {setModalShowAC, setTransactionResultAC} from './modalReducer'
 
@@ -180,10 +180,9 @@ export const swapApproveFundsThunk = (
                 if (swapOrApprove === 'approve') {
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
                     // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
-                    // if else
+                    // dispatch(setSwapButtonDisabledAC(false))
                     if (amount === 0) {
                         await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-                        dispatch(setSwapButtonDisabledAC(false))
                         dispatch(setLogMessageAC('approveFunds: success', 'success'))
                     } else {
                         // notify user that he has previously approved some amount
@@ -191,19 +190,20 @@ export const swapApproveFundsThunk = (
                         try {
                             await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-                            dispatch(setSwapButtonDisabledAC(false))
                         } catch {
                             console.log('localAPI.approveTokens mistake')
                         }
                         finally {
                             dispatch(setAppStatusAC('succeeded'))
+                            dispatch(setApproveButtonDisabledAC(true))
+                            dispatch(setSwapButtonDisabledAC(false))
                         }
                     }
 
                 } else { // swap
                     if (rightChainId !== 0) {
                         dispatch(setAppStatusAC('loading'))
-
+                        dispatch(setSwapButtonDisabledAC(true))
                         const account = await localAPI.getAccountAddress()
                         const finalAmount = leftChainId === chainIDs.mumbaiTest
                             ? approvedAmount
@@ -225,6 +225,7 @@ export const swapApproveFundsThunk = (
                                     }
                                     finally {
                                         dispatch(setAppStatusAC('succeeded'))
+                                        dispatch(setApproveButtonDisabledAC(false))
                                     }
                                 }
                             })
@@ -365,6 +366,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setIsSwapperClickedAC>
     | ReturnType<typeof setModalShowAC>
     | ReturnType<typeof setTransactionResultAC>
+    | ReturnType<typeof setApproveButtonDisabledAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 
