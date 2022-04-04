@@ -11,7 +11,6 @@ export const ModalTransaction = () => {
     const dispatch = useDispatch()
 
     const {modalTransactionShow, transactionStatus, transactionHash, explorerLink} = useSelector<AppStoreType, ModalStateType>(state => state.modal)
-    modalTransactionShow && console.log('ModalTransaction transaction', transactionStatus, transactionHash, explorerLink)
 
     if (!modalTransactionShow) return null
 

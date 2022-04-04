@@ -193,7 +193,7 @@ export const swapApproveFundsThunk = (
                         catch {
                             console.log('localAPI.approveTokens mistake')
                         }
-                        finally {
+                        finally { // todo: code duplicating, need to fix
                             dispatch(setModalApproveShowAC(false))
                             dispatch(setAppStatusAC('succeeded'))
                             dispatch(setApproveButtonDisabledAC(true))
@@ -213,6 +213,7 @@ export const swapApproveFundsThunk = (
                             dispatch(setAppStatusAC('succeeded'))
                             dispatch(setApproveButtonDisabledAC(true))
                             dispatch(setSwapButtonDisabledAC(false))
+
                         }
                     }
 
@@ -246,6 +247,9 @@ export const swapApproveFundsThunk = (
                                         dispatch(setAppStatusAC('succeeded'))
                                         dispatch(setApproveButtonDisabledAC(false))
                                         dispatch(setIsAmountInputDisabledAC(false))
+                                        //get new left and right balance after swap:
+                                        dispatch(getHydroBalanceThunk(true, leftChainId, true))
+                                        dispatch(getHydroBalanceThunk(true, rightChainId))
                                     }
                                 }
                             })
@@ -271,6 +275,7 @@ export const getHydroBalanceThunk = (
     : AppThunk => async (dispatch, getState: () => AppStoreType) => {
     const account = getState().bridge.account
     if (isGetBalanceFromBackend && chainID !== chainIDs.notSelected) {
+        console.log('getHydroBalanceThunk enter')
         try {
             dispatch(setAppStatusAC('loading'))
             await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[chainID] as ChainType)
