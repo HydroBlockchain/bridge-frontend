@@ -155,14 +155,14 @@ type ErrorType = {
     code: number
 }
 
-export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth'
+export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'polygon' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth'
 
 type connectToMetamaskReturnType = {
     status: boolean
     account: string
     chainID: number
 }
-export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest
+export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.polygon | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest
 
 export type ReceiptedType = {
     transactionHash: string

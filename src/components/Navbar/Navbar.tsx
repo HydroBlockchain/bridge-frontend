@@ -1,14 +1,13 @@
-import Identicon from "identicon.js";
-import bridgeLogo from '../../assets/images/hydrobridge.svg';
-import bridgeLogoLight from '../../assets/images/hydrobridge_light.svg';
-import {useSelector} from "react-redux";
-import {AppStoreType} from "../../redux/store";
-import {BridgeInitialStateType} from "../../redux/bridgeReducer";
+import Identicon from 'identicon.js'
+import bridgeLogo from '../../assets/images/hydrobridge.svg'
+import bridgeLogoLight from '../../assets/images/hydrobridge_light.svg'
+import {useSelector} from 'react-redux'
+import {AppStoreType} from '../../redux/store'
+import {BridgeInitialStateType} from '../../redux/bridgeReducer'
 import s from './Navbar.module.scss'
-import {chainIDs, chainsNames, isLightTheme} from "../../common/common";
-import cn from "classnames";
+import {chainIDs, chainsNames, isLightTheme} from '../../common/common'
+import cn from 'classnames'
 import {AppStateType} from '../../redux/appReducer'
-
 
 
 export const Navbar = () => {
@@ -26,6 +25,8 @@ export const Navbar = () => {
                     return chainsNames.eth
                 case chainIDs.bsc:
                     return chainsNames.bsc
+                case chainIDs.polygon:
+                    return chainsNames.polygon
                 case chainIDs.mumbaiTest:
                     return chainsNames.mumbaiTest
                 case chainIDs.rinkebyTest:

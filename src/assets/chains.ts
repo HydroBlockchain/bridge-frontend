@@ -2,7 +2,7 @@
 import {chainIDs, chainsNames} from "../common/common";
 
 export const chains: any = {
-    [chainIDs.bsc]: {
+    [chainIDs.bsc]: { // real money chains
         chainId: `0x${Number(chainIDs.bsc).toString(16)}`,
         chainName: chainsNames.bsc,
         nativeCurrency: {
@@ -30,7 +30,25 @@ export const chains: any = {
     [chainIDs.eth]: {
         chainId: `0x${Number(chainIDs.eth).toString(16)}`,
     },
-    [chainIDs.mumbaiTest]: {  // for testing
+    [chainIDs.polygon]: {
+        chainId: `0x${Number(chainIDs.polygon).toString(16)}`,
+        chainName: chainsNames.polygon,
+        rpcUrls: [
+            "https://polygon-rpc.com/",
+            "https://rpc-mainnet.matic.network",
+            "https://matic-mainnet.chainstacklabs.com",
+            "https://rpc-mainnet.maticvigil.com",
+            "https://rpc-mainnet.matic.quiknode.pro",
+            "https://matic-mainnet-full-rpc.bwarelabs.com"
+        ],
+        nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18
+        },
+        blockExplorerUrls: [""]
+    },
+    [chainIDs.mumbaiTest]: {  // test chains
         chainId: `0x${Number(chainIDs.mumbaiTest).toString(16)}`,
         chainName: chainsNames.mumbaiTest,
         nativeCurrency: {

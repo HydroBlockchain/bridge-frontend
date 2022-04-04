@@ -13,7 +13,7 @@ export const ModalSwap = () => {
     return(
         <CommonModal>
             <div>
-                Please wait while Swap is complete...
+                Please confirm Swap and wait...
             </div>
         </CommonModal>
     )

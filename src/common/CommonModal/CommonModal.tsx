@@ -14,4 +14,3 @@ export const CommonModal: React.FC<PropsType> = (props) => {
 type PropsType = {
 
 }
-

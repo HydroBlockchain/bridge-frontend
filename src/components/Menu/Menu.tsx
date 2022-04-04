@@ -4,29 +4,25 @@ import {NetworkElement} from './NetworkElement/NetworkElement'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     BridgeInitialStateType,
-    connectToMetamaskThunk, getNativeBalanceThunk,
+    connectToMetamaskThunk,
     getHydroBalanceThunk,
+    getNativeBalanceThunk,
     getTransactionFeeThunk,
     setChainIDAC,
     setHydroBalanceAC,
     setHydroBalanceRightAC,
     setHydroContractInstanceThunk,
     setHydroTokensToBeReceivedAC,
+    setLeftNativeBalanceAC,
     setTransactionFeeAC,
     swapApproveFundsThunk,
-    turnOnChainChangeMonitoringThunk, setLeftNativeBalanceAC
+    turnOnChainChangeMonitoringThunk
 } from '../../redux/bridgeReducer'
 import {AppStoreType} from '../../redux/store'
 import {Swapper} from './Swapper/Swapper'
 import {chainIDs, chainsNationalSymbols, chainsPictures, isLightTheme} from '../../common/common'
 import {ConversionWayType} from '../../api/localAPI'
-import {
-    AppStateType,
-    RequestStatusType,
-    setErrorMessageAC, setHydroBalanceErrorMessageAC,
-    setIsSupportedChainAC,
-    setIsSwapperClickedAC
-} from '../../redux/appReducer'
+import {AppStateType, RequestStatusType, setErrorMessageAC, setHydroBalanceErrorMessageAC, setIsSupportedChainAC, setIsSwapperClickedAC} from '../../redux/appReducer'
 import cn from 'classnames'
 import {ModalStateType, setModalTransactionShowAC} from '../../redux/modalReducer'
 
@@ -59,7 +55,7 @@ export const Menu = () => {
     const checkIsChainIdSupported = (chainID: chainIDs) => {
         const chainIDsActive = isTestNets
             ? [chainIDs.notSelected, chainIDs.mumbaiTest, chainIDs.rinkebyTest, chainIDs.coinExTest]
-            : [chainIDs.notSelected, chainIDs.eth, chainIDs.bsc]
+            : [chainIDs.notSelected, chainIDs.eth, chainIDs.bsc, chainIDs.polygon]
         return chainIDsActive.includes(chainID)
     }
 
@@ -79,6 +75,8 @@ export const Menu = () => {
             setSwapWay('eth2bsc')
         } else if (leftChainId === chainIDs.bsc && rightChainId === chainIDs.eth) {
             setSwapWay('bsc2eth')
+        } else if (leftChainId === chainIDs.polygon) {
+          setSwapWay('polygon')
         } else if (leftChainId === chainIDs.coinExTest) {
             setSwapWay('coinexSmartChainTestnet')
         } else if (leftChainId === chainIDs.mumbaiTest) {

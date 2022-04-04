@@ -2,14 +2,18 @@ import React, {useEffect} from 'react'
 import s from './NetworkElement.module.scss'
 import Select, {PropsValue, StylesConfig} from 'react-select'
 import {useDispatch, useSelector} from 'react-redux'
-import {changeNetworkThunk, BridgeInitialStateType} from '../../../redux/bridgeReducer'
+import {BridgeInitialStateType, changeNetworkThunk} from '../../../redux/bridgeReducer'
 import {chainIDs, chainsNames, isLightTheme} from '../../../common/common'
 import {
     backgroundColor,
     backgroundColorLight,
     menuColor,
     menuColorLight,
-    swapperAndSwapButtonColor, swapperAndSwapButtonColorLight, textColor, textColorDisabled, textColorLight
+    swapperAndSwapButtonColor,
+    swapperAndSwapButtonColorLight,
+    textColor,
+    textColorDisabled,
+    textColorLight
 } from '../../../common/styles/variables'
 import cn from 'classnames'
 import {AppStoreType} from '../../../redux/store'
@@ -28,6 +32,7 @@ export const NetworkElement = (props: PropsType) => {
             : [
                 {value: chainIDs.eth, label: chainsNames.eth},
                 {value: chainIDs.bsc, label: chainsNames.bsc},
+                {value: chainIDs.polygon, label: chainsNames.polygon},
             ]
 
     const selectByArrowColor = isLightTheme ? menuColorLight : menuColor
