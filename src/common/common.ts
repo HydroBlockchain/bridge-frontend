@@ -32,7 +32,7 @@ export const chainsPictures = {
 export const chainsNationalSymbols: ChainsNationalSymbolsType = {
     [chainIDs.eth]: 'ETH',
     [chainIDs.bsc]: 'BNB',
-    [chainIDs.polygon]: 'CETT',
+    [chainIDs.polygon]: 'MATIC',
     [chainIDs.mumbaiTest]: 'MATIC',
     [chainIDs.rinkebyTest]: 'ETH',
     [chainIDs.coinExTest]: 'CETT'
