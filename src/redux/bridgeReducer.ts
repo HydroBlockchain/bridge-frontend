@@ -128,9 +128,7 @@ export const changeNetworkThunk = (networkID: number): AppThunk => async (dispat
 }
 
 //turn on monitoring if chain in metamask changed
-export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
-    const isSwapperClicked = getState().app.isSwapperClicked
-    const chainID = getState().bridge.chainID
+export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch) => {
     try {
         dispatch(setLogMessageAC('turnOnChainChangeMonitoring: success', 'success'))
         window.ethereum.on('chainChanged', async function () {
@@ -151,7 +149,7 @@ export const turnOnChainChangeMonitoringThunk = (): AppThunk => async (dispatch,
 }
 
 //todo: this function
-export const checkPreviousApprove = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+export const checkPreviousApprove = (): AppThunk => async () => {
     // if this return nonzero umount // user will receive nonzero amount then amount to be input for swap
     // that should be less or equal to return amount
     // then user does not need to call approve
@@ -173,7 +171,6 @@ export const swapApproveFundsThunk = (
         if (Number(approvedAmount) > 0) {
             const bridgeState = getState().bridge
             const hydroContractInstance = bridgeState.hydroContractInstance
-            const hydraBalance = bridgeState.hydroBalance
             dispatch(setAppStatusAC('loading'))
             // dispatch()
             if (leftChainId !== 0) { // if left chainId selected
@@ -185,7 +182,7 @@ export const swapApproveFundsThunk = (
                     console.log('amount', amount)
                     // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
                     // dispatch(setSwapButtonDisabledAC(false))
-                    if (amount === 0) {
+                    if (Number(amount) === 0) {
                         try {
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                             dispatch(setLogMessageAC('approveFunds: success', 'success'))
@@ -202,6 +199,7 @@ export const swapApproveFundsThunk = (
                     } else {
                         // notify user that he has previously approved some amount
                         // will show user a message
+                        console.log('notify user that he has previously approved some amount')
                         try {
                             await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
@@ -232,7 +230,6 @@ export const swapApproveFundsThunk = (
                             .send({from: account,})
                             .on('receipt', async (hash: ReceiptedType) => {
                                 if (hash !== null) {
-                                    console.log('hash',hash)
                                     try {
                                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
@@ -251,6 +248,7 @@ export const swapApproveFundsThunk = (
                                         //get new left and right balance after swap:
                                         dispatch(getHydroBalanceThunk(true, leftChainId, true))
                                         dispatch(getHydroBalanceThunk(true, rightChainId))
+                                        console.log('hydroBalanceRight', bridgeState.hydroBalanceRight)
                                     }
                                 }
                             })
@@ -355,10 +353,9 @@ export const getNativeBalanceThunk = (): AppThunk => async (dispatch) => {
     }
 }
 
-export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+export const getTotalHydroSwappedThunk = (): AppThunk => async (dispatch) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        const bridgeState = getState().bridge
         const data = await serverApi.getTotalHydroSwapped()
         dispatch(setTotalHydroSwappedAC({
             totalValueSwappedOnTestnet: data.data.totalValueSwappedOnTestnet,
