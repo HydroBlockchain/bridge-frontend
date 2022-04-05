@@ -6,7 +6,7 @@ import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '.
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
 import {setIsAmountInputDisabledAC, setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
 import {v1} from 'uuid'
-import {setModalApproveShowAC, setModalSwapShowAC, setModalTransactionShowAC, setTransactionResultAC} from './modalReducer'
+import {setModalApproveShowAC, setModalDoubleApproveShowAC, setModalSwapShowAC, setModalTransactionShowAC, setTransactionResultAC} from './modalReducer'
 
 let initialState = {
     account: '',
@@ -177,41 +177,43 @@ export const swapApproveFundsThunk = (
                 const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance(way)
                 if (swapOrApprove === 'approve') {
                     dispatch(setIsAmountInputDisabledAC(true))
-                    dispatch(setModalApproveShowAC(true))
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
                     console.log('amount', amount)
                     // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
                     // dispatch(setSwapButtonDisabledAC(false))
                     if (Number(amount) === 0) {
+                        dispatch(setModalApproveShowAC(true))
                         try {
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
                             dispatch(setLogMessageAC('approveFunds: success', 'success'))
-                        }
-                        catch {
-                            console.log('localAPI.approveTokens mistake')
-                        }
-                        finally { // todo: code duplicating, need to fix
-                            dispatch(setModalApproveShowAC(false))
-                            dispatch(setAppStatusAC('succeeded'))
                             dispatch(setApproveButtonDisabledAC(true))
                             dispatch(setSwapButtonDisabledAC(false))
+
+                        }
+                        catch {
+                            dispatch(setLogMessageAC('approveFunds: error', 'error'))
+                        }
+                        finally {
+                            dispatch(setAppStatusAC('succeeded'))
+                            dispatch(setModalApproveShowAC(false))
                         }
                     } else {
+                        dispatch(setModalDoubleApproveShowAC(true))
                         // notify user that he has previously approved some amount
                         // will show user a message
                         console.log('notify user that he has previously approved some amount')
                         try {
                             await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
-                        } catch {
-                            console.log('localAPI.approveTokens mistake')
-                        }
-                        finally {
-                            dispatch(setModalApproveShowAC(false))
-                            dispatch(setAppStatusAC('succeeded'))
+                            dispatch(setLogMessageAC('approveFunds double: success', 'success'))
                             dispatch(setApproveButtonDisabledAC(true))
                             dispatch(setSwapButtonDisabledAC(false))
-
+                        } catch {
+                            dispatch(setLogMessageAC('approveFunds double: error', 'error'))
+                        }
+                        finally {
+                            dispatch(setModalDoubleApproveShowAC(false))
+                            dispatch(setAppStatusAC('succeeded'))
                         }
                     }
 
@@ -388,6 +390,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setTotalHydroSwappedAC>
     | ReturnType<typeof setIsSwapperClickedAC>
     | ReturnType<typeof setModalTransactionShowAC>
+    | ReturnType<typeof setModalDoubleApproveShowAC>
     | ReturnType<typeof setTransactionResultAC>
     | ReturnType<typeof setApproveButtonDisabledAC>
     | ReturnType<typeof setIsAmountInputDisabledAC>

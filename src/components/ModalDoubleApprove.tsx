@@ -4,15 +4,16 @@ import {useSelector} from 'react-redux'
 import {AppStoreType} from '../redux/store'
 import {ModalStateType} from '../redux/modalReducer'
 
-export const ModalApprove = () => {
+export const ModalDoubleApprove = () => {
 
-    const {modalApproveShow} = useSelector<AppStoreType, ModalStateType>(state => state.modal)
+    const {modalDoubleApproveShow} = useSelector<AppStoreType, ModalStateType>(state => state.modal)
 
-    if (!modalApproveShow) return null
+    if (!modalDoubleApproveShow) return null
 
     return(
         <CommonModal>
             <div>
+                You have previous approve amount. So you need to approve 2 times.<br/>
                 Please Approve you transaction in the Metamask and wait...
             </div>
         </CommonModal>

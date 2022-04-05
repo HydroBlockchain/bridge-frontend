@@ -15,6 +15,7 @@ import {TotalSwapped} from './components/TotalSwapped/TotalSwapped'
 import {ModalTransaction} from './components/ModalTransaction/ModalTransaction'
 import {ModalApprove} from './components/ModalApprove'
 import {ModalSwap} from './components/ModalSwap'
+import {ModalDoubleApprove} from './components/ModalDoubleApprove'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
@@ -47,6 +48,7 @@ function App() {
         <div className={isLightTheme ? cn(s.app, s.lightTheme) : s.app}>
             <ModalTransaction/>
             <ModalApprove />
+            <ModalDoubleApprove />
             <ModalSwap/>
             <Navbar/>
             {status === 'loading' ? <LinearProgress/> : <div className={s.blank}/>}
