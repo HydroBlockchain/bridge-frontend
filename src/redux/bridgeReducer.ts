@@ -188,7 +188,7 @@ export const swapApproveFundsThunk = (
                             dispatch(setLogMessageAC('approveFunds: success', 'success'))
                             dispatch(setApproveButtonDisabledAC(true))
                             dispatch(setSwapButtonDisabledAC(false))
-
+                            dispatch(getNativeBalanceThunk())
                         }
                         catch {
                             dispatch(setLogMessageAC('approveFunds: error', 'error'))
@@ -199,12 +199,11 @@ export const swapApproveFundsThunk = (
                         }
                     } else {
                         dispatch(setModalDoubleApproveShowAC(true))
-                        // notify user that he has previously approved some amount
-                        // will show user a message
-                        console.log('notify user that he has previously approved some amount')
                         try {
                             await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
+                            dispatch(getNativeBalanceThunk())
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
+                            dispatch(getNativeBalanceThunk())
                             dispatch(setLogMessageAC('approveFunds double: success', 'success'))
                             dispatch(setApproveButtonDisabledAC(true))
                             dispatch(setSwapButtonDisabledAC(false))
@@ -216,8 +215,7 @@ export const swapApproveFundsThunk = (
                             dispatch(setAppStatusAC('succeeded'))
                         }
                     }
-
-                } else { // swap
+                 } else { // swap
                     if (rightChainId !== 0) {
                         dispatch(setAppStatusAC('loading'))
                         dispatch(setSwapButtonDisabledAC(true))
@@ -237,6 +235,11 @@ export const swapApproveFundsThunk = (
                                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
                                         const serverAnswer = await serverApi.performSwap(hash, letChainName as ChainType, rightChainName as ChainType)
                                         dispatch(setTransactionResultAC('Transaction complete successful!', serverAnswer.data.explorerLink, serverAnswer.data.transactionHash))
+                                        dispatch(setApproveButtonDisabledAC(false))
+                                        dispatch(setIsAmountInputDisabledAC(false))
+                                        dispatch(getHydroBalanceThunk(true, leftChainId, true))
+                                        dispatch(getHydroBalanceThunk(true, rightChainId))
+                                        console.log('hydroBalanceRight', bridgeState.hydroBalanceRight)
                                     } catch (e) {
                                         console.error('swapTokens error ')
                                         console.log('e', e)
@@ -245,12 +248,7 @@ export const swapApproveFundsThunk = (
                                     finally {
                                         dispatch(setModalSwapShowAC(false))
                                         dispatch(setAppStatusAC('succeeded'))
-                                        dispatch(setApproveButtonDisabledAC(false))
-                                        dispatch(setIsAmountInputDisabledAC(false))
                                         //get new left and right balance after swap:
-                                        dispatch(getHydroBalanceThunk(true, leftChainId, true))
-                                        dispatch(getHydroBalanceThunk(true, rightChainId))
-                                        console.log('hydroBalanceRight', bridgeState.hydroBalanceRight)
                                     }
                                 }
                             })
