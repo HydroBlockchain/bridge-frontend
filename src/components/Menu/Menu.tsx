@@ -71,10 +71,10 @@ export const Menu = () => {
 
     useEffect(() => {
         // for swap conversion way
-        if (leftChainId === chainIDs.eth && rightChainId === chainIDs.bsc) {
-            setSwapWay('eth2bsc')
-        } else if (leftChainId === chainIDs.bsc && rightChainId === chainIDs.eth) {
-            setSwapWay('bsc2eth')
+        if (leftChainId === chainIDs.eth) {
+            setSwapWay('eth')
+        } else if (leftChainId === chainIDs.bsc) {
+            setSwapWay('bsc')
         } else if (leftChainId === chainIDs.polygon) {
           setSwapWay('polygon')
         } else if (leftChainId === chainIDs.coinExTest) {

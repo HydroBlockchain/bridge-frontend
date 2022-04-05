@@ -74,8 +74,8 @@ export const hydroAddresses = {
     forTestNets: '0x9477B2d4442FCd35368c029a0016e6800437BAe2'
 }
 export const swapContractAddresses = {
-    eth2bsc: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
-    bsc2eth: '0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95',
+    eth: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
+    bsc: '0x7f00F1B8825064B109Dcc85aAd1f074652D97AAd',
     polygon: '0xc8ea800fb6c6f8419758741b3ea1b85dddf2c5b8',
     coinexSmartChainTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
     mumbaiTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',

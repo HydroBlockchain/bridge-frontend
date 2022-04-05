@@ -155,7 +155,7 @@ type ErrorType = {
     code: number
 }
 
-export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth2bsc' | 'bsc2eth' | 'polygon'
+export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth' | 'bsc' | 'polygon'
 
 type connectToMetamaskReturnType = {
     status: boolean

@@ -232,6 +232,7 @@ export const swapApproveFundsThunk = (
                             .send({from: account,})
                             .on('receipt', async (hash: ReceiptedType) => {
                                 if (hash !== null) {
+                                    console.log('hash',hash)
                                     try {
                                         const letChainName = chainNamesForGetHydroBalance[leftChainId]
                                         const rightChainName = chainNamesForGetHydroBalance[rightChainId]
@@ -275,7 +276,7 @@ export const getHydroBalanceThunk = (
     : AppThunk => async (dispatch, getState: () => AppStoreType) => {
     const account = getState().bridge.account
     if (isGetBalanceFromBackend && chainID !== chainIDs.notSelected) {
-        console.log('getHydroBalanceThunk enter')
+        // console.log('getHydroBalanceThunk enter', 'chainID', chainID)
         try {
             dispatch(setAppStatusAC('loading'))
             await serverApi.getHydroBalance(account, chainNamesForGetHydroBalance[chainID] as ChainType)
@@ -318,7 +319,7 @@ export const getTransactionFeeThunk = (amountOfHydro: string, chainID: RealizedC
                     dispatch(setTransactionFeeAC(data.data))
                 })
                 .catch(e => {
-                    console.log('getTransactionFee error', e)
+                    console.error('getTransactionFee error', e)
                     dispatch(setLogMessageAC(`getTransactionFee: error ${e}`, 'error'))
                 })
         }
