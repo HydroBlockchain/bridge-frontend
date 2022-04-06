@@ -12,6 +12,7 @@ let initialState = {
     isSwapperClicked: false, // this is for solve async problem with native balance after swapping
     errorMessage: '',
     hydroBalanceErrorMessage: '',
+    isSelectorsDisabled: false
 }
 
 export const appReducer = (state: AppStateType = initialState, action: ActionsType): AppStateType => {
@@ -25,6 +26,7 @@ export const appReducer = (state: AppStateType = initialState, action: ActionsTy
         case 'APP/SET-HYDRO-BALANCE-ERROR-MESSAGE':
         case 'APP/SET-IS-APPROVE-BUTTON-DISABLED':
         case 'APP/SET-IS-AMOUNT-INPUT-DISABLED':
+        case 'APP/SET-IS-SELECTOR-DISABLED':
             return {...state, ...action.payload}
         default:
             return {...state}
@@ -41,6 +43,7 @@ export const setIsSupportedChainAC = (isSupportedChain: boolean) => ({type: 'APP
 export const setIsSwapperClickedAC = (isSwapperClicked: boolean) => ({type: 'APP/SET-IS-SWAPPER-CLICKED', payload: {isSwapperClicked}} as const)
 export const setErrorMessageAC = (errorMessage: string) => ({type: 'APP/SET-ERROR-MESSAGE', payload: {errorMessage}} as const)
 export const setHydroBalanceErrorMessageAC = (hydroBalanceErrorMessage: string) => ({type: 'APP/SET-HYDRO-BALANCE-ERROR-MESSAGE', payload: {hydroBalanceErrorMessage}} as const)
+export const setIsSelectorsDisabledAC = (isSelectorsDisabled: boolean) => ({type: 'APP/SET-IS-SELECTOR-DISABLED', payload: {isSelectorsDisabled}} as const)
 
 // types
 export type AppStateType = typeof initialState
@@ -55,4 +58,5 @@ type ActionsType =
     | ReturnType<typeof setErrorMessageAC>
     | ReturnType<typeof setHydroBalanceErrorMessageAC>
     | ReturnType<typeof setIsAmountInputDisabledAC>
+    | ReturnType<typeof setIsSelectorsDisabledAC>
 type AppThunk = ThunkAction<void, AppStoreType, unknown, ActionsType>

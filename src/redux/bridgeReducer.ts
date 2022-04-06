@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract'
 import {ChainIdType, ConversionWayType, localAPI, ReceiptedType} from '../api/localAPI'
 import {chainNamesForGetHydroBalance, chainIDs, RealizedChainsRightType} from '../common/common'
 import {ChainType, serverApi, TransactionFeeType} from '../api/serverAPI'
-import {setIsAmountInputDisabledAC, setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC} from './appReducer'
+import {setIsAmountInputDisabledAC, setApproveButtonDisabledAC, setAppStatusAC, setIsSwapperClickedAC, setSwapButtonDisabledAC, setIsSelectorsDisabledAC} from './appReducer'
 import {v1} from 'uuid'
 import {setModalApproveShowAC, setModalDoubleApproveShowAC, setModalSwapShowAC, setModalTransactionShowAC, setTransactionResultAC} from './modalReducer'
 
@@ -166,22 +166,25 @@ export const swapApproveFundsThunk = (
     leftChainId: ChainIdType | 0,
     rightChainId: ChainIdType | 0,
     way: ConversionWayType): AppThunk => async (dispatch, getState: () => AppStoreType) => {
+
     dispatch(setAppStatusAC('loading'))
+
     try {
         if (Number(approvedAmount) > 0) {
             const bridgeState = getState().bridge
             const hydroContractInstance = bridgeState.hydroContractInstance
-            dispatch(setAppStatusAC('loading'))
+
             // dispatch()
             if (leftChainId !== 0) { // if left chainId selected
                 const bridgeContractInstance: Contract = localAPI.getBridgeContractInstance(way)
                 if (swapOrApprove === 'approve') {
                     dispatch(setIsAmountInputDisabledAC(true))
+                    dispatch(setIsSelectorsDisabledAC(true))
                     const amount = await localAPI.contractAllowance(hydroContractInstance, way)
                     console.log('amount', amount)
                     // todo: if user call the amount that less or equal to this amount, then it can call the swap directly
                     // dispatch(setSwapButtonDisabledAC(false))
-                    if (Number(amount) === 0) {
+                    if (Number(amount) === 0) { // single amount approve
                         dispatch(setModalApproveShowAC(true))
                         try {
                             await localAPI.approveTokens(hydroContractInstance, approvedAmount, leftChainId, way, bridgeContractInstance)
@@ -192,12 +195,13 @@ export const swapApproveFundsThunk = (
                         }
                         catch {
                             dispatch(setLogMessageAC('approveFunds: error', 'error'))
+                            dispatch(setIsSelectorsDisabledAC(false))
                         }
                         finally {
                             dispatch(setAppStatusAC('succeeded'))
                             dispatch(setModalApproveShowAC(false))
                         }
-                    } else {
+                    } else { // double amount approve
                         dispatch(setModalDoubleApproveShowAC(true))
                         try {
                             await localAPI.approveTokens(hydroContractInstance, '0', leftChainId, way, bridgeContractInstance)
@@ -209,6 +213,7 @@ export const swapApproveFundsThunk = (
                             dispatch(setSwapButtonDisabledAC(false))
                         } catch {
                             dispatch(setLogMessageAC('approveFunds double: error', 'error'))
+                            dispatch(setIsSelectorsDisabledAC(false))
                         }
                         finally {
                             dispatch(setModalDoubleApproveShowAC(false))
@@ -217,7 +222,6 @@ export const swapApproveFundsThunk = (
                     }
                  } else { // swap
                     if (rightChainId !== 0) {
-                        dispatch(setAppStatusAC('loading'))
                         dispatch(setSwapButtonDisabledAC(true))
                         dispatch(setModalSwapShowAC(true))
 
@@ -240,6 +244,7 @@ export const swapApproveFundsThunk = (
                                         dispatch(getHydroBalanceThunk(true, leftChainId, true))
                                         dispatch(getHydroBalanceThunk(true, rightChainId))
                                         console.log('hydroBalanceRight', bridgeState.hydroBalanceRight)
+                                        dispatch(setIsSelectorsDisabledAC(false))
                                     } catch (e) {
                                         console.error('swapTokens error ')
                                         console.log('e', e)
@@ -394,6 +399,7 @@ export type BridgeActionTypes =
     | ReturnType<typeof setIsAmountInputDisabledAC>
     | ReturnType<typeof setModalApproveShowAC>
     | ReturnType<typeof setModalSwapShowAC>
+    | ReturnType<typeof setIsSelectorsDisabledAC>
 
 type AppThunk = ThunkAction<void, AppStoreType, unknown, BridgeActionTypes>
 

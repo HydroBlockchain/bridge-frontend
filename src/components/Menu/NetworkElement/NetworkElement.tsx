@@ -17,10 +17,12 @@ import {
 } from '../../../common/styles/variables'
 import cn from 'classnames'
 import {AppStoreType} from '../../../redux/store'
-import {RequestStatusType} from '../../../redux/appReducer'
+import {AppStateType, RequestStatusType} from '../../../redux/appReducer'
 
 export const NetworkElement = (props: PropsType) => {
     const isTestNets = useSelector<AppStoreType, boolean>(state => state.app.isTestNets)
+
+    const { isSelectorsDisabled } = useSelector<AppStoreType, AppStateType>(state => state.app)
 
     const options =
         isTestNets
@@ -53,7 +55,7 @@ export const NetworkElement = (props: PropsType) => {
         }),
         singleValue: base => ({
             ...base,
-            color: appStatus === 'loading'
+            color: appStatus === 'loading' || isSelectorsDisabled
                 ? textColorDisabled
                 : isLightTheme ? textColorLight : textColor
         }),
@@ -77,13 +79,13 @@ export const NetworkElement = (props: PropsType) => {
         }),
         dropdownIndicator: base => ({
             ...base,
-            color: (chainID === chainIDs.notSelected || appStatus === 'loading')
+            color: (chainID === chainIDs.notSelected || appStatus === 'loading' || isSelectorsDisabled)
                 ? textColorDisabled
                 : isLightTheme ? textColorLight : textColor
         }),
         placeholder: base => ({
             ...base,
-            color: (chainID === chainIDs.notSelected || appStatus === 'loading')
+            color: (chainID === chainIDs.notSelected || appStatus === 'loading' || isSelectorsDisabled)
                 ? textColorDisabled
                 : isLightTheme ? textColorLight : textColor
         })
@@ -125,7 +127,7 @@ export const NetworkElement = (props: PropsType) => {
                 onChange={onChange}
                 placeholder={'Select Network'}
                 value={getValue()}
-                isDisabled={props.isDisabled}
+                isDisabled={props.isDisabled || isSelectorsDisabled}
                 components={{
                     IndicatorSeparator: () => null
                 }}
