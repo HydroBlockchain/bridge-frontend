@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/hydro-bridge-ui/static/css/main.c0b12c2f.chunk.css",
-    "main.js": "/hydro-bridge-ui/static/js/main.d8297b07.chunk.js",
-    "main.js.map": "/hydro-bridge-ui/static/js/main.d8297b07.chunk.js.map",
+    "main.css": "/hydro-bridge-ui/static/css/main.958874f2.chunk.css",
+    "main.js": "/hydro-bridge-ui/static/js/main.666dfd16.chunk.js",
+    "main.js.map": "/hydro-bridge-ui/static/js/main.666dfd16.chunk.js.map",
     "runtime-main.js": "/hydro-bridge-ui/static/js/runtime-main.0aaa4512.js",
     "runtime-main.js.map": "/hydro-bridge-ui/static/js/runtime-main.0aaa4512.js.map",
     "static/css/2.a08119d7.chunk.css": "/hydro-bridge-ui/static/css/2.a08119d7.chunk.css",
-    "static/js/2.7c34b4ca.chunk.js": "/hydro-bridge-ui/static/js/2.7c34b4ca.chunk.js",
-    "static/js/2.7c34b4ca.chunk.js.map": "/hydro-bridge-ui/static/js/2.7c34b4ca.chunk.js.map",
+    "static/js/2.8a23331c.chunk.js": "/hydro-bridge-ui/static/js/2.8a23331c.chunk.js",
+    "static/js/2.8a23331c.chunk.js.map": "/hydro-bridge-ui/static/js/2.8a23331c.chunk.js.map",
     "index.html": "/hydro-bridge-ui/index.html",
     "static/css/2.a08119d7.chunk.css.map": "/hydro-bridge-ui/static/css/2.a08119d7.chunk.css.map",
-    "static/css/main.c0b12c2f.chunk.css.map": "/hydro-bridge-ui/static/css/main.c0b12c2f.chunk.css.map",
-    "static/js/2.7c34b4ca.chunk.js.LICENSE.txt": "/hydro-bridge-ui/static/js/2.7c34b4ca.chunk.js.LICENSE.txt",
+    "static/css/main.958874f2.chunk.css.map": "/hydro-bridge-ui/static/css/main.958874f2.chunk.css.map",
+    "static/js/2.8a23331c.chunk.js.LICENSE.txt": "/hydro-bridge-ui/static/js/2.8a23331c.chunk.js.LICENSE.txt",
     "static/media/coinexCett.edfdab3b.png": "/hydro-bridge-ui/static/media/coinexCett.edfdab3b.png",
     "static/media/ethereumETH.8c54d27a.png": "/hydro-bridge-ui/static/media/ethereumETH.8c54d27a.png",
     "static/media/hydrobridge.c1acaea4.svg": "/hydro-bridge-ui/static/media/hydrobridge.c1acaea4.svg",
@@ -21,8 +21,8 @@
   "entrypoints": [
     "static/js/runtime-main.0aaa4512.js",
     "static/css/2.a08119d7.chunk.css",
-    "static/js/2.7c34b4ca.chunk.js",
-    "static/css/main.c0b12c2f.chunk.css",
-    "static/js/main.d8297b07.chunk.js"
+    "static/js/2.8a23331c.chunk.js",
+    "static/css/main.958874f2.chunk.css",
+    "static/js/main.666dfd16.chunk.js"
   ]
 }
