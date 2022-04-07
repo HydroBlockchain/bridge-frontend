@@ -16,6 +16,7 @@ import {ModalTransaction} from './components/ModalTransaction/ModalTransaction'
 import {ModalApprove} from './components/ModalApprove'
 import {ModalSwap} from './components/ModalSwap'
 import {ModalDoubleApprove} from './components/ModalDoubleApprove'
+import {useParams} from 'react-router-dom'
 
 function App() {
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
@@ -25,6 +26,8 @@ function App() {
     const [isLogHidden, setIsLogHidden] = useState(isLogHiddenLS ? JSON.parse(isLogHiddenLS) : true)
 
     const dispatch = useDispatch()
+
+    const {isAdmin} = useParams()
 
     const onShowHideLog = () => {
         if (isLogHidden) {

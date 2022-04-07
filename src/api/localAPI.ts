@@ -2,9 +2,8 @@ import {chains} from '../assets/chains'
 import BepHydro from '../assets/abis/bephydro_copy.json'
 import {AbiItem} from 'web3-utils'
 import bridgeContract from '../assets/abis/bridgeContract.json'
-import {addressForWeb3, chainIDs, chainNamesForGetHydroBalance, hydroAddresses, swapContractAddresses} from '../common/common'
+import {addressForWeb3, chainIDs, hydroAddresses, swapContractAddresses} from '../common/common'
 import {Contract} from 'web3-eth-contract'
-import {ChainType, serverApi} from './serverAPI'
 
 const Web3 = require('web3')
 

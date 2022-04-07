@@ -13,7 +13,7 @@ export const ModalApprove = () => {
     return(
         <CommonModal>
             <div>
-                Please Approve you transaction in the Metamask and wait...
+                Please approve your transaction in the Metamask and wait...
             </div>
         </CommonModal>
     )

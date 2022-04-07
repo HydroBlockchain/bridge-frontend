@@ -13,8 +13,8 @@ export const ModalDoubleApprove = () => {
     return(
         <CommonModal>
             <div>
-                You have previous approve amount. So you need to approve 2 times.<br/>
-                Please Approve you transaction in the Metamask and wait...
+                You have previous approved amount. So you need to approve 2 times.<br/>
+                Please approve your transaction in the Metamask and wait...
             </div>
         </CommonModal>
     )
