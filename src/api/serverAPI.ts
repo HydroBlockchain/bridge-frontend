@@ -3,7 +3,7 @@ import {ReceiptedType} from './localAPI'
 
 const instance = axios.create({
     // baseURL: 'http://localhost:3000/api/1.0.0/',
-    baseURL: 'https://projecthydro.org/api/1.0.0/',
+    baseURL: 'https://hydro-bridge.org/api/1.0.0/',
     withCredentials: true,
 })
 
