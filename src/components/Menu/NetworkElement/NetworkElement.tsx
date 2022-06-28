@@ -37,6 +37,7 @@ export const NetworkElement = (props: PropsType) => {
                 {value: chainIDs.bsc, label: chainsNames.bsc},
                 {value: chainIDs.polygon, label: chainsNames.polygon},
                 {value: chainIDs.moonriverMainnet, label: chainsNames.moonriverMainnet},
+                {value: chainIDs.coinex, label: chainsNames.coinex},
             ]
 
     const selectByArrowColor = isLightTheme ? menuColorLight : menuColor

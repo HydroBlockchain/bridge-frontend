@@ -20,6 +20,7 @@ export enum chainIDs {
     coinExTest = 53,
     moonbeamAlphaTestnet = 1287,
     moonriverMainnet = 1285,
+    coinex = 52,
 }
 
 export const chainsPictures = {
@@ -32,6 +33,7 @@ export const chainsPictures = {
     [chainIDs.coinExTest]: coinexCETT,
     [chainIDs.moonbeamAlphaTestnet]: ethereumETH,
     [chainIDs.moonriverMainnet]: moonriverMVR,
+    [chainIDs.coinex]: coinexCETT
 }
 
 export const chainsNationalSymbols: ChainsNationalSymbolsType = {
@@ -42,7 +44,8 @@ export const chainsNationalSymbols: ChainsNationalSymbolsType = {
     [chainIDs.rinkebyTest]: 'ETH',
     [chainIDs.coinExTest]: 'CETT',
     [chainIDs.moonbeamAlphaTestnet]: 'DEV',
-    [chainIDs.moonriverMainnet]: 'MOVR'
+    [chainIDs.moonriverMainnet]: 'MOVR',
+    [chainIDs.coinex]: 'CET',
 }
 
 export type RealizedChainsRightType =
@@ -54,6 +57,7 @@ export type RealizedChainsRightType =
     | 53
     | 1287
     | 1285
+    | 52
 
 export const chainNamesForGetHydroBalance = {
     [chainIDs.eth]: 'ethereum',
@@ -64,6 +68,7 @@ export const chainNamesForGetHydroBalance = {
     [chainIDs.coinExTest]: 'coinexTestNetwork',
     [chainIDs.moonbeamAlphaTestnet]: 'moonbeamAlphaTestnet',
     [chainIDs.moonriverMainnet]: 'moonriverMainnet',
+    [chainIDs.coinex]: 'coinex',
 }
 
 
@@ -78,6 +83,7 @@ export enum chainsNames {
     coinExTest = 'CoinEx Smart Chain Testnet',
     moonbeamAlphaTestnet = 'Moonbeam Alpha Testnet',
     moonriverMainnet = 'Moonriver Network',
+    coinex = 'Coinex Smart Chain',
 }
 
 export const hydroAddresses = {
@@ -96,7 +102,8 @@ export const swapContractAddresses = {
     mumbaiTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
     rinkebyTestnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
     moonbeamAlphaTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
-    moonriverMainnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
+    moonriverMainnet: '0x7f45Fd12651F397Db4916d32762bc9ce01740e3C',
+    coinex: '0x7f45Fd12651F397Db4916d32762bc9ce01740e3C',
 }
 
 // for dark and light theme switch

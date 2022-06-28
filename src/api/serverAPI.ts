@@ -78,6 +78,8 @@ export type ChainType =
     | 'rinkeby'
     | 'moonbeamAlphaTestnet'
     | 'moonriverMainnet'
+    | 'coinex'
+
 type GetHydroBalanceResponseType = {
     data: {
         tokenBalance: string

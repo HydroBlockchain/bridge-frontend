@@ -80,6 +80,10 @@ export const localAPI = {
                 hydroAddress = hydroAddresses.forMoonriver
                 break
             }
+            case chainIDs.coinex: {
+                hydroAddress = hydroAddresses.forCoinex
+                break
+            }
             case chainIDs.mumbaiTest:
             case chainIDs.rinkebyTest:
             case chainIDs.moonbeamAlphaTestnet:
@@ -159,14 +163,14 @@ type ErrorType = {
     code: number
 }
 
-export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth' | 'bsc' | 'polygon' | 'moonbeamAlphaTestnet' | 'moonriverMainnet'
+export type ConversionWayType = 'coinexSmartChainTestnet' | 'mumbaiTestnet' | 'rinkebyTestnet' | 'eth' | 'bsc' | 'polygon' | 'moonbeamAlphaTestnet' | 'moonriverMainnet' | 'coinex'
 
 type connectToMetamaskReturnType = {
     status: boolean
     account: string
     chainID: number
 }
-export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.polygon | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest | chainIDs.moonbeamAlphaTestnet | chainIDs.moonriverMainnet
+export type ChainIdType = chainIDs.eth | chainIDs.bsc | chainIDs.polygon | chainIDs.mumbaiTest | chainIDs.rinkebyTest | chainIDs.coinExTest | chainIDs.moonbeamAlphaTestnet | chainIDs.moonriverMainnet | chainIDs.coinex
 
 export type ReceiptedType = {
     transactionHash: string

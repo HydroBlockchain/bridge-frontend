@@ -97,6 +97,29 @@ export const chains: any = {
         ],
         blockExplorerUrls: ["https://moonbeam.moonscan.io"]
     },
+    [chainIDs.coinex]: {
+        chainId: `0x${Number(chainIDs.coinex).toString(16)}`,
+        chainName: chainsNames.coinex,
+        rpcUrls: [
+            "https://rpc.coinex.net"
+        ],
+        faucets: [],
+        nativeCurrency: {
+            name: "CoinEx Chain Native Token",
+            symbol: "CET",
+            decimals: 18
+        },
+        infoURL: "https://www.coinex.org/",
+        shortName: "CET",
+        networkId: 52,
+        explorers: [
+            {
+                "name": "coinexscan",
+                "url": "https://www.coinex.net",
+                "standard": "none"
+            }
+        ]
+    },
 };
 
 type chainsType = {
