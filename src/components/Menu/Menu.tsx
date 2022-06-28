@@ -54,8 +54,8 @@ export const Menu = () => {
 
     const checkIsChainIdSupported = (chainID: chainIDs) => {
         const chainIDsActive = isTestNets
-            ? [chainIDs.notSelected, chainIDs.mumbaiTest, chainIDs.rinkebyTest, chainIDs.coinExTest]
-            : [chainIDs.notSelected, chainIDs.eth, chainIDs.bsc, chainIDs.polygon]
+            ? [chainIDs.notSelected, chainIDs.mumbaiTest, chainIDs.rinkebyTest, chainIDs.coinExTest, chainIDs.moonbeamAlphaTestnet]
+            : [chainIDs.notSelected, chainIDs.eth, chainIDs.bsc, chainIDs.polygon, chainIDs.moonriverMainnet]
         return chainIDsActive.includes(chainID)
     }
 
@@ -83,6 +83,10 @@ export const Menu = () => {
             setSwapWay('mumbaiTestnet')
         } else if (leftChainId === chainIDs.rinkebyTest) {
             setSwapWay('rinkebyTestnet')
+        } else if (leftChainId === chainIDs.moonbeamAlphaTestnet) {
+            setSwapWay('moonbeamAlphaTestnet')
+        } else if (leftChainId === chainIDs.moonriverMainnet) {
+            setSwapWay('moonriverMainnet')
         } else setSwapWay(undefined)
 
         if (leftChainId !== chainIDs.notSelected &&
