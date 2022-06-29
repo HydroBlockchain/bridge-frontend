@@ -98,7 +98,7 @@ export const swapContractAddresses = {
     eth: '0xfa41d158Ea48265443799CF720a120BFE77e41ca',
     bsc: '0x7f00F1B8825064B109Dcc85aAd1f074652D97AAd',
     polygon: '0xc8ea800fb6c6f8419758741b3ea1b85dddf2c5b8',
-    coinexSmartChainTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
+    coinexSmartChainTestnet: '0x0ca32D03C30F9911a93E6516272EB6635387261d',
     mumbaiTestnet: '0x1500D17ECa72d87331db5f5dd634d755D73a0041',
     rinkebyTestnet: '0xFBCf060541596047e47Db0ddcf37818D2B2eD4c0',
     moonbeamAlphaTestnet: '0xC62cfE5c4780b9f9d24209036BA0764B43C0F279',
