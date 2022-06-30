@@ -25,7 +25,7 @@ export const Swapper  = (props: PropsType) => {
              if (!props.isDisable && !isSwapperDisabled ) props.onClick()
          }}
     >
-        {/* <FontAwesomeIcon icon={faArrowRightArrowLeft} className={s.icon}/> */}
+        <FontAwesomeIcon icon={faArrowRightArrowLeft} className={s.icon}/>
     </div>
     )
 }
