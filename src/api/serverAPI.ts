@@ -2,8 +2,8 @@ import axios from 'axios'
 import {ReceiptedType} from './localAPI'
 
 const instance = axios.create({
-    baseURL: 'https://hydro-bridgev2.herokuapp.com/api/1.0.0/',
-    // baseURL: 'https://hydro-bridge.org/api/1.0.0/',
+    // baseURL: 'https://hydro-bridgev2.herokuapp.com/api/1.0.0/',
+    baseURL: 'https://hydro-bridge.org/api/1.0.0/',
     withCredentials: false,
 })
 

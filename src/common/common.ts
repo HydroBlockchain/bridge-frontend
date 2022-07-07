@@ -6,7 +6,7 @@ import moonriverMVR from '../assets/images/chainSymbols/moonriver.svg'
 
 // === IMPORTANT: ===
 // export const addressForWeb3 = 'https://hydroblockchain.github.io/hydro-bridge-ui' // for github.io
-export const addressForWeb3 = 'https://hydro-bridgev2.herokuapp.com/'
+export const addressForWeb3 = 'https://hydro-bridge.org/'
 // export const isTestChains = true
 // === ===
 
