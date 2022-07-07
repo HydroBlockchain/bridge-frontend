@@ -2,9 +2,9 @@ import axios from 'axios'
 import {ReceiptedType} from './localAPI'
 
 const instance = axios.create({
-    // baseURL: 'http://localhost:3000/api/1.0.0/',
+    // baseURL: 'https://hydro-bridgev2.herokuapp.com/api/1.0.0/',
     baseURL: 'https://hydro-bridge.org/api/1.0.0/',
-    withCredentials: true,
+    withCredentials: false,
 })
 
 export const serverApi = {
@@ -76,6 +76,10 @@ export type ChainType =
     | 'rinkebyTestnet'
     | 'coinexTestNetwork'
     | 'rinkeby'
+    | 'moonbeamAlphaTestnet'
+    | 'moonriverMainnet'
+    | 'coinex'
+
 type GetHydroBalanceResponseType = {
     data: {
         tokenBalance: string

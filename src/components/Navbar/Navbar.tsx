@@ -33,6 +33,12 @@ export const Navbar = () => {
                     return chainsNames.rinkebyTest
                 case chainIDs.coinExTest:
                     return chainsNames.coinExTest
+                case chainIDs.moonriverMainnet:
+                    return chainsNames.moonriverMainnet
+                case chainIDs.moonbeamAlphaTestnet:
+                    return chainsNames.moonbeamAlphaTestnet
+                case chainIDs.coinex:
+                    return chainsNames.coinex
                 default:
                     return 'Metamask network is not supported yet.'
             }
