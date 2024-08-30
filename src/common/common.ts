@@ -70,7 +70,7 @@ export enum chainsNames {
 export const hydroAddresses = {
     forEth: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
     forBsc: '0xf3DBB49999B25c9D6641a9423C7ad84168D00071',
-    forPolygon: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01 ',
+    forPolygon: '0x946112efaB61C3636CBD52DE2E1392D7A75A6f01',
     forTestNets: '0x9477B2d4442FCd35368c029a0016e6800437BAe2'
 }
 export const swapContractAddresses = {
